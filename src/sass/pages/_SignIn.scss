@@ -1,0 +1,31 @@
+.signIn {
+  height: 100%;
+
+  &__right {
+    background: url(/sign-in.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: var(--bg-secondary-color);
+    padding: 3rem;
+
+    h2 {
+      font-weight: bold;
+    }
+  }
+
+  @media (max-width: 899px) {
+    &__right {
+      display: none;
+    }
+  }
+
+  @media (min-width: 1367px) {
+    &__right {
+      padding: 8rem;
+
+      h2 {
+        font-size: 6rem;
+      }
+    }
+  }
+}

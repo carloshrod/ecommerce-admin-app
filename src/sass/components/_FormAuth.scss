@@ -1,0 +1,34 @@
+.formAuth {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100vh;
+
+  form {
+    margin: 1rem;
+
+    img {
+      margin: auto;
+      margin-bottom: 2rem;
+    }
+
+    a {
+      color: var(--primary-color);
+      font-weight: 600;
+
+      &:hover {
+        text-shadow: 0 0 1px var(--primary-color) !important;
+      }
+    }
+  }
+
+  @media (min-width: 500px) and (max-width: 899px) {
+    form {
+      background-color: #ffffff;
+      border-radius: 5px;
+      padding: 3rem;
+      margin: 1rem;
+    }
+  }
+}

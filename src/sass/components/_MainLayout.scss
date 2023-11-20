@@ -1,0 +1,28 @@
+.myContainer {
+  padding: 1rem 2rem;
+  position: relative;
+  top: 80px;
+  background-color: var(--bg-secondary-color);
+  border-radius: 5px 5px 0 0;
+  margin-right: 10px;
+
+  @media (max-width: 599px) {
+    margin-left: 60px !important;
+  }
+
+  @media (max-width: 1199px) {
+    margin-left: 70px;
+
+    &#right {
+      margin-left: 190px;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    margin-left: 190px;
+
+    &--left {
+      margin-left: 70px !important;
+    }
+  }
+}

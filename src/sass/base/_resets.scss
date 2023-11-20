@@ -1,0 +1,124 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: var(--font-color);
+  font-weight: 600;
+}
+
+input,
+label,
+svg,
+.MuiSelect-select,
+.MuiInputBase-multiline,
+.MuiChip-label,
+.MuiAutocomplete-noOptions,
+.MuiInputBase-input {
+  color: var(--font-color-dark) !important;
+  font-weight: 500 !important;
+}
+
+.MuiFormControl-root {
+  .MuiOutlinedInput-root {
+    fieldset {
+      border-color: var(--font-color-dark);
+    }
+
+    &:hover {
+      &>fieldset {
+        border-color: var(--font-color-dark);
+        border-width: 2px;
+      }
+    }
+  }
+
+  .Mui-disabled {
+    &:hover {
+      &>fieldset {
+        border-width: 1px;
+      }
+    }
+
+    fieldset {
+      border-color: var(--primary-color) !important;
+    }
+  }
+}
+
+.MuiAutocomplete-root.hiddenInput {
+  .MuiFormControl-root {
+    .MuiInputBase-root {
+      height: 56px;
+
+      .MuiInputBase-input {
+        position: absolute !important;
+        opacity: 0 !important;
+      }
+    }
+  }
+}
+
+input {
+  font-weight: 300 !important;
+}
+
+.MuiPaper-root {
+  background-color: var(--bg-primary-color);
+  color: var(--font-color)
+}
+
+.swal2-container {
+  z-index: 2000 !important;
+}
+
+.swal2-popup {
+  color: var(--font-color-light) !important;
+  background-color: var(--bg-swal-color) !important;
+  // border: 1px solid var(--font-color-dark);
+  opacity: 0.9;
+
+  .swal2-icon.swal2-warning {
+    font-size: .7rem !important;
+    color: var(--warning-color);
+    border-color: var(--warning-color);
+  }
+
+  .swal2-icon.swal2-question {
+    font-size: .7rem !important;
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+
+  button {
+    font-size: .9rem !important;
+    font-weight: bolder !important;
+    text-transform: uppercase !important;
+    background-color: transparent !important;
+    border-radius: 4px !important;
+    padding: 0.5rem 1.2rem !important;
+
+    &.swal2-confirm {
+      border: 1px solid var(--success-color) !important;
+
+      &:hover {
+        background-color: rgba(17, 203, 95, 0.3) !important;
+      }
+    }
+
+    &.swal2-cancel {
+      border: 1px solid var(--warning-color) !important;
+
+      &:hover {
+        background-color: rgb(219, 42, 51, 0.3) !important;
+      }
+    }
+  }
+
+  .swal2-styled {
+    box-shadow: none !important;
+  }
+}

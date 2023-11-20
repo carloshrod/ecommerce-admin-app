@@ -1,0 +1,21 @@
+html,
+body {
+  height: 100%;
+  font-family: var(--font);
+  background: var(--bg-primary-color);
+  color: var(--font-color-dark);
+}
+
+main {
+  height: 100vh;
+  transition: translate .3s;
+}
+
+.myToast {
+  background: var(--primary-color) !important;
+  color: var(--font-color) !important;
+}
+
+.error {
+  color: var(--warning-color) !important;
+}
