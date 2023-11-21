@@ -1,6 +1,7 @@
 import AuthProvider from '@contexts/auth/AuthContext';
 import GlobalProvider from '@contexts/global/GlobalContext';
 import ProductsProvider from '@contexts/products/ProductsContext';
+import UsersProvider from '@contexts/users/UsersContext';
 import { ThemeProvider } from '@mui/material';
 import { theme } from '@theme';
 
@@ -9,7 +10,9 @@ function Providers({ children }) {
 		<ThemeProvider theme={theme}>
 			<AuthProvider>
 				<GlobalProvider>
-					<ProductsProvider>{children}</ProductsProvider>
+					<UsersProvider>
+						<ProductsProvider>{children}</ProductsProvider>
+					</UsersProvider>
 				</GlobalProvider>
 			</AuthProvider>
 		</ThemeProvider>

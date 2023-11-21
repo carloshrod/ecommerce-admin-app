@@ -17,17 +17,17 @@ const ProductsProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(productsReducer, initialState);
 	const { products } = state;
 
+	const fetchProducts = async () => {
+		const data = await fetchData(productsCollectionRef);
+		dispatch({
+			type: TYPES.GET_ALL_PRODUCTS,
+			payload: data,
+		});
+	};
+
 	useEffect(() => {
-		const fetchProducts = async () => {
-			const data = await fetchData(productsCollectionRef);
-			dispatch({
-				type: TYPES.GET_ALL_PRODUCTS,
-				payload: data,
-			});
-		};
 		fetchProducts();
 	}, []);
-	console.log(products);
 
 	const data = { products };
 
