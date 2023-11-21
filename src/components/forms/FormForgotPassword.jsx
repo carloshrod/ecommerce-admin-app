@@ -4,6 +4,8 @@ import Input from './Input';
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { SIGNIN } from '@utils/routes';
+import AuthServices from '@services/AuthServices';
 
 const FormForgotPassword = () => {
 	const [form, setForm] = useState({
@@ -11,6 +13,7 @@ const FormForgotPassword = () => {
 	});
 	// const { form, errors, setErrors, handleInputChange, handleSignIn } =
 	//   useForm(initialForm);
+	const { resetPassword } = AuthServices();
 
 	const inputProps = [
 		{
@@ -34,6 +37,7 @@ const FormForgotPassword = () => {
 	const handleSubmit = async event => {
 		event.preventDefault();
 		console.log(form);
+		await resetPassword(form.email);
 	};
 
 	// useEffect(() => {
@@ -80,7 +84,7 @@ const FormForgotPassword = () => {
 					sx={{ fontSize: 14, textAlign: 'right', mb: 1 }}
 					gutterBottom
 				>
-					<Link href='/auth/signin'>Do you want to signin?</Link>
+					<Link href={SIGNIN}>Do you want to signin?</Link>
 				</Typography>
 				<Button
 					sx={{ width: '100%' }}

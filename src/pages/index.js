@@ -1,6 +1,7 @@
 import { Box, Button, Typography } from '@mui/material';
-import Link from 'next/link';
 import LoginIcon from '@mui/icons-material/Login';
+import Link from 'next/link';
+import { SIGNIN } from '@utils/routes';
 
 export default function Home() {
 	return (
@@ -21,7 +22,7 @@ export default function Home() {
 			>
 				Ecommerce Management App
 			</Typography>
-			<Link href='/auth/signin'>
+			<Link href={SIGNIN}>
 				<Button
 					variant='contained'
 					size='large'
