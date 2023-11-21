@@ -1,0 +1,3 @@
+export const PRODUCT_TYPES = {
+	GET_ALL_PRODUCTS: 'GET_ALL_PRODUCTS',
+};

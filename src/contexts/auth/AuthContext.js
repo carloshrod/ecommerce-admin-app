@@ -17,6 +17,7 @@ const AuthProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(authReducers, initialState);
 	const { isAuth, loggedUser } = state;
 	const { getUserData, logout } = AuthServices();
+	const isAdmin = true;
 
 	useEffect(() => {
 		onAuthStateChanged(auth, async currentUser => {
@@ -45,7 +46,7 @@ const AuthProvider = ({ children }) => {
 		}
 	};
 
-	const data = { isAuth, loggedUser, signOut };
+	const data = { isAuth, loggedUser, signOut, isAdmin };
 
 	return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>;
 };
