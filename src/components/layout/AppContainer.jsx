@@ -1,7 +1,8 @@
 import Header from './Header';
 import Sidebar from './Sidebar';
-import MainLayout from './MainLayout';
 import { useRouter } from 'next/router';
+import MainContainer from './MainContainer';
+import Footer from './Footer';
 
 const AppContainer = ({ Component, pageProps }) => {
 	const { pathname } = useRouter();
@@ -13,13 +14,14 @@ const AppContainer = ({ Component, pageProps }) => {
 				<>
 					<Header />
 					<Sidebar />
-					<MainLayout>
+					<MainContainer>
 						<Component {...pageProps} />
-					</MainLayout>
+					</MainContainer>
 				</>
 			) : (
 				<Component {...pageProps} />
 			)}
+			<Footer />
 		</main>
 	);
 };

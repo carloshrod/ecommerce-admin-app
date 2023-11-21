@@ -9,6 +9,7 @@
 @use './pages/Dashboard';
 
 @use './components/FormAuth';
-@use './components/MainLayout';
-@use './components/Sidebar';
 @use './components/Header';
+@use './components/Sidebar';
+@use './components/MainContainer';
+@use './components/Footer';

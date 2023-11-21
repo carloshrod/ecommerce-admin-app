@@ -6,7 +6,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-color: var(--bg-secondary-color);
-    padding: 3rem;
+    padding: 4rem;
 
     h2 {
       font-weight: bold;
@@ -21,10 +21,20 @@
 
   @media (min-width: 1367px) {
     &__right {
-      padding: 8rem;
+      padding: 5rem;
+    }
+  }
+
+  @media (min-width: 1441px) {
+    &__right {
+      padding: 6rem;
 
       h2 {
         font-size: 6rem;
+      }
+
+      h6 {
+        font-size: 1.6rem;
       }
     }
   }

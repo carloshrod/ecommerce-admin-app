@@ -3,14 +3,14 @@ import { Box, Grid, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import React from 'react';
 
-const MainLayout = ({ children }) => {
+const MainContainer = ({ children }) => {
 	const { hideMenu } = useGlobalContext();
 	const { pathname } = useRouter();
 	const title = pathname.slice(7, 8).toUpperCase() + pathname.substring(8);
 
 	return (
 		<Box
-			className={`myContainer ${hideMenu ? 'myContainer--left' : null}`}
+			className={`mainContainer ${hideMenu ? 'mainContainer--left' : null}`}
 			id={!hideMenu ? null : 'right'}
 		>
 			<Typography variant='h5'>{title}</Typography>
@@ -21,4 +21,4 @@ const MainLayout = ({ children }) => {
 	);
 };
 
-export default MainLayout;
+export default MainContainer;

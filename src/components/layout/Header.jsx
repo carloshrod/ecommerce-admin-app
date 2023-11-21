@@ -11,16 +11,16 @@ const Header = () => {
 	const image = loggedUser?.avatar?.url || null;
 
 	return (
-		<Box className='header'>
-			<Toolbar className='header__toolbar'>
+		<Box component='header' className='header'>
+			<Toolbar component='nav' className='header__toolbar'>
 				<ToggleSidebar className='header__toggleSidebar' />
-				<div className='header__logo'>
+				<section className='header__logo'>
 					<Image src='/ec-admin-logo.png' width='50' height='50' alt='logo' />
 					<Typography variant='h5' component='div'>
 						<span>ECOMMERCE</span> ADMIN
 					</Typography>
-				</div>
-				<div className='header__options'>
+				</section>
+				<section className='header__options'>
 					<ToolTip title='Settings'>
 						<IconButton sx={{ p: 0 }}>
 							<Link href='/admin/settings'>
@@ -33,7 +33,7 @@ const Header = () => {
 							<PowerSettingsNewSharpIcon />
 						</IconButton>
 					</ToolTip>
-				</div>
+				</section>
 			</Toolbar>
 		</Box>
 	);
