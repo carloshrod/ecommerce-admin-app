@@ -76,12 +76,12 @@ const Sidebar = () => {
 	};
 
 	const USERS_INDEXES = {
-		'/admin/costumers': 4,
-		'/admin/staff': 5,
+		'/admin/staff': 4,
+		'/admin/costumers': 5,
 	};
 
 	const usersLinkSelected =
-		pathname === `/admin/staff/${id}` ? 5 : USERS_INDEXES[pathname];
+		pathname === `/admin/staff/${id}` ? 4 : USERS_INDEXES[pathname];
 
 	const isHidden = (width < 1200 && hideMenu) || (width > 1200 && !hideMenu);
 
@@ -137,24 +137,6 @@ const Sidebar = () => {
 							</NavLink>
 							{item.label === 'Users' ? (
 								<Collapse in={open} timeout='auto' unmountOnExit>
-									<NavLink href='/admin/costumers'>
-										<ToolTip
-											title={width < 600 ? 'Costumers' : null}
-											placement='right'
-										>
-											<ListItemButton
-												className='collapseButton'
-												selected={usersLinkSelected === 4}
-											>
-												<ListItemIcon>
-													<PersonIcon
-														className={`${isHidden ? 'collapseIcon' : null}`}
-													/>
-												</ListItemIcon>
-												<ListItemText primary='Costumers' />
-											</ListItemButton>
-										</ToolTip>
-									</NavLink>
 									<NavLink href='/admin/staff'>
 										<ToolTip
 											title={width < 600 ? 'Staff' : null}
@@ -162,7 +144,7 @@ const Sidebar = () => {
 										>
 											<ListItemButton
 												className='collapseButton'
-												selected={usersLinkSelected === 5}
+												selected={usersLinkSelected === 4}
 											>
 												<ListItemIcon>
 													<EngineeringIcon
@@ -170,6 +152,24 @@ const Sidebar = () => {
 													/>
 												</ListItemIcon>
 												<ListItemText primary='Staff' />
+											</ListItemButton>
+										</ToolTip>
+									</NavLink>
+									<NavLink href='/admin/costumers'>
+										<ToolTip
+											title={width < 600 ? 'Costumers' : null}
+											placement='right'
+										>
+											<ListItemButton
+												className='collapseButton'
+												selected={usersLinkSelected === 5}
+											>
+												<ListItemIcon>
+													<PersonIcon
+														className={`${isHidden ? 'collapseIcon' : null}`}
+													/>
+												</ListItemIcon>
+												<ListItemText primary='Costumers' />
 											</ListItemButton>
 										</ToolTip>
 									</NavLink>
