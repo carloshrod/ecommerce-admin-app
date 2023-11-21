@@ -1,10 +1,15 @@
 import { auth, db } from '@firebase';
-import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import {
+	sendPasswordResetEmail,
+	signInWithEmailAndPassword,
+	signOut,
+} from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
+import { SIGNIN } from '@utils/routes';
 
 const AuthServices = () => {
 	const router = useRouter();
@@ -23,6 +28,16 @@ const AuthServices = () => {
 		return userDoc.data();
 	};
 
+	const resetPassword = async email => {
+		try {
+			await sendPasswordResetEmail(auth, email);
+			toast.success('Please, check your email!');
+		} catch (error) {
+			console.error(error.message);
+			toast.error(error.message);
+		}
+	};
+
 	const logout = async () => {
 		const resConfirm = await Swal.fire({
 			icon: 'question',
@@ -38,7 +53,7 @@ const AuthServices = () => {
 			try {
 				await signOut(auth);
 				Cookies.remove('authToken');
-				router.push('/auth/signin');
+				router.push(SIGNIN);
 				return true;
 			} catch (error) {
 				console.error(error.message);
@@ -48,7 +63,7 @@ const AuthServices = () => {
 		return false;
 	};
 
-	return { signIn, getUserData, logout };
+	return { signIn, getUserData, resetPassword, logout };
 };
 
 export default AuthServices;
