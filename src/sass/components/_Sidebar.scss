@@ -7,12 +7,11 @@
   // transition: .2s ease-in-out;
 
   .MuiButtonBase-root {
-    height: 60px;
+    height: 50px;
     border-radius: 0 5px 5px 0;
     box-shadow: 1px 1px 2px var(--bg-secondary-color);
     padding: 0 1rem;
-    margin-bottom: .5rem;
-    font-size: 20px !important;
+    margin-bottom: .7rem;
 
     &:hover {
       background-color: var(--bg-secondary-color) !important;
@@ -20,25 +19,26 @@
       color: var(--primary-color);
     }
 
+    .MuiListItemIcon-root {
+      min-width: 24px;
+      padding-right: 1.2rem;
+    }
+
     .expand {
       font-size: 1.2rem;
       position: relative;
-      right: 35px;
+      right: 20px;
     }
 
-    .MuiListItemIcon-root {
-      .collapseIcon {
-        margin: auto;
+    .iconPaddingLeft {
+      svg {
+        margin-left: 1rem;
       }
     }
   }
 
   .collapseButton {
     box-shadow: 1px 1px 2px var(--bg-secondary-color);
-  }
-
-  &--logout {
-    background-color: var(--bg-secondary-color) !important;
   }
 
   .Mui-selected {
@@ -52,8 +52,9 @@
   }
 
   .MuiTypography-root {
-    opacity: 1;
-    visibility: visible;
+    display: block;
+    // opacity: 1;
+    // visibility: visible;
     // transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
   }
 
@@ -61,8 +62,9 @@
     width: 70px;
 
     .MuiTypography-root {
-      opacity: 0;
-      visibility: hidden;
+      display: none;
+      // opacity: 0;
+      // visibility: hidden;
       // transition-delay: 0s;
     }
   }
@@ -71,7 +73,9 @@
     width: 70px !important;
 
     .MuiTypography-root {
-      display: none !important;
+      display: none;
+      // opacity: 0;
+      // visibility: hidden;
     }
   }
 
@@ -79,16 +83,18 @@
     width: 70px;
 
     .MuiTypography-root {
-      opacity: 0;
-      visibility: hidden;
+      display: none;
+      // opacity: 0;
+      // visibility: hidden;
     }
 
     &#show {
       width: 190px;
 
       .MuiTypography-root {
-        opacity: 1;
-        visibility: visible;
+        display: block;
+        // opacity: 1;
+        // visibility: visible;
         // transition-delay: 0.2s;
       }
     }
