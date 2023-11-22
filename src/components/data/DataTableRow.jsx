@@ -13,6 +13,7 @@ import { useRouter } from 'next/router';
 import { useAuthContext } from '@contexts/auth/AuthContext';
 import ToolTip from '@components/ui/ToolTip';
 import { COSTUMERS, STAFF } from '@utils/routes';
+import { capFirstLetter } from '@components/utils';
 
 const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 	// const { dispatch } = useGlobalContext();
@@ -92,10 +93,10 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 				</ToolTip>
 			</TableCell>
 			<TableCell component='th' id={labelId} scope='row' padding='normal'>
-				{isUser ? row.displayName : row.name}
+				{isUser ? row.displayName : row.productName}
 			</TableCell>
-			<TableCell>{isUser ? row.email : row.price}</TableCell>
-			<TableCell>{isUser ? row.role : row.category}</TableCell>
+			<TableCell>{isUser ? row.email : `$ ${row.price}`}</TableCell>
+			<TableCell>{isUser ? row.role : capFirstLetter(row.category)}</TableCell>
 			<TableCell align='center'>
 				{isUser ? (
 					<ToolTip
