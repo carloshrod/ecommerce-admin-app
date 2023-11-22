@@ -80,6 +80,7 @@ const DataTableHead = ({
 							active={orderBy === headCell.id}
 							direction={orderBy === headCell.id ? order : 'asc'}
 							onClick={createSortHandler(headCell.id)}
+							sx={{ ':hover': { color: '#0e7490 !important' } }}
 						>
 							{headCell.label}
 							{orderBy === headCell.id ? (
