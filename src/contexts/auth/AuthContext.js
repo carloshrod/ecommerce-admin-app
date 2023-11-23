@@ -48,8 +48,8 @@ const AuthProvider = ({ children }) => {
 
 	const signOut = async () => {
 		const res = await logout();
-		router.push(SIGNIN);
 		if (res) {
+			router.push(SIGNIN);
 			setTimeout(() => {
 				dispatch({ type: TYPES.SIGN_OUT });
 			}, 1500);
