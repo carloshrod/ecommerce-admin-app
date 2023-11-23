@@ -13,7 +13,7 @@ import { useRouter } from 'next/router';
 import { useAuthContext } from '@contexts/auth/AuthContext';
 import ToolTip from '@components/ui/ToolTip';
 import { COSTUMERS, STAFF } from '@utils/routes';
-import { capFirstLetter } from '@components/utils';
+import { capFirstLetter, formatRoleName } from '@components/utils';
 
 const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 	// const { dispatch } = useGlobalContext();
@@ -21,6 +21,8 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 	const { pathname } = useRouter();
 	// const { toggleStatus } = UserServices();
 	const [checked, setChecked] = useState(!row.disabled);
+	const { roles } = useAuthContext();
+	const roleName = row?.role && formatRoleName(row?.role, roles);
 
 	const handleChange = event => {
 		setChecked(event.target.checked);
@@ -96,7 +98,7 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 				{isUser ? row.displayName : row.productName}
 			</TableCell>
 			<TableCell>{isUser ? row.email : `$ ${row.price}`}</TableCell>
-			<TableCell>{isUser ? row.role : capFirstLetter(row.category)}</TableCell>
+			<TableCell>{isUser ? roleName : capFirstLetter(row.category)}</TableCell>
 			<TableCell align='center'>
 				{isUser ? (
 					<ToolTip

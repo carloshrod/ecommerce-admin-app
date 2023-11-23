@@ -25,3 +25,18 @@ export const isItemSelected = (item, open, router) => {
 
 	return INDEXES[pathname] === item.id;
 };
+
+export const formatRoleName = (roleId, roles) => {
+	try {
+		const roleName = roles.find(role => role.id === roleId).roleName;
+
+		return roleName
+			.split('_')
+			.map(word => {
+				return capFirstLetter(word);
+			})
+			.join(' ');
+	} catch (error) {
+		console.error(error.message);
+	}
+};
