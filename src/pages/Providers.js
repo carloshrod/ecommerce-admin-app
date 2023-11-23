@@ -5,7 +5,7 @@ import UsersProvider from '@contexts/users/UsersContext';
 import { ThemeProvider } from '@mui/material';
 import { theme } from '@theme';
 
-function Providers({ children }) {
+const Providers = ({ children }) => {
 	return (
 		<ThemeProvider theme={theme}>
 			<AuthProvider>
@@ -17,6 +17,6 @@ function Providers({ children }) {
 			</AuthProvider>
 		</ThemeProvider>
 	);
-}
+};
 
 export default Providers;

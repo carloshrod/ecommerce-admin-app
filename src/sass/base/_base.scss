@@ -19,3 +19,24 @@ main {
 .error {
   color: var(--warning-color) !important;
 }
+
+.notFound404 {
+  height: 100%;
+  display: grid;
+  place-content: center;
+  background-color: var(--bg-secondary-color);
+  position: relative;
+
+  button {
+    width: 150px;
+    position: absolute !important;
+    top: 25%;
+    left: 50%;
+    // right: 50%;
+    transform: translateX(-46%);
+  }
+
+  img {
+    border-radius: 30%;
+  }
+}
