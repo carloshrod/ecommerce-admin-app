@@ -5,59 +5,31 @@ import {
 	signOut,
 } from 'firebase/auth';
 import Cookies from 'js-cookie';
-import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
-import Swal from 'sweetalert2';
-import { SIGNIN } from '@utils/routes';
+import withEnhances from './withEnhances';
 
-const AuthServices = () => {
-	const router = useRouter();
+const authServices = () => {
+	const signIn = withEnhances(async ({ email, password }) => {
+		await signInWithEmailAndPassword(auth, email, password);
+	});
 
-	const signIn = async ({ email, password }) => {
-		try {
-			await signInWithEmailAndPassword(auth, email, password);
-		} catch (error) {
-			console.error(error.message);
-			toast.error(error.message);
-		}
-	};
+	const resetPassword = withEnhances(async email => {
+		await sendPasswordResetEmail(auth, email);
+		toast.success('Please, check your email!');
+	});
 
-	const resetPassword = async email => {
-		try {
-			await sendPasswordResetEmail(auth, email);
-			toast.success('Please, check your email!');
-		} catch (error) {
-			console.error(error.message);
-			toast.error(error.message);
-		}
-	};
-
-	const logout = async () => {
-		const resConfirm = await Swal.fire({
-			icon: 'question',
-			html: `¿Are you sure you want to log out?`,
-			showCancelButton: true,
-			confirmButtonColor: '#20cb84',
-			confirmButtonText: 'Aceptar',
-			cancelButtonColor: '#dc4035',
-			cancelButtonText: 'Cancelar',
-			width: '24em',
-		});
-		if (resConfirm.isConfirmed) {
-			try {
-				await signOut(auth);
-				Cookies.remove('authToken');
-				router.push(SIGNIN);
-				return true;
-			} catch (error) {
-				console.error(error.message);
-				return false;
-			}
-		}
-		return false;
-	};
+	const logout = withEnhances(
+		async () => {
+			await signOut(auth);
+			Cookies.remove('authToken');
+		},
+		{
+			confirm: true,
+			text: '¿Are you sure you want to log out?',
+		},
+	);
 
 	return { signIn, resetPassword, logout };
 };
 
-export default AuthServices;
+export default authServices;

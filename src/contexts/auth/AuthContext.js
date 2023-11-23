@@ -1,12 +1,14 @@
-import { auth, db } from '@firebase';
 import { onAuthStateChanged } from 'firebase/auth';
+import { collection, doc, getDoc } from 'firebase/firestore';
 import { createContext, useContext, useEffect, useReducer } from 'react';
 import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
+import { auth, db } from '@firebase';
 import authReducers from './authReducers';
 import { AUTH_TYPES as TYPES } from './authActions';
-import AuthServices from '@services/AuthServices';
+import authServices from '@services/authServices';
 import { fetchData } from '@contexts/utils';
-import { collection, doc, getDoc } from 'firebase/firestore';
+import { SIGNIN } from '@utils/routes';
 
 const AuthContext = createContext(undefined);
 
@@ -21,7 +23,8 @@ const initialState = {
 const AuthProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(authReducers, initialState);
 	const { isAuth, loggedUser, roles } = state;
-	const { logout } = AuthServices();
+	const { logout } = authServices();
+	const router = useRouter();
 	const isAdmin = true;
 
 	useEffect(() => {
@@ -45,10 +48,11 @@ const AuthProvider = ({ children }) => {
 
 	const signOut = async () => {
 		const res = await logout();
+		router.push(SIGNIN);
 		if (res) {
 			setTimeout(() => {
 				dispatch({ type: TYPES.SIGN_OUT });
-			}, 1000);
+			}, 1500);
 		}
 	};
 

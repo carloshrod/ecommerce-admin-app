@@ -5,7 +5,7 @@ import Input from './Input';
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import AuthServices from '@services/AuthServices';
+import AuthServices from '@services/authServices';
 
 const FormSignIn = () => {
 	const [form, setForm] = useState({

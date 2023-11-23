@@ -5,7 +5,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { SIGNIN } from '@utils/routes';
-import AuthServices from '@services/AuthServices';
+import AuthServices from '@services/authServices';
 
 const FormForgotPassword = () => {
 	const [form, setForm] = useState({
