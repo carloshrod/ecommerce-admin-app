@@ -1,7 +1,7 @@
 import { INDEXES, USERS_INDEXES } from './consts';
 
 export const capFirstLetter = word => {
-	return word.substr(0, 1).toUpperCase() + word.substr(1);
+	return word.charAt(0).toUpperCase() + word.slice(1);
 };
 
 export const isItemSelected = (item, open, router) => {
@@ -29,12 +29,9 @@ export const isItemSelected = (item, open, router) => {
 export const formatRoleName = (roleId, roles) => {
 	try {
 		const roleName = roles.find(role => role.id === roleId).roleName;
-
 		return roleName
 			.split('_')
-			.map(word => {
-				return capFirstLetter(word);
-			})
+			.map(word => capFirstLetter(word))
 			.join(' ');
 	} catch (error) {
 		console.error(error.message);

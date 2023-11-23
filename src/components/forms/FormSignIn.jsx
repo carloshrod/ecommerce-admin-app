@@ -9,8 +9,8 @@ import AuthServices from '@services/AuthServices';
 
 const FormSignIn = () => {
 	const [form, setForm] = useState({
-		email: 'xajim@kewip.com',
-		password: 'Test_1234',
+		email: process.env.NEXT_PUBLIC_TEST_EMAIL,
+		password: process.env.NEXT_PUBLIC_TEST_PASSWORD,
 	});
 	// const { form, errors, setErrors, handleInputChange, handleSignIn } =
 	//   useForm(initialForm);
