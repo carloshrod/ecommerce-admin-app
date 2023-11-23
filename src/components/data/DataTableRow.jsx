@@ -17,11 +17,10 @@ import { capFirstLetter, formatRoleName } from '@components/utils';
 
 const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 	// const { dispatch } = useGlobalContext();
-	const { isAdmin } = useAuthContext();
+	const { roles, isAdmin } = useAuthContext();
 	const { pathname } = useRouter();
 	// const { toggleStatus } = UserServices();
 	const [checked, setChecked] = useState(!row.disabled);
-	const { roles } = useAuthContext();
 	const roleName = row?.role && formatRoleName(row?.role, roles);
 
 	const handleChange = event => {

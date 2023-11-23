@@ -1,8 +1,8 @@
-import AppContainer from '@components/layout/AppContainer';
-import '@sass/Styles.scss';
-import Providers from './Providers';
 import Head from 'next/head';
 import { Toaster } from 'react-hot-toast';
+import '@sass/Styles.scss';
+import AppContainer from '@components/layout/AppContainer';
+import Providers from './_Providers';
 
 export default function App(appProps) {
 	return (

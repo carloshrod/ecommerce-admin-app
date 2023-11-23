@@ -10,7 +10,6 @@ export const fetchData = async ref => {
 			array.push(doc.data());
 		});
 		return array;
-		// dispatch({ type, payload: array });
 	} catch (error) {
 		toast.error(error.message);
 		console.error(error);

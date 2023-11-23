@@ -1,10 +1,9 @@
-import { auth, db } from '@firebase';
+import { auth } from '@firebase';
 import {
 	sendPasswordResetEmail,
 	signInWithEmailAndPassword,
 	signOut,
 } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
@@ -21,11 +20,6 @@ const AuthServices = () => {
 			console.error(error.message);
 			toast.error(error.message);
 		}
-	};
-
-	const getUserData = async uid => {
-		const userDoc = await getDoc(doc(db, 'staff', uid));
-		return userDoc.data();
 	};
 
 	const resetPassword = async email => {
@@ -63,7 +57,7 @@ const AuthServices = () => {
 		return false;
 	};
 
-	return { signIn, getUserData, resetPassword, logout };
+	return { signIn, resetPassword, logout };
 };
 
 export default AuthServices;
