@@ -5,26 +5,21 @@ import { useRouter } from 'next/router';
 import { useAuthContext } from '@contexts/auth/AuthContext';
 // import UserServices from '../../services/UserServices';
 import ToolTip from '@components/ui/ToolTip';
-import { COSTUMERS, STAFF } from '@utils/routes';
+import { COSTUMERS, PRODUCTS, STAFF } from '@utils/routes';
+import { useGlobalContext } from '@contexts/global/GlobalContext';
 
 const DataTableToolbar = ({ selected, setSelected }) => {
 	const { isAdmin } = useAuthContext();
 	const { pathname } = useRouter();
-	// const { dispatch } = useGlobalContext();
+	const { openModal } = useGlobalContext();
 	// const { deleteStaff } = UserServices();
-	// const isProduct = pathname === PRODUCTS;
+	const isProduct = pathname === PRODUCTS;
 	const numSelected = selected.length;
 
-	// const handleAddStaff = () => {
-	// 	dispatch({
-	// 		type: TYPES.OPEN_MODAL,
-	// 		payload: {
-	// 			state: true,
-	// 			title: `Add ${isProduct ? 'Product' : 'Staff'}`,
-	// 			child: <FormUser />,
-	// 		},
-	// 	});
-	// };
+	const handleAdd = () => {
+		const title = `Add ${isProduct ? 'Product' : 'Staff'}`;
+		openModal(title, <div>Form</div>);
+	};
 
 	// const handleDelete = async data => {
 	// 	await deleteStaff(data);
@@ -78,7 +73,7 @@ const DataTableToolbar = ({ selected, setSelected }) => {
 							}}
 							variant='outlined'
 							color='primary'
-							// onClick={handleAddStaff}
+							onClick={handleAdd}
 							disabled={!isAdmin}
 						>
 							Add {pathname.slice(7)}
