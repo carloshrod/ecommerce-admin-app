@@ -1,29 +1,29 @@
 import { Box, Stack, Typography, Button } from '@mui/material';
-import EmailIcon from '@mui/icons-material/Email';
-import Input from './Input';
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { SIGNIN } from '@utils/routes';
-import AuthServices from '@services/authServices';
+import { useRouter } from 'next/router';
+import Input from './Input';
+import { formForgotPasswordProps, formSignInProps } from '@components/consts';
+import { FORGOT_PASSWORD, SIGNIN } from '@utils/routes';
+import authServices from '@services/authServices';
 
-const FormForgotPassword = () => {
-	const [form, setForm] = useState({
-		email: '',
-	});
+const signinInitialForm = {
+	email: process.env.NEXT_PUBLIC_TEST_EMAIL,
+	password: process.env.NEXT_PUBLIC_TEST_PASSWORD,
+};
+
+const FormAuth = () => {
+	const { pathname } = useRouter();
+	const isSignIn = pathname === SIGNIN;
+	const initialForm = isSignIn ? signinInitialForm : { email: '' };
+	const [form, setForm] = useState(initialForm);
 	// const { form, errors, setErrors, handleInputChange, handleSignIn } =
 	//   useForm(initialForm);
-	const { resetPassword } = AuthServices();
-
-	const inputProps = [
-		{
-			id: 'idEmail',
-			name: 'email',
-			label: 'Email',
-			icon: <EmailIcon />,
-		},
-	];
-
+	const { signIn } = authServices();
+	const { inputProps, title, paragraph, textLink, textBtn } = isSignIn
+		? formSignInProps
+		: formForgotPasswordProps;
 	const errors = {};
 
 	const handleChange = event => {
@@ -36,8 +36,7 @@ const FormForgotPassword = () => {
 
 	const handleSubmit = async event => {
 		event.preventDefault();
-		console.log(form);
-		await resetPassword(form.email);
+		await signIn(form);
 	};
 
 	// useEffect(() => {
@@ -60,15 +59,20 @@ const FormForgotPassword = () => {
 					priority='true'
 				/>
 				<Typography
-					sx={{ fontWeight: 'bold', mb: 2 }}
-					variant='h5'
+					sx={{
+						maxWidth: 300,
+						fontWeight: 'bold',
+						mb: 2,
+						display: { md: `${isSignIn ? 'none' : 'block'}` },
+					}}
+					variant='h4'
 					color='primary'
 					gutterBottom
 				>
-					Forgot your password?
+					{title}
 				</Typography>
 				<Typography sx={{ maxWidth: 300, fontSize: 14, mb: 3 }} gutterBottom>
-					Enter your email and we will send you a link to reset your password:
+					{paragraph}
 				</Typography>
 				{inputProps.map(input => (
 					<Box key={input.id} mb={3}>
@@ -84,7 +88,7 @@ const FormForgotPassword = () => {
 					sx={{ fontSize: 14, textAlign: 'right', mb: 1 }}
 					gutterBottom
 				>
-					<Link href={SIGNIN}>Do you want to signin?</Link>
+					<Link href={isSignIn ? FORGOT_PASSWORD : SIGNIN}>{textLink}</Link>
 				</Typography>
 				<Button
 					sx={{ width: '100%' }}
@@ -92,11 +96,11 @@ const FormForgotPassword = () => {
 					type='submit'
 					disabled={!(Object.keys(errors).length === 0)}
 				>
-					Send
+					{textBtn}
 				</Button>
 			</Stack>
 		</Box>
 	);
 };
 
-export default FormForgotPassword;
+export default FormAuth;

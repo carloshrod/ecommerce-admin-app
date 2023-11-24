@@ -1,7 +1,7 @@
 import { Grid, IconButton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Link from 'next/link';
-import FormForgotPassword from '@components/forms/FormForgotPassword';
+import FormAuth from '@components/forms/FormAuth';
 import { SIGNIN } from '@utils/routes';
 
 const ForgotPassword = () => {
@@ -15,7 +15,7 @@ const ForgotPassword = () => {
 				</IconButton>
 			</Grid>
 			<Grid item xs={12} md={4.6}>
-				<FormForgotPassword />
+				<FormAuth />
 			</Grid>
 		</Grid>
 	);

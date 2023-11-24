@@ -3,7 +3,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import FormSignIn from '@components/forms/FormSignIn';
+import FormAuth from '@components/forms/FormAuth';
 import { useAuthContext } from '@contexts/auth/AuthContext';
 
 const SignIn = () => {
@@ -24,7 +24,7 @@ const SignIn = () => {
 						<ArrowBackIcon />
 					</Link>
 				</IconButton>
-				<FormSignIn />
+				<FormAuth />
 			</Grid>
 			<Grid item md={7.4} className='signIn__right'>
 				<Typography variant='h2' color='primary' gutterBottom>
