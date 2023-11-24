@@ -1,12 +1,11 @@
 import { Box, Stack, Typography, Button } from '@mui/material';
-import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Input from './Input';
 import { formForgotPasswordProps, formSignInProps } from '@components/consts';
 import { FORGOT_PASSWORD, SIGNIN } from '@utils/routes';
-import authServices from '@services/authServices';
+import useForm from '@hooks/useForm';
 
 const signinInitialForm = {
 	email: process.env.NEXT_PUBLIC_TEST_EMAIL,
@@ -17,27 +16,11 @@ const FormAuth = () => {
 	const { pathname } = useRouter();
 	const isSignIn = pathname === SIGNIN;
 	const initialForm = isSignIn ? signinInitialForm : { email: '' };
-	const [form, setForm] = useState(initialForm);
-	// const { form, errors, setErrors, handleInputChange, handleSignIn } =
-	//   useForm(initialForm);
-	const { signIn } = authServices();
+	const { form, errors, handleInputChange, handleSignIn } =
+		useForm(initialForm);
 	const { inputProps, title, paragraph, textLink, textBtn } = isSignIn
 		? formSignInProps
 		: formForgotPasswordProps;
-	const errors = {};
-
-	const handleChange = event => {
-		const { value, name } = event.target;
-		setForm({
-			...form,
-			[name]: value,
-		});
-	};
-
-	const handleSubmit = async event => {
-		event.preventDefault();
-		await signIn(form);
-	};
 
 	// useEffect(() => {
 	//   setErrors(validateSignIn(form));
@@ -49,7 +32,7 @@ const FormAuth = () => {
 				component='form'
 				noValidate
 				autoComplete='off'
-				onSubmit={handleSubmit}
+				onSubmit={handleSignIn}
 			>
 				<Image
 					src='/ec-admin-logo.png'
@@ -79,7 +62,7 @@ const FormAuth = () => {
 						<Input
 							{...input}
 							value={form[input.name]}
-							onChange={handleChange}
+							onChange={handleInputChange}
 							errors={errors}
 						/>
 					</Box>
