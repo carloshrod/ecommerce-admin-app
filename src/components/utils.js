@@ -4,6 +4,13 @@ export const capFirstLetter = word => {
 	return word.charAt(0).toUpperCase() + word.slice(1);
 };
 
+export const normalizeName = name => {
+	return name
+		.split('_')
+		.map(word => capFirstLetter(word))
+		.join(' ');
+};
+
 export const isItemSelected = (item, open, router) => {
 	const {
 		pathname,
@@ -29,11 +36,19 @@ export const isItemSelected = (item, open, router) => {
 export const formatRoleName = (roleId, roles) => {
 	try {
 		const roleName = roles.find(role => role.id === roleId).roleName;
-		return roleName
-			.split('_')
-			.map(word => capFirstLetter(word))
-			.join(' ');
+		return normalizeName(roleName);
 	} catch (error) {
 		console.error(error.message);
 	}
+};
+
+export const setOptions = roles => {
+	const newArray = [];
+	roles.forEach(role => {
+		newArray.push({
+			value: role.roleName,
+			label: normalizeName(role.roleName),
+		});
+	});
+	return newArray;
 };

@@ -7,6 +7,7 @@ import { useAuthContext } from '@contexts/auth/AuthContext';
 import ToolTip from '@components/ui/ToolTip';
 import { COSTUMERS, PRODUCTS, STAFF } from '@utils/routes';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
+import FormUser from '@components/forms/FormUser';
 
 const DataTableToolbar = ({ selected, setSelected }) => {
 	const { isAdmin } = useAuthContext();
@@ -18,7 +19,8 @@ const DataTableToolbar = ({ selected, setSelected }) => {
 
 	const handleAdd = () => {
 		const title = `Add ${isProduct ? 'Product' : 'Staff'}`;
-		openModal(title, <div>Form</div>);
+		const child = isProduct ? 'ProductForm' : <FormUser />;
+		openModal(title, child);
 	};
 
 	// const handleDelete = async data => {
