@@ -46,7 +46,7 @@ export const setOptions = roles => {
 	const newArray = [];
 	roles.forEach(role => {
 		newArray.push({
-			value: role.roleName,
+			value: role.id,
 			label: normalizeName(role.roleName),
 		});
 	});

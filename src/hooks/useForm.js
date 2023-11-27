@@ -1,5 +1,6 @@
 import { useGlobalContext } from '@contexts/global/GlobalContext';
 import authServices from '@services/authServices';
+import userServices from '@services/userServices';
 import { useState } from 'react';
 
 const useForm = initialForm => {
@@ -7,6 +8,7 @@ const useForm = initialForm => {
 	const [errors, setErrors] = useState({});
 	const { signIn } = authServices();
 	const { closeModal } = useGlobalContext();
+	const { addStaff } = userServices();
 
 	const handleInputChange = event => {
 		const { value, name } = event.target;
@@ -39,9 +41,9 @@ const useForm = initialForm => {
 		await signIn(form);
 	};
 
-	const handleSubmitStaff = event => {
+	const handleSubmitStaff = async event => {
 		event.preventDefault();
-		console.log(form);
+		await addStaff(form);
 		handleReset();
 	};
 

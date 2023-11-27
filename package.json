@@ -16,6 +16,7 @@
     "axios": "^1.6.1",
     "chart.js": "^4.4.0",
     "firebase": "^10.6.0",
+    "firebase-admin": "^11.11.1",
     "js-cookie": "^3.0.5",
     "next": "14.0.1",
     "react": "^18",

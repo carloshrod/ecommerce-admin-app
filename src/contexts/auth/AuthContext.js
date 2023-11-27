@@ -18,11 +18,12 @@ const initialState = {
 	isAuth: false,
 	loggedUser: {},
 	roles: [],
+	idToken: null,
 };
 
 const AuthProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(authReducers, initialState);
-	const { isAuth, loggedUser, roles } = state;
+	const { isAuth, loggedUser, roles, idToken } = state;
 	const { logout } = authServices();
 	const router = useRouter();
 	const isAdmin = true;
@@ -36,7 +37,12 @@ const AuthProvider = ({ children }) => {
 					const roles = await fetchData(rolesCollectionRef);
 					dispatch({
 						type: TYPES.SIGN_IN,
-						payload: { isAuth: true, loggedUser: userDoc.data(), roles },
+						payload: {
+							isAuth: true,
+							loggedUser: userDoc.data(),
+							roles,
+							idToken: fbToken,
+						},
 					});
 					Cookies.set('authToken', fbToken);
 				}
@@ -56,7 +62,7 @@ const AuthProvider = ({ children }) => {
 		}
 	};
 
-	const data = { isAuth, loggedUser, roles, signOut, isAdmin };
+	const data = { isAuth, loggedUser, roles, signOut, isAdmin, idToken };
 
 	return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>;
 };

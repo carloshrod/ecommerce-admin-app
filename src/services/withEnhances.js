@@ -6,10 +6,14 @@ const withEnhances =
 	async (...args) => {
 		try {
 			const { confirm, text } = options;
+			let html = text;
+			if (typeof text === 'function') {
+				html = text(...args);
+			}
 			if (!confirm) {
 				return await func(...args);
 			} else {
-				const resConfirm = await SwalConfirm(text);
+				const resConfirm = await SwalConfirm(html);
 				if (resConfirm.isConfirmed) {
 					await func(...args);
 					return resConfirm;

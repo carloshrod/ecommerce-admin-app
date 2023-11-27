@@ -8,12 +8,13 @@ import ToolTip from '@components/ui/ToolTip';
 import { COSTUMERS, PRODUCTS, STAFF } from '@utils/routes';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
 import FormUser from '@components/forms/FormUser';
+import userServices from '@services/userServices';
 
 const DataTableToolbar = ({ selected, setSelected }) => {
 	const { isAdmin } = useAuthContext();
 	const { pathname } = useRouter();
 	const { openModal } = useGlobalContext();
-	// const { deleteStaff } = UserServices();
+	const { deleteStaff } = userServices();
 	const isProduct = pathname === PRODUCTS;
 	const numSelected = selected.length;
 
@@ -23,10 +24,10 @@ const DataTableToolbar = ({ selected, setSelected }) => {
 		openModal(title, child);
 	};
 
-	// const handleDelete = async data => {
-	// 	await deleteStaff(data);
-	// 	setSelected([]);
-	// };
+	const handleDelete = async data => {
+		await deleteStaff(data);
+		setSelected([]);
+	};
 
 	return (
 		<Toolbar
@@ -58,9 +59,7 @@ const DataTableToolbar = ({ selected, setSelected }) => {
 
 			{numSelected > 0 ? (
 				<ToolTip title='Delete'>
-					<IconButton
-					// onClick={() => handleDelete(selected)}
-					>
+					<IconButton onClick={() => handleDelete(selected)}>
 						<DeleteIcon />
 					</IconButton>
 				</ToolTip>
