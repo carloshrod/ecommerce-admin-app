@@ -1,6 +1,4 @@
-// import { USERS_TYPES as TYPES } from "@contexts/users/userActions";
 import { db } from '@firebase';
-// import useApiServices from '@hooks/useApiServices';
 import {
 	collection,
 	deleteDoc,
@@ -11,17 +9,16 @@ import {
 import withEnhances from './withEnhances';
 import toast from 'react-hot-toast';
 import { useUsersContext } from '@contexts/users/UsersContext';
-import axios from 'axios';
+import useApi from '@hooks/useApi';
 
 const staffCollectionRef = collection(db, 'staff');
 
 const userServices = () => {
-	// const { authRegisterUser } = useApiServices();
+	const { authRegisterUser, authDeleteUser } = useApi();
 	const { addUser, deleteUser } = useUsersContext();
 
 	const addStaff = withEnhances(async data => {
-		const res = await axios.post('/api/auth', data);
-		console.log(res);
+		const res = await authRegisterUser(data);
 		if (res.status === 201) {
 			const { displayName, email, countryCode, phoneNumber, role } = data;
 			const { uid } = res.data;
@@ -44,10 +41,8 @@ const userServices = () => {
 
 	const deleteStaff = withEnhances(
 		async data => {
-			console.log(data);
 			data.forEach(async userId => {
-				console.log(userId);
-				const res = await axios.delete(`/api/auth/${userId}`);
+				const res = await authDeleteUser(userId);
 				if (res.status === 200) {
 					deleteDoc(doc(staffCollectionRef, userId));
 					deleteUser(userId);
