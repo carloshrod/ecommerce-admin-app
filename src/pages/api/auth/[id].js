@@ -1,4 +1,4 @@
-import { adminAuth } from '@firebaseAdmin';
+import { adminAuth } from '@firebase/admin';
 
 export default async (req, res) => {
 	if (req.method === 'DELETE') {

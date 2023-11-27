@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useReducer } from 'react';
 import usersReducer from './usersReducer';
 import { fetchData } from '@contexts/utils';
 import { collection } from 'firebase/firestore';
-import { db } from '@firebase';
+import { db } from '@firebase/client';
 import { USERS_TYPES as TYPES } from './userActions';
 
 const UsersContext = createContext(undefined);

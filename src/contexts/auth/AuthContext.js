@@ -3,7 +3,7 @@ import { collection, doc, getDoc } from 'firebase/firestore';
 import { createContext, useContext, useEffect, useReducer } from 'react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
-import { auth, db } from '@firebase';
+import { auth, db } from '@firebase/client';
 import authReducers from './authReducers';
 import { AUTH_TYPES as TYPES } from './authActions';
 import authServices from '@services/authServices';

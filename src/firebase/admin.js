@@ -1,7 +1,7 @@
 import { cert, getApp, getApps, initializeApp } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 
-import serviceAccount from '../firebase-keys.json';
+import serviceAccount from '../../firebase-keys.json';
 
 const options = {
 	credential: cert(serviceAccount),

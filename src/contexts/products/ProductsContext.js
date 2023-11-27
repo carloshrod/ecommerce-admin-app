@@ -2,7 +2,7 @@ import { fetchData } from '@contexts/utils';
 import productsReducer from './productsReducer';
 import { createContext, useContext, useEffect, useReducer } from 'react';
 import { collection } from 'firebase/firestore';
-import { db } from '@firebase';
+import { db } from '@firebase/client';
 import { PRODUCT_TYPES as TYPES } from './productActions';
 
 const ProductsContext = createContext(undefined);
