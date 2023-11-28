@@ -16,14 +16,15 @@ import { COSTUMERS, STAFF } from '@utils/routes';
 import { capFirstLetter, formatRoleName } from '@components/utils';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
 import FormUser from '@components/forms/FormUser';
+import userServices from '@services/userServices';
 
 const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 	const { openModal } = useGlobalContext();
 	const { roles, isAdmin } = useAuthContext();
 	const { pathname } = useRouter();
-	// const { toggleStatus } = UserServices();
+	const { toggleUserStatus } = userServices();
 	const [checked, setChecked] = useState(!row.disabled);
-	const roleName = row?.role && formatRoleName(row?.role, roles);
+	const roleName = (row?.role && formatRoleName(row?.role, roles)) ?? '';
 
 	const handleChange = event => {
 		setChecked(event.target.checked);
@@ -38,10 +39,6 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 		};
 		openModal(modal, data);
 	};
-
-	// const handleStatus = data => {
-	// 	toggleStatus(data);
-	// };
 
 	// const handleDetails = data => {
 	// 	push(`${pathname}/${data.id}`);
@@ -104,7 +101,7 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 							<Switch
 								checked={checked}
 								onChange={handleChange}
-								// onClick={() => handleStatus(row)}
+								onClick={() => toggleUserStatus(row)}
 								color='success'
 								disabled={!isAdmin}
 							/>

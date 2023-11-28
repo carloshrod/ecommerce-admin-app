@@ -22,7 +22,7 @@ const useApi = () => {
 		return await apiRequest.put(`/${param}`, body);
 	};
 
-	const authDisableUser = async (param, body) => {
+	const authUpdateUserStatus = async (param, body) => {
 		return await apiRequest.patch(`/${param}`, body);
 	};
 
@@ -33,7 +33,7 @@ const useApi = () => {
 	return {
 		authRegisterUser,
 		authUpdateUser,
-		authDisableUser,
+		authUpdateUserStatus,
 		authDeleteUser,
 	};
 };

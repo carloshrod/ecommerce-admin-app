@@ -15,12 +15,17 @@ import useApi from '@hooks/useApi';
 const staffCollectionRef = collection(db, 'staff');
 
 const userServices = () => {
-	const { authRegisterUser, authUpdateUser, authDeleteUser } = useApi();
+	const {
+		authRegisterUser,
+		authUpdateUser,
+		authUpdateUserStatus,
+		authDeleteUser,
+	} = useApi();
 	const { addUser, updateUser, deleteUser } = useUsersContext();
 
-	const addStaff = withEnhances(async data => {
-		const { displayName, email, countryCode, phoneNumber, role } = data;
-		const res = await authRegisterUser(data);
+	const addStaff = withEnhances(async user => {
+		const { displayName, email, countryCode, phoneNumber, role } = user;
+		const res = await authRegisterUser(user);
 		if (res.status === 201) {
 			const { uid } = res.data;
 			const userToCreate = {
@@ -40,9 +45,10 @@ const userServices = () => {
 		}
 	});
 
-	const updateStaff = withEnhances(async data => {
-		const { displayName, email, countryCode, phoneNumber, role, id } = data;
-		const res = await authUpdateUser(id, data);
+	const updateStaff = withEnhances(async user => {
+		const { displayName, email, countryCode, phoneNumber, role, id, disabled } =
+			user;
+		const res = await authUpdateUser(id, { email });
 		if (res.status === 200) {
 			const userToUpdate = {
 				displayName,
@@ -53,32 +59,47 @@ const userServices = () => {
 				lastUpdate: serverTimestamp(),
 			};
 			await updateDoc(doc(staffCollectionRef, id), userToUpdate);
-			updateUser({ ...userToUpdate, id });
+			updateUser({ ...userToUpdate, id, disabled });
 			toast.success('User updated!');
 		}
 	});
 
+	const toggleUserStatus = withEnhances(async user => {
+		const { id, disabled } = user;
+		const res = await authUpdateUserStatus(id, {
+			disabled: !disabled,
+		});
+		if (res.status === 200) {
+			await updateDoc(doc(staffCollectionRef, id), {
+				disabled: !disabled,
+				lastUpdate: serverTimestamp(),
+			});
+			updateUser({ ...user, disabled: !disabled });
+			toast.success(`User ${disabled ? 'enabled' : 'disabled'}!`);
+		}
+	});
+
 	const deleteStaff = withEnhances(
-		async data => {
-			data.forEach(async userId => {
-				const res = await authDeleteUser(userId);
+		async userIds => {
+			userIds.forEach(async id => {
+				const res = await authDeleteUser(id);
 				if (res.status === 200) {
-					deleteDoc(doc(staffCollectionRef, userId));
-					deleteUser(userId);
+					deleteDoc(doc(staffCollectionRef, id));
+					deleteUser(id);
 				}
 			});
-			toast.success(`${data.length > 1 ? 'Users' : 'User'} deleted!`);
+			toast.success(`${userIds.length > 1 ? 'Users' : 'User'} deleted!`);
 		},
 		{
 			confirm: true,
-			text: data =>
+			text: userIds =>
 				`¿Are you sure to delete ${
-					data.length > 1 ? 'these users' : 'this user'
+					userIds.length > 1 ? 'these users' : 'this user'
 				} permanently? <br> <br> <b>¡You won't be able to revert this action!</b>`,
 		},
 	);
 
-	return { addStaff, updateStaff, deleteStaff };
+	return { addStaff, updateStaff, toggleUserStatus, deleteStaff };
 };
 
 export default userServices;
