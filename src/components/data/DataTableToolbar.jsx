@@ -19,9 +19,10 @@ const DataTableToolbar = ({ selected, setSelected }) => {
 	const numSelected = selected.length;
 
 	const handleAdd = () => {
-		const title = `Add ${isProduct ? 'Product' : 'Staff'}`;
-		const child = isProduct ? 'ProductForm' : <FormUser />;
-		openModal(title, child);
+		openModal({
+			title: `Add ${isProduct ? 'Product' : 'Staff'}`,
+			child: isProduct ? 'ProductForm' : <FormUser />,
+		});
 	};
 
 	const handleDelete = async data => {

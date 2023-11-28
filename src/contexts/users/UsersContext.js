@@ -39,6 +39,13 @@ const UsersProvider = ({ children }) => {
 		});
 	};
 
+	const updateUser = user => {
+		dispatch({
+			type: TYPES.UPDATE_USER,
+			payload: user,
+		});
+	};
+
 	const deleteUser = userId => {
 		dispatch({
 			type: TYPES.DELETE_USER,
@@ -46,7 +53,7 @@ const UsersProvider = ({ children }) => {
 		});
 	};
 
-	const data = { staff, costumers, addUser, deleteUser };
+	const data = { staff, costumers, addUser, updateUser, deleteUser };
 
 	return <UsersContext.Provider value={data}>{children}</UsersContext.Provider>;
 };

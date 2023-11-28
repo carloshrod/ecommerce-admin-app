@@ -52,3 +52,19 @@ export const setOptions = roles => {
 	});
 	return newArray;
 };
+
+export const setDefaultValue = ({
+	multiple,
+	name,
+	selectOptions,
+	dataToEdit,
+}) => {
+	if (multiple) {
+		return selectOptions
+			.filter(option => dataToEdit && dataToEdit[name].includes(option.value))
+			.map(data => data);
+	}
+	return selectOptions.find(
+		option => dataToEdit && option.value === dataToEdit[name],
+	);
+};

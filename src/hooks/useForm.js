@@ -1,14 +1,20 @@
+import { useEffect, useState } from 'react';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
 import authServices from '@services/authServices';
 import userServices from '@services/userServices';
-import { useState } from 'react';
 
 const useForm = initialForm => {
 	const [form, setForm] = useState(initialForm);
 	const [errors, setErrors] = useState({});
 	const { signIn } = authServices();
-	const { closeModal } = useGlobalContext();
-	const { addStaff } = userServices();
+	const { dataToEdit, closeModal } = useGlobalContext();
+	const { addStaff, updateStaff } = userServices();
+
+	useEffect(() => {
+		if (dataToEdit) {
+			setForm(dataToEdit);
+		}
+	}, []);
 
 	const handleInputChange = event => {
 		const { value, name } = event.target;
@@ -43,7 +49,11 @@ const useForm = initialForm => {
 
 	const handleSubmitStaff = async event => {
 		event.preventDefault();
-		await addStaff(form);
+		if (!dataToEdit) {
+			await addStaff(form);
+		} else {
+			await updateStaff(form);
+		}
 		handleReset();
 	};
 

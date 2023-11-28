@@ -5,6 +5,7 @@ import {
 	doc,
 	serverTimestamp,
 	setDoc,
+	updateDoc,
 } from 'firebase/firestore';
 import withEnhances from './withEnhances';
 import toast from 'react-hot-toast';
@@ -14,13 +15,13 @@ import useApi from '@hooks/useApi';
 const staffCollectionRef = collection(db, 'staff');
 
 const userServices = () => {
-	const { authRegisterUser, authDeleteUser } = useApi();
-	const { addUser, deleteUser } = useUsersContext();
+	const { authRegisterUser, authUpdateUser, authDeleteUser } = useApi();
+	const { addUser, updateUser, deleteUser } = useUsersContext();
 
 	const addStaff = withEnhances(async data => {
+		const { displayName, email, countryCode, phoneNumber, role } = data;
 		const res = await authRegisterUser(data);
 		if (res.status === 201) {
-			const { displayName, email, countryCode, phoneNumber, role } = data;
 			const { uid } = res.data;
 			const userToCreate = {
 				id: uid,
@@ -36,6 +37,24 @@ const userServices = () => {
 			await setDoc(doc(staffCollectionRef, uid), userToCreate);
 			addUser(userToCreate);
 			toast.success('User registered!');
+		}
+	});
+
+	const updateStaff = withEnhances(async data => {
+		const { displayName, email, countryCode, phoneNumber, role, id } = data;
+		const res = await authUpdateUser(id, data);
+		if (res.status === 200) {
+			const userToUpdate = {
+				displayName,
+				email,
+				countryCode,
+				phoneNumber,
+				role,
+				lastUpdate: serverTimestamp(),
+			};
+			await updateDoc(doc(staffCollectionRef, id), userToUpdate);
+			updateUser({ ...userToUpdate, id });
+			toast.success('User updated!');
 		}
 	});
 
@@ -59,7 +78,7 @@ const userServices = () => {
 		},
 	);
 
-	return { addStaff, deleteStaff };
+	return { addStaff, updateStaff, deleteStaff };
 };
 
 export default userServices;

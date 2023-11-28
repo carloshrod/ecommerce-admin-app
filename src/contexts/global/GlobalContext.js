@@ -22,10 +22,14 @@ const GlobalProvider = ({ children }) => {
 		dispatch({ type: TYPES.TOGGLE_MENU, payload: !hideMenu });
 	};
 
-	const openModal = (title, child) => {
+	const openModal = (modal, dataToEdit = undefined) => {
+		const { title, child } = modal;
 		dispatch({
 			type: TYPES.OPEN_MODAL,
-			payload: { state: true, title, child },
+			payload: {
+				modal: { state: true, title, child },
+				dataToEdit,
+			},
 		});
 	};
 

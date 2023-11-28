@@ -14,9 +14,11 @@ import { useAuthContext } from '@contexts/auth/AuthContext';
 import ToolTip from '@components/ui/ToolTip';
 import { COSTUMERS, STAFF } from '@utils/routes';
 import { capFirstLetter, formatRoleName } from '@components/utils';
+import { useGlobalContext } from '@contexts/global/GlobalContext';
+import FormUser from '@components/forms/FormUser';
 
 const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
-	// const { dispatch } = useGlobalContext();
+	const { openModal } = useGlobalContext();
 	const { roles, isAdmin } = useAuthContext();
 	const { pathname } = useRouter();
 	// const { toggleStatus } = UserServices();
@@ -29,24 +31,13 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 
 	const isUser = pathname === COSTUMERS || pathname === STAFF;
 
-	// const handleEdit = data => {
-	// 	dispatch({
-	// 		type: TYPES.SET_DATA_TO_EDIT,
-	// 		payload: {
-	// 			...data,
-	// 			countryCode: data.phoneNumber.slice(0, -15),
-	// 			phoneNumber: data.phoneNumber.slice(-14),
-	// 		},
-	// 	});
-	// 	dispatch({
-	// 		type: TYPES.OPEN_MODAL,
-	// 		payload: {
-	// 			state: true,
-	// 			title: `Edit ${pathname === STAFF ? 'Staff' : 'Costumer'}`,
-	// 			child: <FormUser />,
-	// 		},
-	// 	});
-	// };
+	const handleEdit = data => {
+		const modal = {
+			title: `Edit ${pathname === STAFF ? 'Staff' : 'Costumer'}`,
+			child: <FormUser />,
+		};
+		openModal(modal, data);
+	};
 
 	// const handleStatus = data => {
 	// 	toggleStatus(data);
@@ -60,7 +51,7 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 		{
 			label: isAdmin ? 'Edit' : 'Allowed for admins only',
 			icon: <EditIcon />,
-			// onClick: isAdmin ? handleEdit : null,
+			onClick: isAdmin ? handleEdit : null,
 		},
 		{
 			label: 'Details',
@@ -138,7 +129,7 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 						<ToolTip key={i} title={action.label}>
 							<span>
 								<IconButton
-									// onClick={() => action.onClick(row)}
+									onClick={() => action.onClick(row)}
 									disabled={!isAdmin && action.label !== 'Details'}
 								>
 									{action.icon}

@@ -9,26 +9,17 @@ const globalReducers = (state, action) => {
 			};
 		}
 		case TYPES.OPEN_MODAL: {
+			const { modal, dataToEdit } = action.payload;
 			return {
 				...state,
-				modal: action.payload,
+				modal,
+				dataToEdit,
 			};
 		}
 		case TYPES.CLOSE_MODAL: {
 			return {
 				...state,
 				modal: { state: false, title: null, child: null },
-			};
-		}
-		case TYPES.SET_DATA_TO_EDIT: {
-			return {
-				...state,
-				dataToEdit: action.payload,
-			};
-		}
-		case TYPES.CLEAN_DATA_TO_EDIT: {
-			return {
-				...state,
 				dataToEdit: null,
 			};
 		}

@@ -4,7 +4,8 @@ import { useRouter } from 'next/router';
 import { useAuthContext } from '@contexts/auth/AuthContext';
 import useScreen from '@hooks/useScreen';
 import { SETTINGS } from '@utils/routes';
-import { setOptions } from '@components/utils';
+import { setDefaultValue, setOptions } from '@components/utils';
+import { useGlobalContext } from '@contexts/global/GlobalContext';
 
 const InputSelect = ({
 	name,
@@ -18,10 +19,10 @@ const InputSelect = ({
 	errors,
 }) => {
 	const [focused, setFocused] = useState(false);
+	const { dataToEdit } = useGlobalContext();
 	const { roles, isAdmin } = useAuthContext();
 	const { width } = useScreen();
 	const { pathname } = useRouter();
-	const dataToEdit = {};
 
 	const handleFocus = () => {
 		setFocused(true);
@@ -31,13 +32,12 @@ const InputSelect = ({
 
 	const selectOptions = name === 'role' ? setOptions(roles) : options;
 
-	const defaultValue = multiple
-		? selectOptions
-				.filter(option => dataToEdit && dataToEdit[name].includes(option.value))
-				.map(data => data)
-		: selectOptions.find(
-				option => dataToEdit && option.value === dataToEdit[name],
-		  );
+	const defaultValue = setDefaultValue({
+		multiple,
+		name,
+		selectOptions,
+		dataToEdit,
+	});
 
 	const noOptions = options?.length === value?.length;
 
