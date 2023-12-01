@@ -1,19 +1,24 @@
 import { auth } from '@firebase/client';
 import {
+	EmailAuthProvider,
+	reauthenticateWithCredential,
 	sendPasswordResetEmail,
 	signInWithEmailAndPassword,
 	signOut,
+	updatePassword,
 } from 'firebase/auth';
-import Cookies from 'js-cookie';
 import toast from 'react-hot-toast';
 import withEnhances from './withEnhances';
+import { useAuthContext } from '@contexts/auth/AuthContext';
 
 const authServices = () => {
+	const { dispatchSignOut } = useAuthContext();
+
 	const signIn = withEnhances(async ({ email, password }) => {
 		await signInWithEmailAndPassword(auth, email, password);
 	});
 
-	const resetPassword = withEnhances(async email => {
+	const resetPassword = withEnhances(async ({ email }) => {
 		await sendPasswordResetEmail(auth, email);
 		toast.success('Please, check your email!');
 	});
@@ -21,7 +26,7 @@ const authServices = () => {
 	const logout = withEnhances(
 		async () => {
 			await signOut(auth);
-			Cookies.remove('authToken');
+			dispatchSignOut();
 		},
 		{
 			confirm: true,
@@ -29,7 +34,23 @@ const authServices = () => {
 		},
 	);
 
-	return { signIn, resetPassword, logout };
+	const changePassword = withEnhances(
+		async ({ currentPassword, newPassword }) => {
+			const user = auth.currentUser;
+			const credential = EmailAuthProvider.credential(
+				user.email,
+				currentPassword,
+			);
+			const res = await reauthenticateWithCredential(user, credential);
+			if (res.user) {
+				await updatePassword(user, newPassword);
+				await signOut(auth);
+				dispatchSignOut();
+			}
+		},
+	);
+
+	return { signIn, resetPassword, logout, changePassword };
 };
 
 export default authServices;

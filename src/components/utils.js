@@ -35,8 +35,8 @@ export const isItemSelected = (item, open, router) => {
 
 export const formatRoleName = (roleId, roles) => {
 	try {
-		const roleName = roles.find(role => role.id === roleId).roleName;
-		return normalizeName(roleName);
+		const roleName = roles.find(role => role.id === roleId)?.roleName;
+		return roleName && normalizeName(roleName);
 	} catch (error) {
 		console.error(error.message);
 	}

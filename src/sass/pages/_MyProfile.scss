@@ -1,0 +1,44 @@
+.myProfile {
+  background-color: var(--primary-color) !important;
+  color: var(--font-color-light) !important;
+  position: relative;
+
+  .myProfileContent {
+    .contact {
+      font-size: 14px;
+      font-weight: lighter;
+      display: flex;
+      gap: .5rem;
+      justify-content: center;
+      margin-bottom: .5rem;
+
+      svg {
+        color: var(--font-color-light) !important;
+      }
+    }
+  }
+
+  .myProfileActions {
+    width: 100%;
+    position: absolute;
+    top: 200px;
+    display: 'flex';
+    gap: 1rem;
+
+    button {
+      background-color: var(--primary-color);
+
+      &:hover {
+        background-color: var(--secondary-color);
+      }
+
+      svg {
+        color: var(--font-color-light) !important;
+      }
+    }
+
+    @media (max-width: 449px) {
+      padding: 0 1rem !important;
+    }
+  }
+}

@@ -58,8 +58,8 @@ const InputSelect = ({
 			getOptionLabel={option => option.label}
 			isOptionEqualToValue={(option, value) => option.label === value.label}
 			defaultValue={dataToEdit ? defaultValue : multiple ? [] : null}
-			onChange={(e, options) => onChange(name, options)}
-			disabled={isNotEditable}
+			onChange={(_e, options) => onChange(name, options)}
+			readOnly={isNotEditable}
 			sx={{
 				position: 'relative',
 				'.MuiAutocomplete-inputRoot': {
@@ -136,7 +136,7 @@ const InputSelect = ({
 								},
 								position: 'absolute',
 								top: `calc(50% - ${
-									isInputWrong ? 10 : isNotEditable ? 20 : 0
+									isInputWrong ? 10 : isNotEditable ? 10 : 0
 								}px)`,
 								left: '14px',
 							}}

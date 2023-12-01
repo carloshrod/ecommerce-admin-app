@@ -6,7 +6,6 @@ import { useRouter } from 'next/router';
 import { auth, db } from '@firebase/client';
 import authReducers from './authReducers';
 import { AUTH_TYPES as TYPES } from './authActions';
-import authServices from '@services/authServices';
 import { fetchData } from '@contexts/utils';
 import { SIGNIN } from '@utils/routes';
 
@@ -24,7 +23,6 @@ const initialState = {
 const AuthProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(authReducers, initialState);
 	const { isAuth, loggedUser, roles, idToken } = state;
-	const { logout } = authServices();
 	const router = useRouter();
 	const isAdmin = true;
 
@@ -52,17 +50,30 @@ const AuthProvider = ({ children }) => {
 		});
 	}, []);
 
-	const signOut = async () => {
-		const res = await logout();
-		if (res) {
-			router.push(SIGNIN);
-			setTimeout(() => {
-				dispatch({ type: TYPES.SIGN_OUT });
-			}, 1500);
-		}
+	const signout = async () => {
+		Cookies.remove('authToken');
+		router.push(SIGNIN);
+		setTimeout(() => {
+			dispatch({ type: TYPES.SIGN_OUT });
+		}, 1500);
 	};
 
-	const data = { isAuth, loggedUser, roles, signOut, isAdmin, idToken };
+	const updateLoggedUser = userUpdated => {
+		dispatch({
+			type: TYPES.UPDATE_LOGGED_USER,
+			payload: userUpdated,
+		});
+	};
+
+	const data = {
+		isAuth,
+		loggedUser,
+		roles,
+		isAdmin,
+		idToken,
+		dispatchSignOut: signout,
+		updateLoggedUser,
+	};
 
 	return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>;
 };

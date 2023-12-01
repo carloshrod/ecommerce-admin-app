@@ -19,6 +19,13 @@ const authReducers = (state, action) => {
 				loggedUser: {},
 			};
 		}
+		case TYPES.UPDATE_LOGGED_USER: {
+			const loggedUser = action?.payload;
+			return {
+				...state,
+				loggedUser,
+			};
+		}
 		default:
 			return state;
 	}

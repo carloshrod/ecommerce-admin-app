@@ -120,6 +120,33 @@ export const inputUserProps = [
 	},
 ];
 
+export const inputPasswordProps = [
+	{
+		id: 'idCurrentPassword',
+		name: 'currentPassword',
+		label: 'Current Password',
+		icon: <LockIcon />,
+		placeholder: 'Enter current password',
+		type: 'password',
+	},
+	{
+		id: 'idNewPassword',
+		name: 'newPassword',
+		label: 'New Password',
+		icon: <LockIcon />,
+		placeholder: 'Enter new password',
+		type: 'password',
+	},
+	{
+		id: 'idRenewPassword',
+		name: 'renewPassword',
+		label: 'New Password',
+		icon: <LockIcon />,
+		placeholder: 'Re-enter new password',
+		type: 'password',
+	},
+];
+
 export const ITEMS_WIDTH = {
 	countryCodeXs: 4,
 	countryCodeSm: 3.3,

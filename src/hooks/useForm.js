@@ -2,13 +2,16 @@ import { useEffect, useState } from 'react';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
 import authServices from '@services/authServices';
 import userServices from '@services/userServices';
+import { useRouter } from 'next/router';
+import { SIGNIN } from '@utils/routes';
 
 const useForm = initialForm => {
 	const [form, setForm] = useState(initialForm);
 	const [errors, setErrors] = useState({});
-	const { signIn } = authServices();
 	const { dataToEdit, closeModal } = useGlobalContext();
+	const { signIn, resetPassword, changePassword } = authServices();
 	const { addStaff, updateStaff } = userServices();
+	const { pathname } = useRouter();
 
 	useEffect(() => {
 		if (dataToEdit) {
@@ -38,13 +41,16 @@ const useForm = initialForm => {
 
 	const handleReset = () => {
 		closeModal();
-		// dispatch({ type: TYPES.CLEAN_DATA_TO_EDIT });
 		setForm(initialForm);
 	};
 
-	const handleSignIn = async event => {
+	const handleAuth = async event => {
 		event.preventDefault();
-		await signIn(form);
+		if (pathname === SIGNIN) {
+			await signIn(form);
+		} else {
+			await resetPassword(form);
+		}
 	};
 
 	const handleSubmitStaff = async event => {
@@ -57,6 +63,13 @@ const useForm = initialForm => {
 		handleReset();
 	};
 
+	const handleSubmitPassword = async event => {
+		event.preventDefault();
+		const { currentPassword, newPassword } = form;
+		await changePassword({ currentPassword, newPassword });
+		handleReset();
+	};
+
 	return {
 		form,
 		setForm,
@@ -65,8 +78,9 @@ const useForm = initialForm => {
 		handleInputChange,
 		handleSelectChange,
 		handleReset,
-		handleSignIn,
+		handleAuth,
 		handleSubmitStaff,
+		handleSubmitPassword,
 	};
 };
 

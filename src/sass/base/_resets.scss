@@ -35,18 +35,6 @@ svg,
       }
     }
   }
-
-  .Mui-disabled {
-    &:hover {
-      &>fieldset {
-        border-width: 1px;
-      }
-    }
-
-    fieldset {
-      border-color: var(--primary-color) !important;
-    }
-  }
 }
 
 .MuiAutocomplete-root.hiddenInput {
