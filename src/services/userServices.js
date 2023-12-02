@@ -9,8 +9,11 @@ import {
 } from 'firebase/firestore';
 import withEnhances from './withEnhances';
 import toast from 'react-hot-toast';
+import { useAuthContext } from '@contexts/auth/AuthContext';
 import { useUsersContext } from '@contexts/users/UsersContext';
 import useApi from '@hooks/useApi';
+import { SETTINGS } from '@utils/routes';
+import { useRouter } from 'next/router';
 
 const staffCollectionRef = collection(db, 'staff');
 
@@ -21,7 +24,10 @@ const userServices = () => {
 		authUpdateUserStatus,
 		authDeleteUser,
 	} = useApi();
+	const { updateLoggedUser } = useAuthContext();
 	const { addUser, updateUser, deleteUser } = useUsersContext();
+	const { pathname } = useRouter();
+	const isSettings = pathname === SETTINGS;
 
 	const addStaff = withEnhances(async user => {
 		const { displayName, email, countryCode, phoneNumber, role } = user;
@@ -50,7 +56,7 @@ const userServices = () => {
 			user;
 		const res = await authUpdateUser(id, { email });
 		if (res.status === 200) {
-			const userToUpdate = {
+			let userToUpdate = {
 				displayName,
 				email,
 				countryCode,
@@ -59,7 +65,8 @@ const userServices = () => {
 				lastUpdate: serverTimestamp(),
 			};
 			await updateDoc(doc(staffCollectionRef, id), userToUpdate);
-			updateUser({ ...userToUpdate, id, disabled });
+			userToUpdate = { ...userToUpdate, id, disabled };
+			isSettings ? updateLoggedUser(userToUpdate) : updateUser(userToUpdate);
 			toast.success('User updated!');
 		}
 	});
