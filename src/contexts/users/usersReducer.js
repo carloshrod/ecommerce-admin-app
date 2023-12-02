@@ -27,7 +27,8 @@ const usersReducer = (state, action) => {
 			};
 		}
 		case TYPES.DELETE_USER: {
-			const newData = state.staff.filter(user => user.id !== action.payload);
+			const userId = action.payload;
+			const newData = state.staff.filter(user => user.id !== userId);
 			return {
 				...state,
 				staff: newData,

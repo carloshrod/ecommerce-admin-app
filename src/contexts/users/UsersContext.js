@@ -32,17 +32,17 @@ const UsersProvider = ({ children }) => {
 		fetchUsers();
 	}, []);
 
-	const addUser = user => {
+	const addUser = userCreated => {
 		dispatch({
 			type: TYPES.ADD_USER,
-			payload: user,
+			payload: userCreated,
 		});
 	};
 
-	const updateUser = user => {
+	const updateUser = userUpdated => {
 		dispatch({
 			type: TYPES.UPDATE_USER,
-			payload: user,
+			payload: userUpdated,
 		});
 	};
 
@@ -53,7 +53,13 @@ const UsersProvider = ({ children }) => {
 		});
 	};
 
-	const data = { staff, costumers, addUser, updateUser, deleteUser };
+	const data = {
+		staff,
+		costumers,
+		dispatchAddUser: addUser,
+		dispatchUpdateUser: updateUser,
+		dispatchDeleteUser: deleteUser,
+	};
 
 	return <UsersContext.Provider value={data}>{children}</UsersContext.Provider>;
 };

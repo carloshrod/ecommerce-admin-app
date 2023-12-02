@@ -24,8 +24,9 @@ const userServices = () => {
 		authUpdateUserStatus,
 		authDeleteUser,
 	} = useApi();
-	const { updateLoggedUser } = useAuthContext();
-	const { addUser, updateUser, deleteUser } = useUsersContext();
+	const { dispatchUpdateLoggedUser } = useAuthContext();
+	const { dispatchAddUser, dispatchUpdateUser, dispatchDeleteUser } =
+		useUsersContext();
 	const { pathname } = useRouter();
 	const isSettings = pathname === SETTINGS;
 
@@ -46,7 +47,7 @@ const userServices = () => {
 				disabled: false,
 			};
 			await setDoc(doc(staffCollectionRef, uid), userToCreate);
-			addUser(userToCreate);
+			dispatchAddUser(userToCreate);
 			toast.success('User registered!');
 		}
 	});
@@ -66,7 +67,9 @@ const userServices = () => {
 			};
 			await updateDoc(doc(staffCollectionRef, id), userToUpdate);
 			userToUpdate = { ...userToUpdate, id, disabled };
-			isSettings ? updateLoggedUser(userToUpdate) : updateUser(userToUpdate);
+			isSettings
+				? dispatchUpdateLoggedUser(userToUpdate)
+				: dispatchUpdateUser(userToUpdate);
 			toast.success('User updated!');
 		}
 	});
@@ -81,7 +84,7 @@ const userServices = () => {
 				disabled: !disabled,
 				lastUpdate: serverTimestamp(),
 			});
-			updateUser({ ...user, disabled: !disabled });
+			dispatchUpdateUser({ ...user, disabled: !disabled });
 			toast.success(`User ${disabled ? 'enabled' : 'disabled'}!`);
 		}
 	});
@@ -92,7 +95,7 @@ const userServices = () => {
 				const res = await authDeleteUser(id);
 				if (res.status === 200) {
 					deleteDoc(doc(staffCollectionRef, id));
-					deleteUser(id);
+					dispatchDeleteUser(id);
 				}
 			});
 			toast.success(`${userIds.length > 1 ? 'Users' : 'User'} deleted!`);

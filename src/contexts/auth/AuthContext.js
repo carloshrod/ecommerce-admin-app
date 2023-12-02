@@ -72,7 +72,7 @@ const AuthProvider = ({ children }) => {
 		isAdmin,
 		idToken,
 		dispatchSignOut: signout,
-		updateLoggedUser,
+		dispatchUpdateLoggedUser: updateLoggedUser,
 	};
 
 	return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>;
