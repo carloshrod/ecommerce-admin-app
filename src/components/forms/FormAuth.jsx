@@ -16,8 +16,7 @@ const FormAuth = () => {
 	const { pathname } = useRouter();
 	const isSignIn = pathname === SIGNIN;
 	const initialForm = isSignIn ? signinInitialForm : { email: '' };
-	const { form, errors, handleInputChange, handleSignIn } =
-		useForm(initialForm);
+	const { form, errors, handleInputChange, handleAuth } = useForm(initialForm);
 	const { inputProps, title, paragraph, textLink, textBtn } = isSignIn
 		? formSignInProps
 		: formForgotPasswordProps;
@@ -32,7 +31,7 @@ const FormAuth = () => {
 				component='form'
 				noValidate
 				autoComplete='off'
-				onSubmit={handleSignIn}
+				onSubmit={handleAuth}
 			>
 				<Image
 					src='/ec-admin-logo.png'
