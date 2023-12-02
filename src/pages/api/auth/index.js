@@ -9,7 +9,7 @@ export default async (req, res) => {
 			disabled: false,
 		});
 		if (userRecord) {
-			return res.status(201).send({ msg: 'User created successfully' });
+			return res.status(201).send(userRecord);
 		}
 		return res.status(400).send();
 	} catch (error) {
