@@ -15,8 +15,7 @@ const withEnhances =
 			} else {
 				const resConfirm = await SwalConfirm(html);
 				if (resConfirm.isConfirmed) {
-					await func(...args);
-					return resConfirm;
+					return await func(...args);
 				}
 			}
 		} catch (error) {

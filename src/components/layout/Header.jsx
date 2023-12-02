@@ -5,9 +5,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useAuthContext } from '@contexts/auth/AuthContext';
 import ToggleSidebar from './ToggleSidebar';
+import authServices from '@services/authServices';
 
 const Header = () => {
-	const { loggedUser, signOut } = useAuthContext();
+	const { loggedUser } = useAuthContext();
+	const { logout } = authServices();
 	const image = loggedUser?.avatar?.url || null;
 
 	return (
@@ -29,7 +31,7 @@ const Header = () => {
 						</IconButton>
 					</ToolTip>
 					<ToolTip title='Logout '>
-						<IconButton onClick={() => signOut()}>
+						<IconButton onClick={() => logout()}>
 							<PowerSettingsNewSharpIcon />
 						</IconButton>
 					</ToolTip>

@@ -4,11 +4,11 @@ import { useRouter } from 'next/router';
 import NavLink from '@components/ui/NavLink';
 import ToolTip from '@components/ui/ToolTip';
 import useScreen from '@hooks/useScreen';
-import { useAuthContext } from '@contexts/auth/AuthContext';
 import { isItemSelected } from '@components/utils';
+import authServices from '@services/authServices';
 
 const SidebarItem = ({ item, hideMenu, open, handleOpen }) => {
-	const { signOut } = useAuthContext();
+	const { logout } = authServices();
 	const { width } = useScreen();
 	const isSidebarHidden =
 		(width < 1200 && hideMenu) || (width > 1200 && !hideMenu);
@@ -16,7 +16,7 @@ const SidebarItem = ({ item, hideMenu, open, handleOpen }) => {
 
 	const ITEM_BTN_CLICKS = {
 		Users: handleOpen,
-		Logout: signOut,
+		Logout: logout,
 	};
 
 	const addPaddingLeft =
