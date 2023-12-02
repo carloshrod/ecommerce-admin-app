@@ -5,11 +5,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useAuthContext } from '@contexts/auth/AuthContext';
 import ToggleSidebar from './ToggleSidebar';
-import authServices from '@services/authServices';
+import useAuthServices from '@services/useAuthServices';
 
 const Header = () => {
 	const { loggedUser } = useAuthContext();
-	const { logout } = authServices();
+	const { logout } = useAuthServices();
 	const image = loggedUser?.avatar?.url || null;
 
 	return (

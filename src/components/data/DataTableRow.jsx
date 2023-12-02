@@ -16,14 +16,14 @@ import { COSTUMERS, STAFF } from '@utils/routes';
 import { capFirstLetter, formatRoleName } from '@components/utils';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
 import FormUser from '@components/forms/FormUser';
-import userServices from '@services/userServices';
+import useUserServices from '@services/useUserServices';
 
 const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
+	const [checked, setChecked] = useState(!row.disabled);
 	const { openModal } = useGlobalContext();
 	const { roles, isAdmin } = useAuthContext();
+	const { toggleUserStatus } = useUserServices();
 	const { pathname } = useRouter();
-	const { toggleUserStatus } = userServices();
-	const [checked, setChecked] = useState(!row.disabled);
 	const roleName = (row?.role && formatRoleName(row?.role, roles)) ?? '';
 
 	const handleChange = event => {

@@ -17,7 +17,7 @@ import { useRouter } from 'next/router';
 
 const staffCollectionRef = collection(db, 'staff');
 
-const userServices = () => {
+const useUserServices = () => {
 	const {
 		authRegisterUser,
 		authUpdateUser,
@@ -112,4 +112,4 @@ const userServices = () => {
 	return { addStaff, updateStaff, toggleUserStatus, deleteStaff };
 };
 
-export default userServices;
+export default useUserServices;

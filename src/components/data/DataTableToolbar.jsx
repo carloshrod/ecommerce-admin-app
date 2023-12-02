@@ -3,18 +3,17 @@ import { alpha } from '@mui/material/styles';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/router';
 import { useAuthContext } from '@contexts/auth/AuthContext';
-// import UserServices from '../../services/UserServices';
 import ToolTip from '@components/ui/ToolTip';
 import { COSTUMERS, PRODUCTS, STAFF } from '@utils/routes';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
 import FormUser from '@components/forms/FormUser';
-import userServices from '@services/userServices';
+import useUserServices from '@services/useUserServices';
 
 const DataTableToolbar = ({ selected, setSelected }) => {
 	const { isAdmin } = useAuthContext();
 	const { pathname } = useRouter();
 	const { openModal } = useGlobalContext();
-	const { deleteStaff } = userServices();
+	const { deleteStaff } = useUserServices();
 	const isProduct = pathname === PRODUCTS;
 	const numSelected = selected.length;
 

@@ -10,15 +10,15 @@ import {
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 import EmailIcon from '@mui/icons-material/Email';
 import { useState } from 'react';
-import userServices from '@services/userServices';
+import useUserServices from '@services/useUserServices';
 import ToolTip from '@components/ui/ToolTip';
 import { useAuthContext } from '@contexts/auth/AuthContext';
 import { formatRoleName } from '@components/utils';
 
 const Profile = ({ user, isLoggedUser = false }) => {
-	const { roles, isAdmin } = useAuthContext();
 	const [checked, setChecked] = useState(!user?.disabled);
-	const { toggleUserStatus } = userServices();
+	const { roles, isAdmin } = useAuthContext();
+	const { toggleUserStatus } = useUserServices();
 
 	const userRole = roles.find(role => role?.id === user.role) ?? {};
 

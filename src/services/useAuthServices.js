@@ -11,7 +11,7 @@ import toast from 'react-hot-toast';
 import withEnhances from './withEnhances';
 import { useAuthContext } from '@contexts/auth/AuthContext';
 
-const authServices = () => {
+const useAuthServices = () => {
 	const { dispatchSignOut } = useAuthContext();
 
 	const signIn = withEnhances(async ({ email, password }) => {
@@ -53,4 +53,4 @@ const authServices = () => {
 	return { signIn, resetPassword, logout, changePassword };
 };
 
-export default authServices;
+export default useAuthServices;

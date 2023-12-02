@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
-import authServices from '@services/authServices';
-import userServices from '@services/userServices';
+import useAuthServices from '@services/useAuthServices';
+import useUserServices from '@services/useUserServices';
 import { useRouter } from 'next/router';
 import { SIGNIN } from '@utils/routes';
 
@@ -9,8 +9,8 @@ const useForm = initialForm => {
 	const [form, setForm] = useState(initialForm);
 	const [errors, setErrors] = useState({});
 	const { dataToEdit, closeModal } = useGlobalContext();
-	const { signIn, resetPassword, changePassword } = authServices();
-	const { addStaff, updateStaff } = userServices();
+	const { signIn, resetPassword, changePassword } = useAuthServices();
+	const { addStaff, updateStaff } = useUserServices();
 	const { pathname } = useRouter();
 
 	useEffect(() => {

@@ -3,7 +3,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import PasswordIcon from '@mui/icons-material/Password';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/router';
-import userServices from '@services/userServices';
+import useUserServices from '@services/useUserServices';
 import { useAuthContext } from '@contexts/auth/AuthContext';
 import ToolTip from './ToolTip';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
@@ -16,7 +16,7 @@ const ProfileActions = ({ user, isLoggedUser = false }) => {
 	const {
 		query: { id },
 	} = useRouter();
-	const { deleteStaff } = userServices();
+	const { deleteStaff } = useUserServices();
 
 	const handleEdit = () => {
 		const modal = {

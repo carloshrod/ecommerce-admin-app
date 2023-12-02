@@ -5,10 +5,10 @@ import NavLink from '@components/ui/NavLink';
 import ToolTip from '@components/ui/ToolTip';
 import useScreen from '@hooks/useScreen';
 import { isItemSelected } from '@components/utils';
-import authServices from '@services/authServices';
+import useAuthServices from '@services/useAuthServices';
 
 const SidebarItem = ({ item, hideMenu, open, handleOpen }) => {
-	const { logout } = authServices();
+	const { logout } = useAuthServices();
 	const { width } = useScreen();
 	const isSidebarHidden =
 		(width < 1200 && hideMenu) || (width > 1200 && !hideMenu);
