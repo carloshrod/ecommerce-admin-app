@@ -5,6 +5,7 @@ import { ITEMS_WIDTH, inputUserProps } from '@components/consts';
 import Input from './Input';
 import ActionsForm from './ActionsForm';
 import InputSelect from './InputSelect';
+import InputFile from './InputFile';
 
 const initialForm = {
 	displayName: '',
@@ -37,6 +38,7 @@ const FormUser = () => {
 			onSubmit={handleSubmitStaff}
 			sx={{ mt: 1, gap: 3 }}
 		>
+			<InputFile />
 			<Grid container spacing={3}>
 				{inputUserProps.map(input => (
 					<Grid
