@@ -1,9 +1,16 @@
-import { createContext, useContext, useEffect, useReducer } from 'react';
+import {
+	createContext,
+	useContext,
+	useEffect,
+	useMemo,
+	useReducer,
+} from 'react';
 import usersReducer from './usersReducer';
 import { fetchData } from '@contexts/utils';
 import { collection } from 'firebase/firestore';
 import { db } from '@firebase/client';
 import { USERS_TYPES as TYPES } from './userActions';
+import { useAuthContext } from '@contexts/auth/AuthContext';
 
 const UsersContext = createContext(undefined);
 
@@ -18,6 +25,7 @@ const initialState = {
 const UsersProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(usersReducer, initialState);
 	const { staff, costumers } = state;
+	const { loggedUser } = useAuthContext();
 
 	const fetchUsers = async () => {
 		const staff = await fetchData(staffCollectionRef);
@@ -53,8 +61,12 @@ const UsersProvider = ({ children }) => {
 		});
 	};
 
+	const filteredStaff = useMemo(() => {
+		return loggedUser ? staff.filter(s => s.id !== loggedUser.id) : staff;
+	}, [staff, loggedUser]);
+
 	const data = {
-		staff,
+		staff: filteredStaff,
 		costumers,
 		dispatchAddUser: addUser,
 		dispatchUpdateUser: updateUser,
