@@ -12,7 +12,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAuthContext } from '@contexts/auth/AuthContext';
 import ToolTip from '@components/ui/ToolTip';
-import { COSTUMERS, STAFF } from '@utils/routes';
+import { CUSTOMERS, STAFF } from '@utils/routes';
 import { capFirstLetter, formatRoleName } from '@components/utils';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
 import FormUser from '@components/forms/FormUser';
@@ -23,26 +23,26 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 	const { openModal } = useGlobalContext();
 	const { roles, isAdmin } = useAuthContext();
 	const { toggleUserStatus } = useUserServices();
-	const { pathname } = useRouter();
+	const { pathname, push } = useRouter();
 	const roleName = (row?.role && formatRoleName(row?.role, roles)) ?? '';
 
 	const handleChange = event => {
 		setChecked(event.target.checked);
 	};
 
-	const isUser = pathname === COSTUMERS || pathname === STAFF;
+	const isUser = pathname === CUSTOMERS || pathname === STAFF;
 
 	const handleEdit = data => {
 		const modal = {
-			title: `Edit ${pathname === STAFF ? 'Staff' : 'Costumer'}`,
+			title: `Edit ${pathname === STAFF ? 'Staff' : 'Customer'}`,
 			child: <FormUser />,
 		};
 		openModal(modal, data);
 	};
 
-	// const handleDetails = data => {
-	// 	push(`${pathname}/${data.id}`);
-	// };
+	const handleDetails = data => {
+		push(`${pathname}/${data.id}`);
+	};
 
 	const actions = [
 		{
@@ -53,7 +53,7 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 		{
 			label: 'Details',
 			icon: <ZoomInIcon />,
-			// onClick: handleDetails,
+			onClick: handleDetails,
 		},
 	];
 

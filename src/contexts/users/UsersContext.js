@@ -15,30 +15,38 @@ import { useAuthContext } from '@contexts/auth/AuthContext';
 const UsersContext = createContext(undefined);
 
 const staffCollectionRef = collection(db, 'staff');
-const costumersCollectionRef = collection(db, 'costumers');
+const customersCollectionRef = collection(db, 'customers');
 
 const initialState = {
 	staff: [],
-	costumers: [],
+	customers: [],
+	user: {},
 };
 
 const UsersProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(usersReducer, initialState);
-	const { staff, costumers } = state;
+	const { staff, customers, user } = state;
 	const { loggedUser } = useAuthContext();
 
 	const fetchUsers = async () => {
 		const staff = await fetchData(staffCollectionRef);
-		const costumers = await fetchData(costumersCollectionRef);
+		const customers = await fetchData(customersCollectionRef);
 		dispatch({
 			type: TYPES.GET_ALL_USERS,
-			payload: { staff, costumers },
+			payload: { staff, customers },
 		});
 	};
 
 	useEffect(() => {
 		fetchUsers();
 	}, []);
+
+	const fetchOneUser = userFetched => {
+		dispatch({
+			type: TYPES.GET_ONE_USER,
+			payload: userFetched,
+		});
+	};
 
 	const addUser = userCreated => {
 		dispatch({
@@ -62,12 +70,14 @@ const UsersProvider = ({ children }) => {
 	};
 
 	const filteredStaff = useMemo(() => {
-		return loggedUser ? staff.filter(s => s.id !== loggedUser.id) : staff;
+		return loggedUser ? staff?.filter(s => s.id !== loggedUser.id) : staff;
 	}, [staff, loggedUser]);
 
 	const data = {
 		staff: filteredStaff,
-		costumers,
+		customers,
+		user,
+		dispatchFetchOneUser: fetchOneUser,
 		dispatchAddUser: addUser,
 		dispatchUpdateUser: updateUser,
 		dispatchDeleteUser: deleteUser,

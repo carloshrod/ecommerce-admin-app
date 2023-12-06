@@ -3,6 +3,7 @@ import {
 	collection,
 	deleteDoc,
 	doc,
+	getDoc,
 	serverTimestamp,
 	setDoc,
 	updateDoc,
@@ -12,11 +13,12 @@ import toast from 'react-hot-toast';
 import { useAuthContext } from '@contexts/auth/AuthContext';
 import { useUsersContext } from '@contexts/users/UsersContext';
 import useApi from '@hooks/useApi';
-import { SETTINGS } from '@utils/routes';
+import { CUSTOMERS, SETTINGS, STAFF } from '@utils/routes';
 import { useRouter } from 'next/router';
 import { deleteFile, generateImageObj } from './fileServices';
 
 const staffCollectionRef = collection(db, 'staff');
+// const customersCollectionRef = collection(db, 'customers');
 
 const useUserServices = () => {
 	const {
@@ -26,10 +28,23 @@ const useUserServices = () => {
 		authDeleteUser,
 	} = useApi();
 	const { dispatchUpdateLoggedUser } = useAuthContext();
-	const { dispatchAddUser, dispatchUpdateUser, dispatchDeleteUser } =
-		useUsersContext();
-	const { pathname } = useRouter();
+	const {
+		dispatchFetchOneUser,
+		dispatchAddUser,
+		dispatchUpdateUser,
+		dispatchDeleteUser,
+	} = useUsersContext();
+	const { pathname, query, push } = useRouter();
 	const isSettings = pathname === SETTINGS;
+	const isStaff = pathname.includes('staff');
+	const isProfile = !!(query?.id || isSettings);
+
+	const getOneUser = withEnhances(async userId => {
+		const collection = isStaff ? 'staff' : 'customers';
+		const docRef = doc(db, collection, userId);
+		const docSnap = await getDoc(docRef);
+		dispatchFetchOneUser(docSnap.data());
+	});
 
 	const addStaff = withEnhances(async (user, file) => {
 		const { displayName, email, countryCode, phoneNumber, role } = user;
@@ -43,7 +58,7 @@ const useUserServices = () => {
 				phoneNumber,
 				countryCode,
 				role,
-				avatar: await generateImageObj(file, uid),
+				avatar: file ? await generateImageObj(file, uid) : {},
 				disabled: false,
 				createdAt: serverTimestamp(),
 				lastUpdate: serverTimestamp(),
@@ -79,10 +94,13 @@ const useUserServices = () => {
 			};
 			await updateDoc(doc(staffCollectionRef, id), userToUpdate);
 			userToUpdate = { ...userToUpdate, id, disabled };
-			isSettings
-				? dispatchUpdateLoggedUser(userToUpdate)
-				: dispatchUpdateUser(userToUpdate);
-			toast.success('User updated!');
+			if (isSettings) {
+				dispatchUpdateLoggedUser(userToUpdate);
+			} else {
+				dispatchUpdateUser(userToUpdate);
+			}
+			toast.success(isSettings ? 'Profile updated!' : 'User updated!');
+			if (isProfile) getOneUser(id);
 		}
 	});
 
@@ -111,6 +129,7 @@ const useUserServices = () => {
 					dispatchDeleteUser(id);
 				}
 			});
+			if (isProfile) push(isStaff ? STAFF : CUSTOMERS);
 			toast.success(`${userIds.length > 1 ? 'Users' : 'User'} deleted!`);
 		},
 		{
@@ -122,7 +141,13 @@ const useUserServices = () => {
 		},
 	);
 
-	return { addStaff, updateStaff, toggleUserStatus, deleteStaff };
+	return {
+		getOneUser,
+		addStaff,
+		updateStaff,
+		toggleUserStatus,
+		deleteStaff,
+	};
 };
 
 export default useUserServices;

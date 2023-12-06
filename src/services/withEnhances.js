@@ -1,4 +1,3 @@
-import { toast } from 'react-hot-toast';
 import { SwalConfirm } from './utils';
 
 const withEnhances =
@@ -19,7 +18,7 @@ const withEnhances =
 				}
 			}
 		} catch (error) {
-			toast.error(error.message);
+			console.error(error.message);
 		}
 	};
 
