@@ -19,8 +19,8 @@ const Profile = ({ user, isLoggedUser = false }) => {
 	const [checked, setChecked] = useState(!user?.disabled);
 	const { roles, isAdmin } = useAuthContext();
 	const { toggleUserStatus } = useUserServices();
-
-	const userRole = roles.find(role => role?.id === user.role) ?? {};
+	const { displayName, email, countryCode, phoneNumber, role, disabled } = user;
+	const userRole = roles.find(r => r?.id === role) ?? {};
 
 	const handleChange = event => {
 		setChecked(event.target.checked);
@@ -46,9 +46,9 @@ const Profile = ({ user, isLoggedUser = false }) => {
 						}}
 					/>
 					<Box mb={2}>
-						<Typography variant='h5'>{user?.displayName}</Typography>
+						<Typography variant='h5'>{displayName}</Typography>
 						{isLoggedUser ? null : isAdmin ? (
-							<ToolTip title={`${user?.disabled ? 'Enable' : 'Disable'} user`}>
+							<ToolTip title={`${disabled ? 'Enable' : 'Disable'} user`}>
 								<Switch
 									checked={checked}
 									onChange={handleChange}
@@ -61,11 +61,11 @@ const Profile = ({ user, isLoggedUser = false }) => {
 					</Box>
 					<Typography className='contact'>
 						<EmailIcon />
-						{user?.email}
+						{email}
 					</Typography>
 					<Typography className='contact'>
 						<PhoneIphoneIcon />
-						{user?.phoneNumber}
+						{`${countryCode} ${phoneNumber}`}
 					</Typography>
 				</Grid>
 				<Grid
@@ -75,7 +75,7 @@ const Profile = ({ user, isLoggedUser = false }) => {
 					sx={{ alignSelf: 'center', textAlign: 'justify' }}
 				>
 					<Chip
-						label={formatRoleName(user.role, roles)}
+						label={formatRoleName(role, roles)}
 						color='success'
 						sx={{
 							mx: 2,
