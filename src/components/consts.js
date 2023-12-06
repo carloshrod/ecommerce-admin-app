@@ -10,7 +10,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import PublicIcon from '@mui/icons-material/Public';
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
-import { COSTUMERS, DASHBOARD, PRODUCTS, SETTINGS, STAFF } from '@utils/routes';
+import { CUSTOMERS, DASHBOARD, PRODUCTS, SETTINGS, STAFF } from '@utils/routes';
 import { ar, co, mx, us, ve } from './forms/svgs';
 
 // ********** Forms **********
@@ -198,9 +198,9 @@ export const sidebarUsersMenu = [
 	},
 	{
 		id: 4,
-		label: 'Costumers',
+		label: 'Customers',
 		icon: <PersonIcon />,
-		path: COSTUMERS,
+		path: CUSTOMERS,
 	},
 ];
 
@@ -212,5 +212,5 @@ export const INDEXES = {
 
 export const USERS_INDEXES = {
 	'/admin/staff': 3,
-	'/admin/costumers': 4,
+	'/admin/customers': 4,
 };

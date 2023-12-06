@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/router';
 import { useAuthContext } from '@contexts/auth/AuthContext';
 import ToolTip from '@components/ui/ToolTip';
-import { COSTUMERS, PRODUCTS, STAFF } from '@utils/routes';
+import { CUSTOMERS, PRODUCTS, STAFF } from '@utils/routes';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
 import FormUser from '@components/forms/FormUser';
 import useUserServices from '@services/useUserServices';
@@ -63,7 +63,7 @@ const DataTableToolbar = ({ selected, setSelected }) => {
 						<DeleteIcon />
 					</IconButton>
 				</ToolTip>
-			) : pathname === COSTUMERS ? null : (
+			) : pathname === CUSTOMERS ? null : (
 				<ToolTip title={isAdmin ? '' : 'Allowed for admins only'}>
 					<span>
 						<Button

@@ -9,7 +9,7 @@ import {
 import { visuallyHidden } from '@mui/utils';
 import { useRouter } from 'next/router';
 import { useAuthContext } from '@contexts/auth/AuthContext';
-import { COSTUMERS, STAFF } from '@utils/routes';
+import { CUSTOMERS, STAFF } from '@utils/routes';
 import ToolTip from '@components/ui/ToolTip';
 
 const DataTableHead = ({
@@ -22,7 +22,7 @@ const DataTableHead = ({
 }) => {
 	const { isAdmin } = useAuthContext();
 	const { pathname } = useRouter();
-	const isUser = pathname === COSTUMERS || pathname === STAFF;
+	const isUser = pathname === CUSTOMERS || pathname === STAFF;
 
 	const createSortHandler = property => event => {
 		onRequestSort(event, property);

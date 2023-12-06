@@ -6,20 +6,20 @@ import {
 	TablePagination,
 } from '@mui/material';
 import { useRouter } from 'next/router';
-import { COSTUMERS, PRODUCTS, STAFF } from '@utils/routes';
+import { CUSTOMERS, PRODUCTS, STAFF } from '@utils/routes';
 import useTable from '@hooks/useTable';
 import DataTableToolbar from './DataTableToolbar';
 import DataTableHead from './DataTableHead';
 import DataTableBody from './DataTableBody';
 
-export default function DataTable({ products, costumers, staff }) {
+export default function DataTable({ products, customers, staff }) {
 	const { pathname } = useRouter();
 
 	const rows =
 		pathname === PRODUCTS
 			? products
-			: pathname === COSTUMERS
-			? costumers
+			: pathname === CUSTOMERS
+			? customers
 			: pathname === STAFF
 			? staff
 			: null;
@@ -50,7 +50,7 @@ export default function DataTable({ products, costumers, staff }) {
 							orderBy={orderBy}
 							onSelectAllClick={handleSelectAllClick}
 							onRequestSort={handleRequestSort}
-							rowCount={rows.length}
+							rowCount={rows?.length}
 						/>
 						<DataTableBody
 							rows={rows}

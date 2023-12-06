@@ -20,7 +20,7 @@ const SidebarItem = ({ item, hideMenu, open, handleOpen }) => {
 	};
 
 	const addPaddingLeft =
-		isSidebarHidden && (item.label === 'Staff' || item.label === 'Costumers')
+		isSidebarHidden && (item.label === 'Staff' || item.label === 'Customers')
 			? 'iconPaddingLeft'
 			: null;
 
