@@ -38,7 +38,7 @@ const ProfileActions = ({ user, isLoggedUser = false }) => {
 
 	return (
 		<CardActions
-			className='myProfileActions'
+			className='profileActions'
 			sx={{ justifyContent: { xs: 'space-between', sm: 'end' }, p: 4 }}
 		>
 			{isAdmin || isLoggedUser ? (

@@ -6,10 +6,10 @@
 @use './pages/Home';
 @use './pages/SignIn';
 @use './pages/ForgotPassword';
-@use './pages/MyProfile';
 
 @use './components/FormAuth';
 @use './components/Header';
 @use './components/Sidebar';
 @use './components/MainContainer';
+@use './components/Profile';
 @use './components/Footer';

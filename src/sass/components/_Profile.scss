@@ -1,9 +1,9 @@
-.myProfile {
+.profile {
   background-color: var(--primary-color) !important;
   color: var(--font-color-light) !important;
   position: relative;
 
-  .myProfileContent {
+  .profileContent {
     .contact {
       font-size: 14px;
       font-weight: lighter;
@@ -18,7 +18,7 @@
     }
   }
 
-  .myProfileActions {
+  .profileActions {
     width: 100%;
     position: absolute;
     top: 200px;

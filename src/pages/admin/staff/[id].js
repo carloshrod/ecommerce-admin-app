@@ -1,20 +1,20 @@
 import { Grid } from '@mui/material';
-import { useAuthContext } from '@contexts/auth/AuthContext';
+import { useUsersContext } from '@contexts/users/UsersContext';
 import Profile from '@components/data/Profile';
 import ProfileActions from '@components/ui/ProfileActions';
 import ProfileInfo from '@components/data/ProfileInfo';
 
-const Settings = () => {
-	const { loggedUser } = useAuthContext();
+const StaffDetails = () => {
+	const { user } = useUsersContext();
 
 	return (
 		<Grid item xs={12}>
 			<Profile>
-				<ProfileActions user={loggedUser} />
-				<ProfileInfo user={loggedUser} />
+				<ProfileActions user={user} />
+				<ProfileInfo user={user} />
 			</Profile>
 		</Grid>
 	);
 };
 
-export default Settings;
+export default StaffDetails;
