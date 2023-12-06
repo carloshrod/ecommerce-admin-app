@@ -2,11 +2,12 @@ import { adminAuth } from '@firebase/admin';
 
 export default async (req, res) => {
 	try {
-		const { email } = req.body;
+		const { displayName, email, countryCode, phoneNumber } = req.body;
 		const userRecord = await adminAuth.createUser({
+			displayName,
 			email,
 			password: 'Test_1234',
-			disabled: false,
+			phoneNumber: `${countryCode}${phoneNumber}`,
 		});
 		if (userRecord) {
 			return res.status(201).send(userRecord);

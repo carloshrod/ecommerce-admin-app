@@ -7,6 +7,8 @@ import { SIGNIN } from '@utils/routes';
 
 const useForm = initialForm => {
 	const [form, setForm] = useState(initialForm);
+	const [file, setFile] = useState(null);
+	const [pathImage, setPathImage] = useState('');
 	const [errors, setErrors] = useState({});
 	const { dataToEdit, closeModal } = useGlobalContext();
 	const { signIn, resetPassword, changePassword } = useAuthServices();
@@ -16,6 +18,7 @@ const useForm = initialForm => {
 	useEffect(() => {
 		if (dataToEdit) {
 			setForm(dataToEdit);
+			setPathImage(dataToEdit?.avatar?.url);
 		}
 	}, []);
 
@@ -39,6 +42,20 @@ const useForm = initialForm => {
 		}
 	};
 
+	const handleFileChange = e => {
+		if (e.target.files && e.target.files.length > 0) {
+			const image = e.target.files[0];
+			if (image.type.includes('image')) {
+				const reader = new FileReader();
+				reader.readAsDataURL(image);
+				reader.onload = function load() {
+					setPathImage(reader.result);
+				};
+				setFile(image);
+			}
+		}
+	};
+
 	const handleReset = () => {
 		closeModal();
 		setForm(initialForm);
@@ -56,9 +73,9 @@ const useForm = initialForm => {
 	const handleSubmitStaff = async event => {
 		event.preventDefault();
 		if (!dataToEdit) {
-			await addStaff(form);
+			await addStaff(form, file);
 		} else {
-			await updateStaff(form);
+			await updateStaff(form, file);
 		}
 		handleReset();
 	};
@@ -72,11 +89,13 @@ const useForm = initialForm => {
 
 	return {
 		form,
-		setForm,
+		file,
+		pathImage,
 		errors,
 		setErrors,
 		handleInputChange,
 		handleSelectChange,
+		handleFileChange,
 		handleReset,
 		handleAuth,
 		handleSubmitStaff,

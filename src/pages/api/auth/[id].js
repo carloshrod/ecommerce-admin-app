@@ -6,8 +6,12 @@ export default async (req, res) => {
 			const {
 				query: { id },
 			} = req;
-			const { email } = req.body;
-			const userRecord = await adminAuth.updateUser(id, { email });
+			const { email, displayName, countryCode, phoneNumber } = req.body;
+			const userRecord = await adminAuth.updateUser(id, {
+				displayName,
+				email,
+				phoneNumber: `${countryCode}${phoneNumber}`,
+			});
 			if (userRecord) {
 				return res.status(200).send();
 			}

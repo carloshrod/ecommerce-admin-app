@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { PRODUCTS } from '@utils/routes';
 import ToolTip from '@components/ui/ToolTip';
 
-const InputFile = () => {
+const InputFile = ({ pathImage, onChange }) => {
 	const { pathname } = useRouter();
 	const isProduct = pathname === PRODUCTS;
 
@@ -21,9 +21,11 @@ const InputFile = () => {
 						borderRadius: `${isProduct ? '4px' : '50%'}`,
 						position: 'relative',
 						'&:hover > .MuiAvatar-root': {
-							opacity: 0.3,
+							opacity: 0.5,
 						},
 						'&:hover > svg': {
+							fontSize: 32,
+							color: '#0e7490 !important',
 							opacity: 1,
 						},
 					}}
@@ -35,14 +37,10 @@ const InputFile = () => {
 							height: 100,
 							borderRadius: `${isProduct ? '3px' : '50%'}`,
 						}}
+						src={pathImage ?? undefined}
 					/>
-					<input name='file' type='file' hidden />
-					<FileUploadIcon
-						sx={{
-							position: 'absolute',
-							opacity: 0,
-						}}
-					/>
+					<input name='file' type='file' hidden onChange={onChange} />
+					<FileUploadIcon sx={{ position: 'absolute', opacity: 0 }} />
 				</IconButton>
 			</ToolTip>
 		</Box>

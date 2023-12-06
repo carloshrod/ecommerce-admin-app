@@ -14,6 +14,7 @@ import { useUsersContext } from '@contexts/users/UsersContext';
 import useApi from '@hooks/useApi';
 import { SETTINGS } from '@utils/routes';
 import { useRouter } from 'next/router';
+import { deleteFile, generateImageObj } from './fileServices';
 
 const staffCollectionRef = collection(db, 'staff');
 
@@ -30,7 +31,7 @@ const useUserServices = () => {
 	const { pathname } = useRouter();
 	const isSettings = pathname === SETTINGS;
 
-	const addStaff = withEnhances(async user => {
+	const addStaff = withEnhances(async (user, file) => {
 		const { displayName, email, countryCode, phoneNumber, role } = user;
 		const res = await authRegisterUser(user);
 		if (res.status === 201) {
@@ -42,9 +43,10 @@ const useUserServices = () => {
 				phoneNumber,
 				countryCode,
 				role,
+				avatar: await generateImageObj(file, uid),
+				disabled: false,
 				createdAt: serverTimestamp(),
 				lastUpdate: serverTimestamp(),
-				disabled: false,
 			};
 			await setDoc(doc(staffCollectionRef, uid), userToCreate);
 			dispatchAddUser(userToCreate);
@@ -52,17 +54,27 @@ const useUserServices = () => {
 		}
 	});
 
-	const updateStaff = withEnhances(async user => {
-		const { displayName, email, countryCode, phoneNumber, role, id, disabled } =
-			user;
-		const res = await authUpdateUser(id, { email });
+	const updateStaff = withEnhances(async (user, file) => {
+		const {
+			displayName,
+			email,
+			countryCode,
+			phoneNumber,
+			role,
+			avatar,
+			id,
+			disabled,
+		} = user;
+		const res = await authUpdateUser(id, user);
 		if (res.status === 200) {
+			if (file) deleteFile(id);
 			let userToUpdate = {
 				displayName,
 				email,
 				countryCode,
 				phoneNumber,
 				role,
+				avatar: file ? await generateImageObj(file, id) : avatar,
 				lastUpdate: serverTimestamp(),
 			};
 			await updateDoc(doc(staffCollectionRef, id), userToUpdate);
@@ -94,7 +106,8 @@ const useUserServices = () => {
 			userIds.forEach(async id => {
 				const res = await authDeleteUser(id);
 				if (res.status === 200) {
-					deleteDoc(doc(staffCollectionRef, id));
+					await deleteFile(id);
+					await deleteDoc(doc(staffCollectionRef, id));
 					dispatchDeleteUser(id);
 				}
 			});

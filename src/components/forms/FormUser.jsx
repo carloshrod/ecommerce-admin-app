@@ -18,9 +18,11 @@ const initialForm = {
 const FormUser = () => {
 	const {
 		form,
+		pathImage,
 		errors,
 		handleInputChange,
 		handleSelectChange,
+		handleFileChange,
 		handleReset,
 		handleSubmitStaff,
 	} = useForm(initialForm);
@@ -38,7 +40,7 @@ const FormUser = () => {
 			onSubmit={handleSubmitStaff}
 			sx={{ mt: 1, gap: 3 }}
 		>
-			<InputFile />
+			<InputFile pathImage={pathImage} onChange={handleFileChange} />
 			<Grid container spacing={3}>
 				{inputUserProps.map(input => (
 					<Grid
