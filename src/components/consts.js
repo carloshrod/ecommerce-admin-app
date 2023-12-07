@@ -214,3 +214,9 @@ export const USERS_INDEXES = {
 	'/admin/staff': 3,
 	'/admin/customers': 4,
 };
+
+export const BG_IMAGES = {
+	[SETTINGS]: '/bg-settings.jpg',
+	[STAFF]: '/bg-staff.jpg',
+	[CUSTOMERS]: '/bg-customers.jpg',
+};

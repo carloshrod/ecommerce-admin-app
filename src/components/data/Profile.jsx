@@ -1,3 +1,4 @@
+import { BG_IMAGES } from '@components/consts';
 import { Card, CardMedia, Grid } from '@mui/material';
 import useUserServices from '@services/useUserServices';
 import { useRouter } from 'next/router';
@@ -8,7 +9,9 @@ const Profile = ({ children }) => {
 	const { getOneUser } = useUserServices();
 	const {
 		query: { id },
+		pathname,
 	} = useRouter();
+	const bgImage = id ? pathname.slice(0, -5) : pathname;
 
 	useEffect(() => {
 		if (id) {
@@ -28,7 +31,7 @@ const Profile = ({ children }) => {
 					<CardMedia
 						component='img'
 						height='300'
-						image='/bg-user-info.jpg'
+						image={BG_IMAGES[bgImage]}
 						alt='header image'
 						sx={{ bgcolor: 'azure' }}
 					/>
