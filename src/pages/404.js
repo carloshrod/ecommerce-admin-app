@@ -1,12 +1,15 @@
+import { useAuthContext } from '@contexts/auth/AuthContext';
 import { Box, Button } from '@mui/material';
-import { HOME } from '@utils/routes';
+import { DASHBOARD, HOME } from '@utils/routes';
 import Image from 'next/image';
 import Link from 'next/link';
 
 const NotFoundPage = () => {
+	const { isAuth } = useAuthContext;
+
 	return (
 		<Box component='div' className='notFound404'>
-			<Link href={HOME}>
+			<Link href={isAuth ? DASHBOARD : HOME}>
 				<Button variant='contained' color='primary'>
 					Back
 				</Button>
