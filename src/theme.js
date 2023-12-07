@@ -16,7 +16,10 @@ export const theme = createTheme({
 			main: '#dc2626',
 		},
 		text: {
-			disabled: '#eff6ff',
+			primary: '#475569',
+			secondary: '#0e7490',
+			light: '#f8fafc',
+			disabled: '#94a3b8',
 		},
 	},
 	typography: {
