@@ -212,7 +212,9 @@ export const INDEXES = {
 
 export const USERS_INDEXES = {
 	'/admin/staff': 3,
+	'/admin/staff/[id]': 3,
 	'/admin/customers': 4,
+	'/admin/customers/[id]': 4,
 };
 
 export const BG_IMAGES = {

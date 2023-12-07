@@ -11,23 +11,17 @@ export const normalizeName = name => {
 		.join(' ');
 };
 
-export const isItemSelected = (item, open, router) => {
-	const {
-		pathname,
-		query: { id },
-	} = router;
-
-	const usersLinkSelected =
-		pathname === `/admin/staff/${id}` ? 3 : USERS_INDEXES[pathname];
-
-	const usersIsSelected = usersLinkSelected === 3 || usersLinkSelected === 4;
+export const setItemSelected = (item, open, router) => {
+	const { pathname } = router;
+	const usersIsSelected =
+		USERS_INDEXES[pathname] === 3 || USERS_INDEXES[pathname] === 4;
 
 	if (item.label === 'Users' && !open) {
 		return usersIsSelected;
 	}
 
 	if (usersIsSelected) {
-		return usersLinkSelected === item.id;
+		return USERS_INDEXES[pathname] === item.id;
 	}
 
 	return INDEXES[pathname] === item.id;

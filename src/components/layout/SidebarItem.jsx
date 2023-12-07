@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import NavLink from '@components/ui/NavLink';
 import ToolTip from '@components/ui/ToolTip';
 import useScreen from '@hooks/useScreen';
-import { isItemSelected } from '@components/utils';
+import { setItemSelected } from '@components/utils';
 import useAuthServices from '@services/useAuthServices';
 
 const SidebarItem = ({ item, hideMenu, open, handleOpen }) => {
@@ -29,7 +29,7 @@ const SidebarItem = ({ item, hideMenu, open, handleOpen }) => {
 			<ToolTip title={width < 600 ? item.label : null} placement='right'>
 				<ListItemButton
 					className={item.label === 'Logout' ? 'sidebar--logout' : null}
-					selected={isItemSelected(item, open, router)}
+					selected={setItemSelected(item, open, router)}
 					onClick={ITEM_BTN_CLICKS[item.label]}
 				>
 					<ListItemIcon className={addPaddingLeft}>{item.icon}</ListItemIcon>
