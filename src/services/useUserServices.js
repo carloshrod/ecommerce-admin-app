@@ -16,6 +16,8 @@ import useApi from '@hooks/useApi';
 import { CUSTOMERS, SETTINGS, STAFF } from '@utils/routes';
 import { useRouter } from 'next/router';
 import { deleteFile, generateImageObj } from './fileServices';
+import { USER_TYPES } from '@contexts/users/userActions';
+import { AUTH_TYPES } from '@contexts/auth/authActions';
 
 const staffCollectionRef = collection(db, 'staff');
 // const customersCollectionRef = collection(db, 'customers');
@@ -27,13 +29,8 @@ const useUserServices = () => {
 		authUpdateUserStatus,
 		authDeleteUser,
 	} = useApi();
-	const { dispatchUpdateLoggedUser } = useAuthContext();
-	const {
-		dispatchFetchOneUser,
-		dispatchAddUser,
-		dispatchUpdateUser,
-		dispatchDeleteUser,
-	} = useUsersContext();
+	const { authDispatch } = useAuthContext();
+	const { userDispatch } = useUsersContext();
 	const { pathname, query, push } = useRouter();
 	const isSettings = pathname === SETTINGS;
 	const isStaff = pathname.includes('staff');
@@ -43,7 +40,10 @@ const useUserServices = () => {
 		const collection = isStaff ? 'staff' : 'customers';
 		const docRef = doc(db, collection, userId);
 		const docSnap = await getDoc(docRef);
-		dispatchFetchOneUser(docSnap.data());
+		userDispatch({
+			type: USER_TYPES.GET_ONE_USER,
+			payload: docSnap.data(),
+		});
 	});
 
 	const addStaff = withEnhances(async (user, file) => {
@@ -64,7 +64,10 @@ const useUserServices = () => {
 				lastUpdate: serverTimestamp(),
 			};
 			await setDoc(doc(staffCollectionRef, uid), userToCreate);
-			dispatchAddUser(userToCreate);
+			userDispatch({
+				type: USER_TYPES.ADD_USER,
+				payload: userToCreate,
+			});
 			toast.success('User registered!');
 		}
 	});
@@ -95,9 +98,15 @@ const useUserServices = () => {
 			await updateDoc(doc(staffCollectionRef, id), userToUpdate);
 			userToUpdate = { ...userToUpdate, id, disabled };
 			if (isSettings) {
-				dispatchUpdateLoggedUser(userToUpdate);
+				authDispatch({
+					type: AUTH_TYPES.UPDATE_LOGGED_USER,
+					payload: userToUpdate,
+				});
 			} else {
-				dispatchUpdateUser(userToUpdate);
+				userDispatch({
+					type: USER_TYPES.UPDATE_USER,
+					payload: userToUpdate,
+				});
 			}
 			toast.success(isSettings ? 'Profile updated!' : 'User updated!');
 			if (isProfile) getOneUser(id);
@@ -114,7 +123,10 @@ const useUserServices = () => {
 				disabled: !disabled,
 				lastUpdate: serverTimestamp(),
 			});
-			dispatchUpdateUser({ ...user, disabled: !disabled });
+			userDispatch({
+				type: USER_TYPES.UPDATE_USER,
+				payload: { ...user, disabled: !disabled },
+			});
 			toast.success(`User ${disabled ? 'enabled' : 'disabled'}!`);
 		}
 	});
@@ -126,7 +138,10 @@ const useUserServices = () => {
 				if (res.status === 200) {
 					await deleteFile(id);
 					await deleteDoc(doc(staffCollectionRef, id));
-					dispatchDeleteUser(id);
+					userDispatch({
+						type: USER_TYPES.DELETE_USER,
+						payload: id,
+					});
 				}
 			});
 			if (isProfile) push(isStaff ? STAFF : CUSTOMERS);

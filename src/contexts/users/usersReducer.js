@@ -1,4 +1,4 @@
-import { USERS_TYPES as TYPES } from './userActions';
+import { USER_TYPES as TYPES } from './userActions';
 
 const usersReducer = (state, action) => {
 	switch (action.type) {

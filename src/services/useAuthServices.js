@@ -8,11 +8,16 @@ import {
 	updatePassword,
 } from 'firebase/auth';
 import toast from 'react-hot-toast';
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
 import withEnhances from './withEnhances';
 import { useAuthContext } from '@contexts/auth/AuthContext';
+import { AUTH_TYPES } from '@contexts/auth/authActions';
+import { SIGNIN } from '@utils/routes';
 
 const useAuthServices = () => {
-	const { dispatchSignOut } = useAuthContext();
+	const { authDispatch } = useAuthContext();
+	const router = useRouter();
 
 	const signIn = withEnhances(async ({ email, password }) => {
 		await signInWithEmailAndPassword(auth, email, password);
@@ -26,7 +31,11 @@ const useAuthServices = () => {
 	const logout = withEnhances(
 		async () => {
 			await signOut(auth);
-			dispatchSignOut();
+			Cookies.remove('authToken');
+			router.push(SIGNIN);
+			setTimeout(() => {
+				authDispatch({ type: AUTH_TYPES.SIGN_OUT });
+			}, 1500);
 		},
 		{
 			confirm: true,
@@ -45,7 +54,11 @@ const useAuthServices = () => {
 			if (res.user) {
 				await updatePassword(user, newPassword);
 				await signOut(auth);
-				dispatchSignOut();
+				setTimeout(() => {
+					Cookies.remove('authToken');
+					router.push(SIGNIN);
+					authDispatch({ type: AUTH_TYPES.SIGN_OUT });
+				}, 1500);
 			}
 		},
 	);

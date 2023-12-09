@@ -2,12 +2,10 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { collection, doc, getDoc } from 'firebase/firestore';
 import { createContext, useContext, useEffect, useReducer } from 'react';
 import Cookies from 'js-cookie';
-import { useRouter } from 'next/router';
 import { auth, db } from '@firebase/client';
 import authReducers from './authReducers';
 import { AUTH_TYPES as TYPES } from './authActions';
 import { fetchData } from '@contexts/utils';
-import { SIGNIN } from '@utils/routes';
 
 const AuthContext = createContext(undefined);
 
@@ -23,7 +21,6 @@ const initialState = {
 const AuthProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(authReducers, initialState);
 	const { isAuth, loggedUser, roles, idToken } = state;
-	const router = useRouter();
 	const isAdmin = true;
 
 	useEffect(() => {
@@ -50,29 +47,13 @@ const AuthProvider = ({ children }) => {
 		});
 	}, []);
 
-	const signout = async () => {
-		Cookies.remove('authToken');
-		router.push(SIGNIN);
-		setTimeout(() => {
-			dispatch({ type: TYPES.SIGN_OUT });
-		}, 1500);
-	};
-
-	const updateLoggedUser = userUpdated => {
-		dispatch({
-			type: TYPES.UPDATE_LOGGED_USER,
-			payload: userUpdated,
-		});
-	};
-
 	const data = {
 		isAuth,
 		loggedUser,
 		roles,
 		isAdmin,
 		idToken,
-		dispatchSignOut: signout,
-		dispatchUpdateLoggedUser: updateLoggedUser,
+		authDispatch: dispatch,
 	};
 
 	return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>;
