@@ -26,4 +26,8 @@
       margin-left: 70px !important;
     }
   }
+
+  @media (max-height: 629px) {
+    height: auto !important;
+  }
 }
