@@ -3,7 +3,7 @@ import { useGlobalContext } from '@contexts/global/GlobalContext';
 import useAuthServices from '@services/useAuthServices';
 import useUserServices from '@services/useUserServices';
 import { useRouter } from 'next/router';
-import { SIGNIN } from '@utils/routes';
+import { PRODUCTS, SIGNIN } from '@utils/routes';
 
 const useForm = initialForm => {
 	const [form, setForm] = useState(initialForm);
@@ -18,7 +18,9 @@ const useForm = initialForm => {
 	useEffect(() => {
 		if (dataToEdit) {
 			setForm(dataToEdit);
-			setPathImage(dataToEdit?.avatar?.url);
+			const pathImage =
+				pathname === PRODUCTS ? dataToEdit?.productImage : dataToEdit?.avatar;
+			setPathImage(pathImage?.url);
 		}
 	}, []);
 

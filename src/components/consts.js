@@ -10,6 +10,12 @@ import LockIcon from '@mui/icons-material/Lock';
 import PublicIcon from '@mui/icons-material/Public';
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import InventoryOutlinedIcon from '@mui/icons-material/InventoryOutlined';
+import BrandingWatermarkIcon from '@mui/icons-material/BrandingWatermark';
+import CategoryIcon from '@mui/icons-material/Category';
+import StyleIcon from '@mui/icons-material/Style';
+import DescriptionIcon from '@mui/icons-material/Description';
 import { CUSTOMERS, DASHBOARD, PRODUCTS, SETTINGS, STAFF } from '@utils/routes';
 import { ar, co, mx, us, ve } from './forms/svgs';
 
@@ -77,6 +83,128 @@ export const countryCodes = [
 		value: '+58',
 		label: 'Venezuela',
 		flag: ve,
+	},
+];
+
+export const categories = [
+	{
+		value: '1',
+		label: 'Computers',
+	},
+	{
+		value: '2',
+		label: 'Gaming',
+	},
+	{
+		value: '3',
+		label: 'Peripherals',
+	},
+	{
+		value: '4',
+		label: 'Storage',
+	},
+	{
+		value: '5',
+		label: 'Software',
+	},
+];
+
+export const tags = [
+	{
+		value: '1',
+		label: 'gaming',
+	},
+	{
+		value: '2',
+		label: 'laptop',
+	},
+	{
+		value: '3',
+		label: 'desktop',
+	},
+	{
+		value: '4',
+		label: 'intel',
+	},
+	{
+		value: '5',
+		label: 'amd',
+	},
+	{
+		value: '6',
+		label: '8gb ram',
+	},
+	{
+		value: '7',
+		label: '16gb ram',
+	},
+	{
+		value: '8',
+		label: 'motherboard',
+	},
+	{
+		value: '9',
+		label: 'graphic card',
+	},
+	{
+		value: '10',
+		label: 'sale',
+	},
+];
+
+export const inputProductProps = [
+	{
+		id: 'idName',
+		name: 'displayName',
+		label: 'Name',
+		icon: <InventoryIcon />,
+		placeholder: 'Product name',
+	},
+	{
+		id: 'idPrice',
+		name: 'price',
+		label: 'Price',
+		icon: <AttachMoneyIcon />,
+		placeholder: '99.00',
+	},
+	{
+		id: 'idStock',
+		name: 'stock',
+		label: 'Stock',
+		icon: <InventoryOutlinedIcon />,
+		placeholder: '999',
+	},
+	{
+		id: 'idBrand',
+		name: 'brand',
+		label: 'Brand',
+		icon: <BrandingWatermarkIcon />,
+		placeholder: 'Product brand',
+	},
+	{
+		id: 'idCategory',
+		name: 'category',
+		label: 'Category',
+		icon: <CategoryIcon />,
+		type: 'select',
+		options: categories,
+	},
+	{
+		id: 'idTags',
+		name: 'tags',
+		label: 'Tags',
+		icon: <StyleIcon />,
+		type: 'select',
+		options: tags,
+		multiple: true,
+	},
+	{
+		id: 'idDescription',
+		name: 'description',
+		label: 'Description',
+		icon: <DescriptionIcon />,
+		placeholder: 'Product description',
+		multiline: true,
 	},
 ];
 
@@ -148,11 +276,13 @@ export const inputPasswordProps = [
 ];
 
 export const ITEMS_WIDTH = {
-	countryCodeXs: 4,
 	countryCodeSm: 3.3,
-	phoneNumberXs: 8,
 	phoneNumberSm: 4.2,
 	roleSm: 4.5,
+	priceSm: 3.3,
+	stockSm: 2.7,
+	tagsSm: 12,
+	descriptionSm: 12,
 };
 
 // ********** Layout **********

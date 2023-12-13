@@ -1,4 +1,6 @@
 import {
+	Avatar,
+	Box,
 	Checkbox,
 	Chip,
 	IconButton,
@@ -12,11 +14,12 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAuthContext } from '@contexts/auth/AuthContext';
 import ToolTip from '@components/ui/ToolTip';
-import { CUSTOMERS, STAFF } from '@utils/routes';
+import { PRODUCTS, STAFF } from '@utils/routes';
 import { capFirstLetter, formatRoleName } from '@components/utils';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
 import FormUser from '@components/forms/FormUser';
 import useUserServices from '@services/useUserServices';
+import FormProduct from '@components/forms/FormProduct';
 
 const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 	const [checked, setChecked] = useState(!row.disabled);
@@ -24,18 +27,19 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 	const { roles, isAdmin } = useAuthContext();
 	const { toggleUserStatus } = useUserServices();
 	const { pathname, push } = useRouter();
+	const isProduct = pathname === PRODUCTS;
 	const roleName = (row?.role && formatRoleName(row?.role, roles)) ?? '';
 
 	const handleChange = event => {
 		setChecked(event.target.checked);
 	};
 
-	const isUser = pathname === CUSTOMERS || pathname === STAFF;
-
 	const handleEdit = data => {
 		const modal = {
-			title: `Edit ${pathname === STAFF ? 'Staff' : 'Customer'}`,
-			child: <FormUser />,
+			title: `Edit ${
+				isProduct ? 'Product' : pathname === STAFF ? 'Staff' : 'Customer'
+			}`,
+			child: isProduct ? <FormProduct /> : <FormUser />,
 		};
 		openModal(modal, data);
 	};
@@ -82,12 +86,42 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 				</ToolTip>
 			</TableCell>
 			<TableCell component='th' id={labelId} scope='row' padding='normal'>
-				{isUser ? row.displayName : row.productName}
+				{isProduct ? (
+					<Box sx={{ display: 'flex', alignItems: 'center' }}>
+						<Avatar
+							src={row.productImage?.url}
+							alt='Product image'
+							variant='square'
+							sx={{
+								width: 50,
+								height: 50,
+								backgroundColor: 'azure',
+								borderRadius: 2,
+								mr: 1,
+							}}
+						/>
+						<span>{row.displayName}</span>
+					</Box>
+				) : (
+					row.displayName
+				)}
 			</TableCell>
-			<TableCell>{isUser ? row.email : `$ ${row.price}`}</TableCell>
-			<TableCell>{isUser ? roleName : capFirstLetter(row.category)}</TableCell>
+			<TableCell>{isProduct ? `$ ${row.price}` : row.email}</TableCell>
+			<TableCell>
+				{isProduct ? capFirstLetter(row.category) : roleName}
+			</TableCell>
 			<TableCell align='center'>
-				{isUser ? (
+				{isProduct ? (
+					<Chip
+						label={row.stock > 0 ? 'In stock' : 'Out of stock'}
+						color={`${row.stock > 0 ? 'success' : 'success'}`}
+						sx={{
+							'& .MuiChip-label': {
+								color: '#f8fafc !important',
+							},
+						}}
+					/>
+				) : (
 					<ToolTip
 						title={`${
 							isAdmin
@@ -107,33 +141,21 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 							/>
 						</span>
 					</ToolTip>
-				) : (
-					<Chip
-						label={row.stock > 0 ? 'In stock' : 'Out of stock'}
-						color={`${row.stock > 0 ? 'success' : 'success'}`}
-						sx={{
-							'& .MuiChip-label': {
-								color: '#f8fafc !important',
-							},
-						}}
-					/>
 				)}
 			</TableCell>
 			<TableCell align='center'>
-				{actions
-					.filter(action => (!isUser ? action.label !== 'Status' : action))
-					.map((action, i) => (
-						<ToolTip key={i} title={action.label}>
-							<span>
-								<IconButton
-									onClick={() => action.onClick(row)}
-									disabled={!isAdmin && action.label !== 'Details'}
-								>
-									{action.icon}
-								</IconButton>
-							</span>
-						</ToolTip>
-					))}
+				{actions.map((action, i) => (
+					<ToolTip key={i} title={action.label}>
+						<span>
+							<IconButton
+								onClick={() => action.onClick(row)}
+								disabled={!isAdmin && action.label !== 'Details'}
+							>
+								{action.icon}
+							</IconButton>
+						</span>
+					</ToolTip>
+				))}
 			</TableCell>
 		</TableRow>
 	);

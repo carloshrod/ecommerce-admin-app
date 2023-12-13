@@ -8,6 +8,7 @@ import { CUSTOMERS, PRODUCTS, STAFF } from '@utils/routes';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
 import FormUser from '@components/forms/FormUser';
 import useUserServices from '@services/useUserServices';
+import FormProduct from '@components/forms/FormProduct';
 
 const DataTableToolbar = ({ selected, setSelected }) => {
 	const { isAdmin } = useAuthContext();
@@ -20,7 +21,7 @@ const DataTableToolbar = ({ selected, setSelected }) => {
 	const handleAdd = () => {
 		openModal({
 			title: `Add ${isProduct ? 'Product' : 'Staff'}`,
-			child: isProduct ? 'ProductForm' : <FormUser />,
+			child: isProduct ? <FormProduct /> : <FormUser />,
 		});
 	};
 
