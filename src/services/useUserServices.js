@@ -15,9 +15,10 @@ import { useUsersContext } from '@contexts/users/UsersContext';
 import useApi from '@hooks/useApi';
 import { CUSTOMERS, SETTINGS, STAFF } from '@utils/routes';
 import { useRouter } from 'next/router';
-import { deleteFile, generateImageObj } from './fileServices';
+import { generateImageObj, deleteFile } from './fileServices';
 import { USER_TYPES } from '@contexts/users/userActions';
 import { AUTH_TYPES } from '@contexts/auth/authActions';
+import { generateUserToCreate, generateUserToUpdate } from './utils';
 
 const staffCollectionRef = collection(db, 'staff');
 // const customersCollectionRef = collection(db, 'customers');
@@ -32,6 +33,7 @@ const useUserServices = () => {
 	const { authDispatch } = useAuthContext();
 	const { userDispatch } = useUsersContext();
 	const { pathname, query, push } = useRouter();
+
 	const isSettings = pathname === SETTINGS;
 	const isStaff = pathname.includes('staff');
 	const isProfile = !!(query?.id || isSettings);
@@ -47,22 +49,11 @@ const useUserServices = () => {
 	});
 
 	const addStaff = withEnhances(async (user, file) => {
-		const { displayName, email, countryCode, phoneNumber, role } = user;
 		const res = await authRegisterUser(user);
 		if (res.status === 201) {
 			const { uid } = res.data;
-			const userToCreate = {
-				id: uid,
-				displayName,
-				email,
-				phoneNumber,
-				countryCode,
-				role,
-				avatar: file ? await generateImageObj(file, uid) : {},
-				disabled: false,
-				createdAt: serverTimestamp(),
-				lastUpdate: serverTimestamp(),
-			};
+			const avatar = file ? await generateImageObj(file, uid) : {};
+			const userToCreate = generateUserToCreate(uid, user, avatar);
 			await setDoc(doc(staffCollectionRef, uid), userToCreate);
 			userDispatch({
 				type: USER_TYPES.ADD_USER,
@@ -73,41 +64,23 @@ const useUserServices = () => {
 	});
 
 	const updateStaff = withEnhances(async (user, file) => {
-		const {
-			displayName,
-			email,
-			countryCode,
-			phoneNumber,
-			role,
-			avatar,
-			id,
-			disabled,
-		} = user;
+		const { avatar, id, disabled } = user;
 		const res = await authUpdateUser(id, user);
 		if (res.status === 200) {
-			if (file) deleteFile(id);
-			let userToUpdate = {
-				displayName,
-				email,
-				countryCode,
-				phoneNumber,
-				role,
-				avatar: file ? await generateImageObj(file, id) : avatar,
-				lastUpdate: serverTimestamp(),
-			};
-			await updateDoc(doc(staffCollectionRef, id), userToUpdate);
-			userToUpdate = { ...userToUpdate, id, disabled };
-			if (isSettings) {
-				authDispatch({
-					type: AUTH_TYPES.UPDATE_LOGGED_USER,
-					payload: userToUpdate,
-				});
-			} else {
-				userDispatch({
-					type: USER_TYPES.UPDATE_USER,
-					payload: userToUpdate,
-				});
+			let newAvatar = avatar;
+			if (file) {
+				deleteFile(id);
+				newAvatar = await generateImageObj(file, id);
 			}
+			const userToUpdate = generateUserToUpdate(user, newAvatar);
+			await updateDoc(doc(staffCollectionRef, id), userToUpdate);
+			const dispatch = isSettings ? authDispatch : userDispatch;
+			dispatch({
+				type: isSettings
+					? AUTH_TYPES.UPDATE_LOGGED_USER
+					: USER_TYPES.UPDATE_USER,
+				payload: { ...userToUpdate, id, disabled },
+			});
 			toast.success(isSettings ? 'Profile updated!' : 'User updated!');
 			if (isProfile) getOneUser(id);
 		}
