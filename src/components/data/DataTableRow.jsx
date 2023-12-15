@@ -15,11 +15,12 @@ import { useRouter } from 'next/router';
 import { useAuthContext } from '@contexts/auth/AuthContext';
 import ToolTip from '@components/ui/ToolTip';
 import { PRODUCTS, STAFF } from '@utils/routes';
-import { capFirstLetter, formatRoleName } from '@components/utils';
+import { formatCategoryName, formatRoleName } from '@components/utils';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
 import FormUser from '@components/forms/FormUser';
 import useUserServices from '@services/useUserServices';
 import FormProduct from '@components/forms/FormProduct';
+import { categories } from '@components/consts';
 
 const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 	const [checked, setChecked] = useState(!row.disabled);
@@ -29,6 +30,8 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 	const { pathname, push } = useRouter();
 	const isProduct = pathname === PRODUCTS;
 	const roleName = (row?.role && formatRoleName(row?.role, roles)) ?? '';
+	const categoryName =
+		(row?.category && formatCategoryName(row?.category, categories)) ?? '';
 
 	const handleChange = event => {
 		setChecked(event.target.checked);
@@ -107,9 +110,7 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 				)}
 			</TableCell>
 			<TableCell>{isProduct ? `$ ${row.price}` : row.email}</TableCell>
-			<TableCell>
-				{isProduct ? capFirstLetter(row.category) : roleName}
-			</TableCell>
+			<TableCell>{isProduct ? categoryName : roleName}</TableCell>
 			<TableCell align='center'>
 				{isProduct ? (
 					<Chip

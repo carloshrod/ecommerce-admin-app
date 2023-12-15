@@ -36,6 +36,14 @@ export const formatRoleName = (roleId, roles) => {
 	}
 };
 
+export const formatCategoryName = (categoryId, categories) => {
+	try {
+		return categories.find(c => c.value === categoryId).label;
+	} catch (error) {
+		console.error(error.message);
+	}
+};
+
 export const setOptions = roles => {
 	const newArray = [];
 	roles.forEach(role => {
