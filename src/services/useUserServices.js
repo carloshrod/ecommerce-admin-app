@@ -37,7 +37,8 @@ const useUserServices = () => {
 	const isSettings = pathname === SETTINGS;
 	const isStaff = pathname.includes('staff');
 	const isProfile = !!(query?.id || isSettings);
-	const collection = isStaff ? staffCollectionRef : customersCollectionRef;
+	const collection =
+		isStaff || isSettings ? staffCollectionRef : customersCollectionRef;
 
 	const getOneUser = withEnhances(async userId => {
 		const collection = isStaff ? 'staff' : 'customers';
