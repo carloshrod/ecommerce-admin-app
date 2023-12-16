@@ -1,8 +1,8 @@
 import { Box, Stack } from '@mui/material';
 import Input from './Input';
-import { inputPasswordProps } from '@components/consts';
 import useForm from '@hooks/useForm';
 import ActionsForm from './ActionsForm';
+import { inputPasswordProps } from './consts';
 
 const initialForm = {
 	currentPassword: '',

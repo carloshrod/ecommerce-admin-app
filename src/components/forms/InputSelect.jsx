@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useAuthContext } from '@contexts/auth/AuthContext';
 import useScreen from '@hooks/useScreen';
 import { SETTINGS } from '@utils/routes';
-import { setDefaultValue, setOptions } from '@components/utils';
+import { setDefaultValue } from '@components/utils';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
 
 const InputSelect = ({
@@ -20,7 +20,7 @@ const InputSelect = ({
 }) => {
 	const [focused, setFocused] = useState(false);
 	const { dataToEdit } = useGlobalContext();
-	const { roles, isAdmin } = useAuthContext();
+	const { isAdmin } = useAuthContext();
 	const { width } = useScreen();
 	const { pathname } = useRouter();
 
@@ -30,12 +30,10 @@ const InputSelect = ({
 
 	const isInputWrong = !!(focused && errors[name]);
 
-	const selectOptions = name === 'role' ? setOptions(roles) : options;
-
 	const defaultValue = setDefaultValue({
 		multiple,
 		name,
-		selectOptions,
+		options,
 		dataToEdit,
 	});
 
@@ -52,7 +50,7 @@ const InputSelect = ({
 
 	return (
 		<Autocomplete
-			options={selectOptions}
+			options={options}
 			multiple={multiple}
 			filterSelectedOptions={multiple}
 			getOptionLabel={option => option.label}

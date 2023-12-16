@@ -3,9 +3,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Input from './Input';
-import { formForgotPasswordProps, formSignInProps } from '@components/consts';
 import { FORGOT_PASSWORD, SIGNIN } from '@utils/routes';
 import useForm from '@hooks/useForm';
+import { formSignInProps, formForgotPasswordProps } from './consts';
 
 const signinInitialForm = {
 	email: process.env.NEXT_PUBLIC_TEST_EMAIL,

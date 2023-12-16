@@ -4,29 +4,31 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/router';
 import { useAuthContext } from '@contexts/auth/AuthContext';
 import ToolTip from '@components/ui/ToolTip';
-import { CUSTOMERS, PRODUCTS, STAFF } from '@utils/routes';
+import { PRODUCTS, STAFF } from '@utils/routes';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
 import FormUser from '@components/forms/FormUser';
 import useUserServices from '@services/useUserServices';
 import FormProduct from '@components/forms/FormProduct';
+import { setItemName } from '@components/utils';
 
 const DataTableToolbar = ({ selected, setSelected }) => {
 	const { isAdmin } = useAuthContext();
 	const { pathname } = useRouter();
 	const { openModal } = useGlobalContext();
-	const { deleteStaff } = useUserServices();
-	const isProduct = pathname === PRODUCTS;
+	const { deleteUser } = useUserServices();
+
 	const numSelected = selected.length;
+	const itemName = setItemName(pathname);
 
 	const handleAdd = () => {
 		openModal({
-			title: `Add ${isProduct ? 'Product' : 'Staff'}`,
-			child: isProduct ? <FormProduct /> : <FormUser />,
+			title: `Add ${itemName}`,
+			child: pathname === PRODUCTS ? <FormProduct /> : <FormUser />,
 		});
 	};
 
 	const handleDelete = async data => {
-		await deleteStaff(data);
+		await deleteUser(data);
 		setSelected([]);
 	};
 
@@ -64,7 +66,7 @@ const DataTableToolbar = ({ selected, setSelected }) => {
 						<DeleteIcon />
 					</IconButton>
 				</ToolTip>
-			) : pathname === CUSTOMERS ? null : (
+			) : (
 				<ToolTip title={isAdmin ? '' : 'Allowed for admins only'}>
 					<span>
 						<Button
@@ -78,7 +80,7 @@ const DataTableToolbar = ({ selected, setSelected }) => {
 							onClick={handleAdd}
 							disabled={!isAdmin}
 						>
-							Add {pathname.slice(7)}
+							Add {itemName}
 						</Button>
 					</span>
 				</ToolTip>

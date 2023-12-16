@@ -1,3 +1,4 @@
+import { STAFF } from '@utils/routes';
 import { INDEXES, USERS_INDEXES } from './consts';
 
 export const capFirstLetter = word => {
@@ -5,10 +6,14 @@ export const capFirstLetter = word => {
 };
 
 export const normalizeName = name => {
-	return name
-		.split('_')
-		.map(word => capFirstLetter(word))
-		.join(' ');
+	try {
+		return name
+			.split('_')
+			.map(word => capFirstLetter(word))
+			.join(' ');
+	} catch (error) {
+		console.error(error.message);
+	}
 };
 
 export const setItemSelected = (item, open, router) => {
@@ -44,29 +49,37 @@ export const formatCategoryName = (categoryId, categories) => {
 	}
 };
 
-export const setOptions = roles => {
+export const setOptions = array => {
 	const newArray = [];
-	roles.forEach(role => {
+	array.forEach(role => {
 		newArray.push({
 			value: role.id,
 			label: normalizeName(role.roleName),
 		});
 	});
+
 	return newArray;
 };
 
-export const setDefaultValue = ({
-	multiple,
-	name,
-	selectOptions,
-	dataToEdit,
-}) => {
+export const setDefaultValue = ({ multiple, name, options, dataToEdit }) => {
 	if (multiple) {
-		return selectOptions
+		return options
 			.filter(option => dataToEdit && dataToEdit[name].includes(option.value))
 			.map(data => data);
 	}
-	return selectOptions.find(
+	return options.find(
 		option => dataToEdit && option.value === dataToEdit[name],
 	);
+};
+
+export const setItemName = (pathname, id = undefined) => {
+	let endIndex = -1;
+
+	if (pathname === STAFF) {
+		endIndex = undefined;
+	} else if (id) {
+		endIndex = !pathname.includes(STAFF) ? -6 : -5;
+	}
+
+	return capFirstLetter(pathname.slice(7, endIndex));
 };

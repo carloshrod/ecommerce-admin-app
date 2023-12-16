@@ -9,19 +9,22 @@ import ToolTip from './ToolTip';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
 import FormUser from '@components/forms/FormUser';
 import FormPassword from '@components/forms/FormPassword';
+import { setItemName } from '@components/utils';
 
 const ProfileActions = ({ user, isLoggedUser = false }) => {
 	const { openModal } = useGlobalContext();
 	const { isAdmin } = useAuthContext();
 	const {
+		pathname,
 		query: { id },
 	} = useRouter();
-	const { deleteStaff } = useUserServices();
+	const { deleteUser } = useUserServices();
+	const itemName = setItemName(pathname, id);
 
 	const handleEdit = () => {
 		const modal = {
 			state: true,
-			title: `Edit ${id ? 'user' : 'profile'}`,
+			title: `Edit ${id ? itemName : 'Profile'}`,
 			child: <FormUser />,
 		};
 		openModal(modal, user);
@@ -42,7 +45,7 @@ const ProfileActions = ({ user, isLoggedUser = false }) => {
 			sx={{ justifyContent: { xs: 'space-between', sm: 'end' }, p: 4 }}
 		>
 			{isAdmin || isLoggedUser ? (
-				<ToolTip title={`Edit ${id ? 'user' : 'profile'}`}>
+				<ToolTip title='Edit'>
 					<IconButton aria-label='edit' onClick={handleEdit}>
 						<EditIcon />
 					</IconButton>
@@ -59,10 +62,10 @@ const ProfileActions = ({ user, isLoggedUser = false }) => {
 				</ToolTip>
 			)}
 			{id && isAdmin && (
-				<ToolTip title='Delete user'>
+				<ToolTip title='Delete'>
 					<IconButton
-						aria-label='delete user'
-						onClick={async () => await deleteStaff([id])}
+						aria-label={`delete ${itemName}`}
+						onClick={async () => await deleteUser([id])}
 					>
 						<DeleteIcon />
 					</IconButton>

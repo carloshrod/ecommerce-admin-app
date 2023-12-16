@@ -1,11 +1,14 @@
 import { Grid, Stack } from '@mui/material';
+import { useRouter } from 'next/router';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
 import useForm from '@hooks/useForm';
-import { ITEMS_WIDTH, inputUserProps } from '@components/consts';
 import Input from './Input';
 import ActionsForm from './ActionsForm';
 import InputSelect from './InputSelect';
 import InputFile from './InputFile';
+import { useAuthContext } from '@contexts/auth/AuthContext';
+import { generateInputUserProps } from './utils';
+import { ITEMS_WIDTH } from './consts';
 
 const initialForm = {
 	displayName: '',
@@ -27,10 +30,14 @@ const FormUser = () => {
 		handleSubmitStaff,
 	} = useForm(initialForm);
 	const { dataToEdit } = useGlobalContext();
+	const { roles } = useAuthContext();
+	const { pathname } = useRouter();
 
 	// useEffect(() => {
 	// 	setErrors(validateUser(form));
 	// }, [form]);
+
+	const inputProps = generateInputUserProps(roles, pathname);
 
 	return (
 		<Stack
@@ -42,7 +49,7 @@ const FormUser = () => {
 		>
 			<InputFile pathImage={pathImage} onChange={handleFileChange} />
 			<Grid container spacing={3}>
-				{inputUserProps.map(input => (
+				{inputProps.map(input => (
 					<Grid
 						item
 						xs={12}

@@ -21,7 +21,7 @@ import { AUTH_TYPES } from '@contexts/auth/authActions';
 import { generateUserToCreate, generateUserToUpdate } from './utils';
 
 const staffCollectionRef = collection(db, 'staff');
-// const customersCollectionRef = collection(db, 'customers');
+const customersCollectionRef = collection(db, 'customers');
 
 const useUserServices = () => {
 	const {
@@ -37,6 +37,7 @@ const useUserServices = () => {
 	const isSettings = pathname === SETTINGS;
 	const isStaff = pathname.includes('staff');
 	const isProfile = !!(query?.id || isSettings);
+	const collection = isStaff ? staffCollectionRef : customersCollectionRef;
 
 	const getOneUser = withEnhances(async userId => {
 		const collection = isStaff ? 'staff' : 'customers';
@@ -48,22 +49,22 @@ const useUserServices = () => {
 		});
 	});
 
-	const addStaff = withEnhances(async (user, file) => {
+	const addUser = withEnhances(async (user, file) => {
 		const res = await authRegisterUser(user);
 		if (res.status === 201) {
 			const { uid } = res.data;
 			const avatar = file ? await generateImageObj(file, uid) : {};
 			const userToCreate = generateUserToCreate(uid, user, avatar);
-			await setDoc(doc(staffCollectionRef, uid), userToCreate);
+			await setDoc(doc(collection, uid), userToCreate);
 			userDispatch({
 				type: USER_TYPES.ADD_USER,
-				payload: userToCreate,
+				payload: { userCreated: userToCreate, isStaff },
 			});
 			toast.success('User registered!');
 		}
 	});
 
-	const updateStaff = withEnhances(async (user, file) => {
+	const updateUser = withEnhances(async (user, file) => {
 		const { avatar, id, disabled } = user;
 		const res = await authUpdateUser(id, user);
 		if (res.status === 200) {
@@ -73,13 +74,13 @@ const useUserServices = () => {
 				newAvatar = await generateImageObj(file, id);
 			}
 			const userToUpdate = generateUserToUpdate(user, newAvatar);
-			await updateDoc(doc(staffCollectionRef, id), userToUpdate);
+			await updateDoc(doc(collection, id), userToUpdate);
 			const dispatch = isSettings ? authDispatch : userDispatch;
 			dispatch({
 				type: isSettings
 					? AUTH_TYPES.UPDATE_LOGGED_USER
 					: USER_TYPES.UPDATE_USER,
-				payload: { ...userToUpdate, id, disabled },
+				payload: { userUpdated: { ...userToUpdate, id, disabled }, isStaff },
 			});
 			toast.success(isSettings ? 'Profile updated!' : 'User updated!');
 			if (isProfile) getOneUser(id);
@@ -92,28 +93,28 @@ const useUserServices = () => {
 			disabled: !disabled,
 		});
 		if (res.status === 200) {
-			await updateDoc(doc(staffCollectionRef, id), {
+			await updateDoc(doc(collection, id), {
 				disabled: !disabled,
 				lastUpdate: serverTimestamp(),
 			});
 			userDispatch({
 				type: USER_TYPES.UPDATE_USER,
-				payload: { ...user, disabled: !disabled },
+				payload: { userUpdated: { ...user, disabled: !disabled }, isStaff },
 			});
 			toast.success(`User ${disabled ? 'enabled' : 'disabled'}!`);
 		}
 	});
 
-	const deleteStaff = withEnhances(
+	const deleteUser = withEnhances(
 		async userIds => {
 			userIds.forEach(async id => {
 				const res = await authDeleteUser(id);
 				if (res.status === 200) {
 					await deleteFile(id);
-					await deleteDoc(doc(staffCollectionRef, id));
+					await deleteDoc(doc(collection, id));
 					userDispatch({
 						type: USER_TYPES.DELETE_USER,
-						payload: id,
+						payload: { userId: id, isStaff },
 					});
 				}
 			});
@@ -131,10 +132,10 @@ const useUserServices = () => {
 
 	return {
 		getOneUser,
-		addStaff,
-		updateStaff,
+		addUser,
+		updateUser,
 		toggleUserStatus,
-		deleteStaff,
+		deleteUser,
 	};
 };
 

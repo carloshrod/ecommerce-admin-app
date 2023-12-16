@@ -14,13 +14,17 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAuthContext } from '@contexts/auth/AuthContext';
 import ToolTip from '@components/ui/ToolTip';
-import { PRODUCTS, STAFF } from '@utils/routes';
-import { formatCategoryName, formatRoleName } from '@components/utils';
+import { PRODUCTS } from '@utils/routes';
+import {
+	formatCategoryName,
+	setItemName,
+	formatRoleName,
+} from '@components/utils';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
 import FormUser from '@components/forms/FormUser';
 import useUserServices from '@services/useUserServices';
 import FormProduct from '@components/forms/FormProduct';
-import { categories } from '@components/consts';
+import { categories } from '@components/forms/consts';
 
 const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 	const [checked, setChecked] = useState(!row.disabled);
@@ -28,6 +32,7 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 	const { roles, isAdmin } = useAuthContext();
 	const { toggleUserStatus } = useUserServices();
 	const { pathname, push } = useRouter();
+
 	const isProduct = pathname === PRODUCTS;
 	const roleName = (row?.role && formatRoleName(row?.role, roles)) ?? '';
 	const categoryName =
@@ -39,9 +44,7 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 
 	const handleEdit = data => {
 		const modal = {
-			title: `Edit ${
-				isProduct ? 'Product' : pathname === STAFF ? 'Staff' : 'Customer'
-			}`,
+			title: `Edit ${setItemName(pathname)}`,
 			child: isProduct ? <FormProduct /> : <FormUser />,
 		};
 		openModal(modal, data);

@@ -12,7 +12,7 @@ const useForm = initialForm => {
 	const [errors, setErrors] = useState({});
 	const { dataToEdit, closeModal } = useGlobalContext();
 	const { signIn, resetPassword, changePassword } = useAuthServices();
-	const { addStaff, updateStaff } = useUserServices();
+	const { addUser, updateUser } = useUserServices();
 	const { pathname } = useRouter();
 
 	useEffect(() => {
@@ -75,9 +75,9 @@ const useForm = initialForm => {
 	const handleSubmitStaff = async event => {
 		event.preventDefault();
 		if (!dataToEdit) {
-			await addStaff(form, file);
+			await addUser(form, file);
 		} else {
-			await updateStaff(form, file);
+			await updateUser(form, file);
 		}
 		handleReset();
 	};

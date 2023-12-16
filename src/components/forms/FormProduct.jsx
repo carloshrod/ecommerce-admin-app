@@ -4,9 +4,9 @@ import InputFile from './InputFile';
 import InputSelect from './InputSelect';
 import ActionsForm from './ActionsForm';
 import useForm from '@hooks/useForm';
-import { ITEMS_WIDTH, inputProductProps } from '@components/consts';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
 import Input from './Input';
+import { inputProductProps, ITEMS_WIDTH } from './consts';
 
 const initialForm = {
 	displayName: '',
