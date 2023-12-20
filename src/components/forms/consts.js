@@ -5,6 +5,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import InventoryOutlinedIcon from '@mui/icons-material/InventoryOutlined';
 import BrandingWatermarkIcon from '@mui/icons-material/BrandingWatermark';
 import CategoryIcon from '@mui/icons-material/Category';
+import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import StyleIcon from '@mui/icons-material/Style';
 import DescriptionIcon from '@mui/icons-material/Description';
 import { ar, co, mx, us, ve } from './svgs';
@@ -40,23 +41,74 @@ export const countryCodes = [
 export const categories = [
 	{
 		value: '1',
-		label: 'Computers',
+		label: 'Components',
 	},
 	{
 		value: '2',
-		label: 'Gaming',
+		label: 'Peripherals and Accessories',
 	},
 	{
 		value: '3',
-		label: 'Peripherals',
+		label: 'Computers',
+	},
+];
+
+export const subCategories = [
+	{
+		value: '1',
+		label: 'CPUs',
+	},
+	{
+		value: '2',
+		label: 'Motherboards',
+	},
+	{
+		value: '3',
+		label: 'RAM Memories',
 	},
 	{
 		value: '4',
-		label: 'Storage',
+		label: 'Graphic Cards',
 	},
 	{
 		value: '5',
-		label: 'Software',
+		label: 'HDDs',
+	},
+	{
+		value: '6',
+		label: 'Cases',
+	},
+	{
+		value: '7',
+		label: 'Power Supplies',
+	},
+	{
+		value: '8',
+		label: 'Monitors',
+	},
+	{
+		value: '9',
+		label: 'Keyboards',
+	},
+	{
+		value: '10',
+		label: 'Mice',
+	},
+	{
+		value: '11',
+		label: 'Audio',
+	},
+	{
+		value: '12',
+		label: 'Streaming',
+	},
+	{
+		value: '5',
+		label: 'Desktops',
+	},
+	{
+		value: '5',
+		label: 'Laptops',
 	},
 ];
 
@@ -102,16 +154,6 @@ export const tags = [
 		label: 'sale',
 	},
 ];
-
-export const ITEMS_WIDTH = {
-	countryCodeSm: 3.3,
-	phoneNumberSm: 4.2,
-	roleSm: 4.5,
-	priceSm: 3.3,
-	stockSm: 2.7,
-	tagsSm: 12,
-	descriptionSm: 12,
-};
 
 export const formSignInProps = {
 	inputProps: [
@@ -174,19 +216,27 @@ export const inputProductProps = [
 		placeholder: '999',
 	},
 	{
-		id: 'idBrand',
-		name: 'brand',
-		label: 'Brand',
-		icon: <BrandingWatermarkIcon />,
-		placeholder: 'Product brand',
-	},
-	{
 		id: 'idCategory',
 		name: 'category',
 		label: 'Category',
 		icon: <CategoryIcon />,
 		type: 'select',
 		options: categories,
+	},
+	{
+		id: 'idSubCategory',
+		name: 'subCategory',
+		label: 'Subcategory',
+		icon: <CategoryOutlinedIcon />,
+		type: 'select',
+		options: subCategories,
+	},
+	{
+		id: 'idBrand',
+		name: 'brand',
+		label: 'Brand',
+		icon: <BrandingWatermarkIcon />,
+		placeholder: 'Generic',
 	},
 	{
 		id: 'idTags',
@@ -233,3 +283,14 @@ export const inputPasswordProps = [
 		type: 'password',
 	},
 ];
+
+export const ITEMS_WIDTH = {
+	countryCodeSm: 3.3,
+	phoneNumberSm: 4.2,
+	roleSm: 4.5,
+	priceSm: 3.2,
+	stockSm: 2.8,
+	brandSm: 3,
+	tagsSm: 9,
+	descriptionSm: 12,
+};

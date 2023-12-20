@@ -27,6 +27,7 @@ const FormProduct = () => {
 		handleSelectChange,
 		handleFileChange,
 		handleReset,
+		handleSubmitProduct,
 	} = useForm(initialForm);
 	const { dataToEdit } = useGlobalContext();
 
@@ -35,7 +36,7 @@ const FormProduct = () => {
 			component='form'
 			noValidate
 			autoComplete='off'
-			// onSubmit={handleSubmitStaff}
+			onSubmit={handleSubmitProduct}
 			sx={{ mt: 1, gap: 3 }}
 		>
 			<InputFile pathImage={pathImage} onChange={handleFileChange} />

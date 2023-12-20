@@ -4,6 +4,7 @@ import useAuthServices from '@services/useAuthServices';
 import useUserServices from '@services/useUserServices';
 import { useRouter } from 'next/router';
 import { PRODUCTS, SIGNIN } from '@utils/routes';
+import useProductServices from '@services/useProductServices';
 
 const useForm = initialForm => {
 	const [form, setForm] = useState(initialForm);
@@ -12,6 +13,7 @@ const useForm = initialForm => {
 	const [errors, setErrors] = useState({});
 	const { dataToEdit, closeModal } = useGlobalContext();
 	const { signIn, resetPassword, changePassword } = useAuthServices();
+	const { addProduct, updateProduct } = useProductServices();
 	const { addUser, updateUser } = useUserServices();
 	const { pathname } = useRouter();
 
@@ -72,6 +74,16 @@ const useForm = initialForm => {
 		}
 	};
 
+	const handleSubmitProduct = async event => {
+		event.preventDefault();
+		if (!dataToEdit) {
+			await addProduct(form, file);
+		} else {
+			await updateProduct(form, file);
+		}
+		handleReset();
+	};
+
 	const handleSubmitStaff = async event => {
 		event.preventDefault();
 		if (!dataToEdit) {
@@ -100,6 +112,7 @@ const useForm = initialForm => {
 		handleFileChange,
 		handleReset,
 		handleAuth,
+		handleSubmitProduct,
 		handleSubmitStaff,
 		handleSubmitPassword,
 	};

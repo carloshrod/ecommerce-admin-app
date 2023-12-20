@@ -8,6 +8,14 @@ const productsReducer = (state, action) => {
 				products: action.payload,
 			};
 		}
+
+		case TYPES.ADD_PRODUCT: {
+			return {
+				...state,
+				products: [...state.products, action.payload],
+			};
+		}
+
 		default:
 			return state;
 	}

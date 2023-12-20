@@ -29,7 +29,7 @@ const ProductsProvider = ({ children }) => {
 		fetchProducts();
 	}, []);
 
-	const data = { products };
+	const data = { products, dispatch };
 
 	return (
 		<ProductsContext.Provider value={data}>{children}</ProductsContext.Provider>

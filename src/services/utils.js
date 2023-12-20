@@ -14,16 +14,24 @@ export const SwalConfirm = async text => {
 	});
 };
 
-export const generateUserToCreate = (uid, user, avatar) => {
-	const { displayName, email, countryCode, phoneNumber, role } = user;
-
+export const setProductToCreateObj = (product, id, productImage) => {
 	return {
+		...product,
+		id,
+		productImage,
+		// TODO: generate SKU
+		createdAt: serverTimestamp(),
+		lastUpdate: serverTimestamp(),
+	};
+};
+
+// TODO:
+// export const generateSKU = product => {};
+
+export const setUserToCreateObj = (uid, user, avatar) => {
+	return {
+		...user,
 		id: uid,
-		displayName,
-		email,
-		phoneNumber,
-		countryCode,
-		role,
 		avatar,
 		disabled: false,
 		createdAt: serverTimestamp(),
@@ -31,15 +39,9 @@ export const generateUserToCreate = (uid, user, avatar) => {
 	};
 };
 
-export const generateUserToUpdate = (user, newAvatar) => {
-	const { displayName, email, countryCode, phoneNumber, role } = user;
-
+export const setUserToUpdateObj = (user, newAvatar) => {
 	return {
-		displayName,
-		email,
-		countryCode,
-		phoneNumber,
-		role,
+		...user,
 		avatar: newAvatar,
 		lastUpdate: serverTimestamp(),
 	};

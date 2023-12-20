@@ -18,7 +18,7 @@ import { useRouter } from 'next/router';
 import { generateImageObj, deleteFile } from './fileServices';
 import { USER_TYPES } from '@contexts/users/userActions';
 import { AUTH_TYPES } from '@contexts/auth/authActions';
-import { generateUserToCreate, generateUserToUpdate } from './utils';
+import { setUserToCreateObj, setUserToUpdateObj } from './utils';
 
 const staffCollectionRef = collection(db, 'staff');
 const customersCollectionRef = collection(db, 'customers');
@@ -55,7 +55,7 @@ const useUserServices = () => {
 		if (res.status === 201) {
 			const { uid } = res.data;
 			const avatar = file ? await generateImageObj(file, uid) : {};
-			const userToCreate = generateUserToCreate(uid, user, avatar);
+			const userToCreate = setUserToCreateObj(uid, user, avatar);
 			await setDoc(doc(collection, uid), userToCreate);
 			userDispatch({
 				type: USER_TYPES.ADD_USER,
@@ -74,7 +74,7 @@ const useUserServices = () => {
 				deleteFile(id);
 				newAvatar = await generateImageObj(file, id);
 			}
-			const userToUpdate = generateUserToUpdate(user, newAvatar);
+			const userToUpdate = setUserToUpdateObj(user, newAvatar);
 			await updateDoc(doc(collection, id), userToUpdate);
 			const dispatch = isSettings ? authDispatch : userDispatch;
 			dispatch({
