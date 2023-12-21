@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
+import InventoryIcon from '@mui/icons-material/Inventory';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAuthContext } from '@contexts/auth/AuthContext';
@@ -95,7 +96,7 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 				{isProduct ? (
 					<Box sx={{ display: 'flex', alignItems: 'center' }}>
 						<Avatar
-							src={row.productImage?.url}
+							src={row.image?.url}
 							alt='Product image'
 							variant='square'
 							sx={{
@@ -105,7 +106,9 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 								borderRadius: 2,
 								mr: 1,
 							}}
-						/>
+						>
+							<InventoryIcon />
+						</Avatar>
 						<span>{row.displayName}</span>
 					</Box>
 				) : (
@@ -118,7 +121,7 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 				{isProduct ? (
 					<Chip
 						label={row.stock > 0 ? 'In stock' : 'Out of stock'}
-						color={`${row.stock > 0 ? 'success' : 'success'}`}
+						color={`${row.stock > 0 ? 'success' : 'warning'}`}
 						sx={{
 							'& .MuiChip-label': {
 								color: '#f8fafc !important',

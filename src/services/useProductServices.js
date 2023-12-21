@@ -1,10 +1,10 @@
-import { collection, doc, setDoc } from 'firebase/firestore';
-import { generateImageObj } from './fileServices';
-import { setProductToCreateObj } from './utils';
-import withEnhances from './withEnhances';
+import { collection, doc, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from '@firebase/client';
-import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
+import toast from 'react-hot-toast';
+import { deleteFile, generateImageObj } from './fileServices';
+import { setProductToCreateObj, setProductToUpdateObj } from './utils';
+import withEnhances from './withEnhances';
 import { PRODUCTS } from '@utils/routes';
 import { useProductsContext } from '@contexts/products/ProductsContext';
 import { PRODUCT_TYPES } from '@contexts/products/productActions';
@@ -31,7 +31,21 @@ const useProductServices = () => {
 		toast.success('Product added!');
 	});
 
-	const updateProduct = withEnhances(async (product, file) => {});
+	const updateProduct = withEnhances(async (product, file) => {
+		const { id, image } = product;
+		let newProductImage = image;
+		if (file) {
+			deleteFile(id);
+			newProductImage = await generateImageObj(file, id, isProduct);
+		}
+		const productToUpdate = setProductToUpdateObj(product, newProductImage);
+		await updateDoc(doc(productsCollectionRef, id), productToUpdate);
+		dispatch({
+			type: PRODUCT_TYPES.UPDATE_PRODUCT,
+			payload: productToUpdate,
+		});
+		toast.success('Product updated!');
+	});
 
 	const deleteProduct = withEnhances(async productIds => {});
 

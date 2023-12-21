@@ -1,5 +1,6 @@
 import { Avatar, Box, IconButton } from '@mui/material';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
+import InventoryIcon from '@mui/icons-material/Inventory';
 import { useRouter } from 'next/router';
 import { PRODUCTS } from '@utils/routes';
 import ToolTip from '@components/ui/ToolTip';
@@ -38,7 +39,9 @@ const InputFile = ({ pathImage, onChange }) => {
 							borderRadius: `${isProduct ? '3px' : '50%'}`,
 						}}
 						src={pathImage ?? undefined}
-					/>
+					>
+						{isProduct ? <InventoryIcon sx={{ fontSize: 50 }} /> : undefined}
+					</Avatar>
 					<input name='file' type='file' hidden onChange={onChange} />
 					<FileUploadIcon sx={{ position: 'absolute', opacity: 0 }} />
 				</IconButton>

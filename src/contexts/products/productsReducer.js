@@ -16,6 +16,18 @@ const productsReducer = (state, action) => {
 			};
 		}
 
+		case TYPES.UPDATE_PRODUCT: {
+			const productUpdated = action.payload;
+			const newData = state.products.map(product =>
+				product?.id === productUpdated.id ? productUpdated : product,
+			);
+
+			return {
+				...state,
+				products: newData,
+			};
+		}
+
 		default:
 			return state;
 	}

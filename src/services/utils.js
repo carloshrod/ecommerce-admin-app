@@ -18,7 +18,7 @@ export const setProductToCreateObj = (product, id, productImage) => {
 	return {
 		...product,
 		id,
-		productImage,
+		image: productImage,
 		// TODO: generate SKU
 		createdAt: serverTimestamp(),
 		lastUpdate: serverTimestamp(),
@@ -27,6 +27,14 @@ export const setProductToCreateObj = (product, id, productImage) => {
 
 // TODO:
 // export const generateSKU = product => {};
+
+export const setProductToUpdateObj = (product, productImage) => {
+	return {
+		...product,
+		image: productImage,
+		lastUpdate: serverTimestamp(),
+	};
+};
 
 export const setUserToCreateObj = (uid, user, avatar) => {
 	return {
