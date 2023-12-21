@@ -66,7 +66,7 @@ const useUserServices = () => {
 	});
 
 	const updateUser = withEnhances(async (user, file) => {
-		const { avatar, id, disabled } = user;
+		const { avatar, id } = user;
 		const res = await authUpdateUser(id, user);
 		if (res.status === 200) {
 			let newAvatar = avatar;
@@ -81,7 +81,7 @@ const useUserServices = () => {
 				type: isSettings
 					? AUTH_TYPES.UPDATE_LOGGED_USER
 					: USER_TYPES.UPDATE_USER,
-				payload: { userUpdated: { ...userToUpdate, id, disabled }, isStaff },
+				payload: { userUpdated: userToUpdate, isStaff },
 			});
 			toast.success(isSettings ? 'Profile updated!' : 'User updated!');
 			if (isProfile) getOneUser(id);
@@ -90,9 +90,7 @@ const useUserServices = () => {
 
 	const toggleUserStatus = withEnhances(async user => {
 		const { id, disabled } = user;
-		const res = await authUpdateUserStatus(id, {
-			disabled: !disabled,
-		});
+		const res = await authUpdateUserStatus(id, { disabled: !disabled });
 		if (res.status === 200) {
 			await updateDoc(doc(collection, id), {
 				disabled: !disabled,
