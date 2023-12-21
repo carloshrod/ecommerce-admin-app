@@ -28,6 +28,18 @@ const productsReducer = (state, action) => {
 			};
 		}
 
+		case TYPES.DELETE_PRODUCT: {
+			const productId = action.payload;
+			const newData = state.products.filter(
+				product => product?.id !== productId,
+			);
+
+			return {
+				...state,
+				products: newData,
+			};
+		}
+
 		default:
 			return state;
 	}

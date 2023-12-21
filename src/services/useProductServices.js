@@ -1,4 +1,10 @@
-import { collection, doc, setDoc, updateDoc } from 'firebase/firestore';
+import {
+	collection,
+	doc,
+	setDoc,
+	updateDoc,
+	deleteDoc,
+} from 'firebase/firestore';
 import { db } from '@firebase/client';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
@@ -13,7 +19,11 @@ const productsCollectionRef = collection(db, 'products');
 
 const useProductServices = () => {
 	const { dispatch } = useProductsContext();
-	const { pathname } = useRouter();
+	const {
+		pathname,
+		query: { id },
+		push,
+	} = useRouter();
 	const isProduct = pathname === PRODUCTS;
 
 	const addProduct = withEnhances(async (product, file) => {
@@ -47,7 +57,29 @@ const useProductServices = () => {
 		toast.success('Product updated!');
 	});
 
-	const deleteProduct = withEnhances(async productIds => {});
+	const deleteProduct = withEnhances(
+		async productIds => {
+			productIds.forEach(async id => {
+				await deleteFile(id, isProduct);
+				await deleteDoc(doc(productsCollectionRef, id));
+				dispatch({
+					type: PRODUCT_TYPES.DELETE_PRODUCT,
+					payload: id,
+				});
+			});
+			if (id) push(PRODUCTS);
+			toast.success(
+				`${productIds.length > 1 ? 'Products' : 'Product'} deleted!`,
+			);
+		},
+		{
+			confirm: true,
+			text: productIds =>
+				`¿Are you sure to delete ${
+					productIds.length > 1 ? 'these products' : 'this product'
+				} permanently? <br> <br> <b>¡You won't be able to revert this action!</b>`,
+		},
+	);
 
 	return {
 		addProduct,

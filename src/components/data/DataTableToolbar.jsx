@@ -4,18 +4,21 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/router';
 import { useAuthContext } from '@contexts/auth/AuthContext';
 import ToolTip from '@components/ui/ToolTip';
-import { PRODUCTS, STAFF } from '@utils/routes';
+import { STAFF } from '@utils/routes';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
 import FormUser from '@components/forms/FormUser';
 import useUserServices from '@services/useUserServices';
 import FormProduct from '@components/forms/FormProduct';
 import { setItemName } from '@components/utils';
+import useProductServices from '@services/useProductServices';
 
 const DataTableToolbar = ({ selected, setSelected }) => {
 	const { isAdmin } = useAuthContext();
-	const { pathname } = useRouter();
 	const { openModal } = useGlobalContext();
+	const { deleteProduct } = useProductServices();
 	const { deleteUser } = useUserServices();
+	const { pathname } = useRouter();
+	const isProduct = pathname.includes('products');
 
 	const numSelected = selected.length;
 	const itemName = setItemName(pathname);
@@ -23,12 +26,16 @@ const DataTableToolbar = ({ selected, setSelected }) => {
 	const handleAdd = () => {
 		openModal({
 			title: `Add ${itemName}`,
-			child: pathname === PRODUCTS ? <FormProduct /> : <FormUser />,
+			child: isProduct ? <FormProduct /> : <FormUser />,
 		});
 	};
 
-	const handleDelete = async data => {
-		await deleteUser(data);
+	const handleDelete = async () => {
+		if (isProduct) {
+			await deleteProduct(selected);
+		} else {
+			await deleteUser(selected);
+		}
 		setSelected([]);
 	};
 
@@ -62,7 +69,7 @@ const DataTableToolbar = ({ selected, setSelected }) => {
 
 			{numSelected > 0 ? (
 				<ToolTip title='Delete'>
-					<IconButton onClick={() => handleDelete(selected)}>
+					<IconButton onClick={handleDelete}>
 						<DeleteIcon />
 					</IconButton>
 				</ToolTip>
