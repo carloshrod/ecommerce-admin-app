@@ -9,6 +9,13 @@ const productsReducer = (state, action) => {
 			};
 		}
 
+		case TYPES.GET_ONE_PRODUCT: {
+			return {
+				...state,
+				product: action.payload,
+			};
+		}
+
 		case TYPES.ADD_PRODUCT: {
 			return {
 				...state,

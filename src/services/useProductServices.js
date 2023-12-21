@@ -4,6 +4,7 @@ import {
 	setDoc,
 	updateDoc,
 	deleteDoc,
+	getDoc,
 } from 'firebase/firestore';
 import { db } from '@firebase/client';
 import { useRouter } from 'next/router';
@@ -25,6 +26,15 @@ const useProductServices = () => {
 		push,
 	} = useRouter();
 	const isProduct = pathname === PRODUCTS;
+
+	const getOneProduct = withEnhances(async productId => {
+		const docRef = doc(db, 'products', productId);
+		const docSnap = await getDoc(docRef);
+		dispatch({
+			type: PRODUCT_TYPES.GET_ONE_PRODUCT,
+			payload: docSnap.data(),
+		});
+	});
 
 	const addProduct = withEnhances(async (product, file) => {
 		const newProductRef = doc(productsCollectionRef);
@@ -82,6 +92,7 @@ const useProductServices = () => {
 	);
 
 	return {
+		getOneProduct,
 		addProduct,
 		updateProduct,
 		deleteProduct,

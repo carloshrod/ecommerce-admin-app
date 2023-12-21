@@ -11,11 +11,12 @@ const productsCollectionRef = collection(db, 'products');
 
 const initialState = {
 	products: [],
+	product: {},
 };
 
 const ProductsProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(productsReducer, initialState);
-	const { products } = state;
+	const { products, product } = state;
 
 	const fetchProducts = async () => {
 		const data = await fetchData(productsCollectionRef);
@@ -29,7 +30,7 @@ const ProductsProvider = ({ children }) => {
 		fetchProducts();
 	}, []);
 
-	const data = { products, dispatch };
+	const data = { products, product, dispatch };
 
 	return (
 		<ProductsContext.Provider value={data}>{children}</ProductsContext.Provider>
