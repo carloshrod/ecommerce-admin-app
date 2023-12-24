@@ -11,9 +11,11 @@ export const theme = createTheme({
 		success: {
 			main: '#10b981',
 			contrastText: '#ffffff',
+			transparent: 'rgb(16, 185, 129, 0.2)',
 		},
 		warning: {
 			main: '#dc2626',
+			transparent: 'rgb(220, 38, 38, 0.2)',
 		},
 		text: {
 			primary: '#475569',

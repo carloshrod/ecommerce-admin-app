@@ -123,8 +123,11 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 						label={row.stock > 0 ? 'In stock' : 'Out of stock'}
 						color={`${row.stock > 0 ? 'success' : 'warning'}`}
 						sx={{
+							backgroundColor: `${
+								row.stock > 0 ? 'success.transparent' : 'warning.transparent'
+							}`,
 							'& .MuiChip-label': {
-								color: '#f8fafc !important',
+								color: `${row.stock > 0 ? '#10b981' : '#dc2626'} !important`,
 							},
 						}}
 					/>
