@@ -39,7 +39,7 @@ const InputSelect = ({
 
 	const noOptions = options?.length === value?.length;
 
-	const isCode = name === 'countryCode';
+	const isCountryCode = name === 'countryCode';
 
 	const isNotEditable = name === 'role' && pathname === SETTINGS;
 	const roleHelperText = isNotEditable
@@ -61,12 +61,12 @@ const InputSelect = ({
 			sx={{
 				position: 'relative',
 				'.MuiAutocomplete-inputRoot': {
-					paddingLeft: `${isCode && value ? '3.5rem' : '2.5rem'}`,
+					paddingLeft: `${isCountryCode && value ? '3.5rem' : '2.5rem'}`,
 				},
 			}}
 			noOptionsText='No options available'
 			renderOption={
-				isCode
+				isCountryCode
 					? (props, option) => (
 							<Box
 								component='li'
@@ -82,7 +82,9 @@ const InputSelect = ({
 					  )
 					: null
 			}
-			className={`${isCode && value && width >= 600 && 'hiddenInput'}`}
+			className={`${
+				isCountryCode && value && width >= 600 && width < 1200 && 'hiddenInput'
+			}`}
 			renderInput={params => {
 				const selectedCountry = options?.find(
 					country => country.label === params.inputProps.value,

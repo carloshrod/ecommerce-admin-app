@@ -290,7 +290,9 @@ export const ITEMS_WIDTH = {
 	roleSm: 4.5,
 	priceSm: 3.2,
 	stockSm: 2.8,
+	categorySm: 4.5,
+	subCategorySm: 4.5,
 	brandSm: 3,
-	tagsSm: 9,
+	tagsSm: 12,
 	descriptionSm: 12,
 };
