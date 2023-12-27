@@ -16,8 +16,7 @@ export const normalizeName = name => {
 	}
 };
 
-export const setItemSelected = (item, open, router) => {
-	const { pathname } = router;
+export const setItemSelected = (item, open, pathname) => {
 	const usersIsSelected =
 		USERS_INDEXES[pathname] === 3 || USERS_INDEXES[pathname] === 4;
 
@@ -82,4 +81,8 @@ export const setItemName = (pathname, id = undefined) => {
 	}
 
 	return capFirstLetter(pathname.slice(7, endIndex));
+};
+
+export const setPropName = (id, db) => {
+	return db.find(category => category.value === id)?.label;
 };

@@ -17,7 +17,7 @@ import { formatRoleName } from '@components/utils';
 import { useRouter } from 'next/router';
 import { SETTINGS } from '@utils/routes';
 
-const ProfileInfo = ({ user }) => {
+const UserInfo = ({ user }) => {
 	const [checked, setChecked] = useState(!user?.disabled);
 	const { roles, isAdmin } = useAuthContext();
 	const { toggleUserStatus } = useUserServices();
@@ -37,7 +37,7 @@ const ProfileInfo = ({ user }) => {
 
 	return (
 		<CardContent sx={{ p: 3 }}>
-			<Grid container className='profileContent'>
+			<Grid container className='userInfo'>
 				<Grid
 					item
 					xs={12}
@@ -94,7 +94,7 @@ const ProfileInfo = ({ user }) => {
 							},
 						}}
 					/>
-					<Typography element={'p'} mx={2}>
+					<Typography element={'p'} mx={2} sx={{ fontWeight: 300 }}>
 						{userRole?.description}
 					</Typography>
 				</Grid>
@@ -103,4 +103,4 @@ const ProfileInfo = ({ user }) => {
 	);
 };
 
-export default ProfileInfo;
+export default UserInfo;

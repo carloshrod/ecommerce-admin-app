@@ -1,29 +1,23 @@
-.profile {
-  background-color: var(--primary-color) !important;
-  color: var(--font-color-light) !important;
+.details {
   position: relative;
 
-  .profileContent {
+  .userInfo {
     .contact {
-      font-size: 14px;
-      font-weight: lighter;
+      font-weight: 300;
       display: flex;
       gap: .5rem;
       justify-content: center;
       margin-bottom: .5rem;
-
-      svg {
-        color: var(--font-color-light) !important;
-      }
     }
   }
 
-  .profileActions {
+  .actions {
     width: 100%;
     position: absolute;
-    top: 200px;
+    top: 210px;
     display: 'flex';
     gap: 1rem;
+    z-index: 99;
 
     button {
       background-color: var(--primary-color);
@@ -35,10 +29,6 @@
       svg {
         color: var(--font-color-light) !important;
       }
-    }
-
-    @media (max-width: 449px) {
-      padding: 0 1rem !important;
     }
   }
 }

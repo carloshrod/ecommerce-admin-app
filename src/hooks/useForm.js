@@ -3,7 +3,7 @@ import { useGlobalContext } from '@contexts/global/GlobalContext';
 import useAuthServices from '@services/useAuthServices';
 import useUserServices from '@services/useUserServices';
 import { useRouter } from 'next/router';
-import { PRODUCTS, SIGNIN } from '@utils/routes';
+import { SIGNIN } from '@utils/routes';
 import useProductServices from '@services/useProductServices';
 
 const useForm = initialForm => {
@@ -20,8 +20,9 @@ const useForm = initialForm => {
 	useEffect(() => {
 		if (dataToEdit) {
 			setForm(dataToEdit);
-			const pathImage =
-				pathname === PRODUCTS ? dataToEdit?.image : dataToEdit?.avatar;
+			const pathImage = pathname.includes('products')
+				? dataToEdit?.image
+				: dataToEdit?.avatar;
 			setPathImage(pathImage?.url);
 		}
 	}, []);

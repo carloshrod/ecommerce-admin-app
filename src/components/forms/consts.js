@@ -103,11 +103,11 @@ export const subCategories = [
 		label: 'Streaming',
 	},
 	{
-		value: '5',
+		value: '13',
 		label: 'Desktops',
 	},
 	{
-		value: '5',
+		value: '14',
 		label: 'Laptops',
 	},
 ];

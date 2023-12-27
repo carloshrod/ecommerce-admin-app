@@ -10,24 +10,28 @@ import { useGlobalContext } from '@contexts/global/GlobalContext';
 import FormUser from '@components/forms/FormUser';
 import FormPassword from '@components/forms/FormPassword';
 import { setItemName } from '@components/utils';
+import FormProduct from '@components/forms/FormProduct';
+import useProductServices from '@services/useProductServices';
 
-const ProfileActions = ({ user, isLoggedUser = false }) => {
+const DetailsActions = ({ item, isLoggedUser = false }) => {
 	const { openModal } = useGlobalContext();
 	const { isAdmin } = useAuthContext();
 	const {
 		pathname,
 		query: { id },
 	} = useRouter();
+	const { deleteProduct } = useProductServices();
 	const { deleteUser } = useUserServices();
 	const itemName = setItemName(pathname, id);
+	const isProduct = pathname.includes('products');
 
 	const handleEdit = () => {
 		const modal = {
 			state: true,
 			title: `Edit ${id ? itemName : 'Profile'}`,
-			child: <FormUser />,
+			child: isProduct ? <FormProduct /> : <FormUser />,
 		};
-		openModal(modal, user);
+		openModal(modal, item);
 	};
 
 	const handleChangePassword = () => {
@@ -39,10 +43,25 @@ const ProfileActions = ({ user, isLoggedUser = false }) => {
 		openModal(modal);
 	};
 
+	const handleDelete = async () => {
+		if (isProduct) {
+			await deleteProduct([id]);
+		} else {
+			await deleteUser([id]);
+		}
+	};
+
 	return (
 		<CardActions
-			className='profileActions'
-			sx={{ justifyContent: { xs: 'space-between', sm: 'end' }, p: 4 }}
+			className='actions'
+			sx={{
+				justifyContent: { xs: 'space-between', sm: 'end' },
+				px: 4,
+				top: {
+					xs: `${isProduct ? '120px !important' : '190px !important'}`,
+					sm: '200px !important',
+				},
+			}}
 		>
 			{isAdmin || isLoggedUser ? (
 				<ToolTip title='Edit'>
@@ -63,10 +82,7 @@ const ProfileActions = ({ user, isLoggedUser = false }) => {
 			)}
 			{id && isAdmin && (
 				<ToolTip title='Delete'>
-					<IconButton
-						aria-label={`delete ${itemName}`}
-						onClick={async () => await deleteUser([id])}
-					>
+					<IconButton aria-label={`delete ${itemName}`} onClick={handleDelete}>
 						<DeleteIcon />
 					</IconButton>
 				</ToolTip>
@@ -75,4 +91,4 @@ const ProfileActions = ({ user, isLoggedUser = false }) => {
 	);
 };
 
-export default ProfileActions;
+export default DetailsActions;

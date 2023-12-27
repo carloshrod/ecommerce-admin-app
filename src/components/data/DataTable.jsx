@@ -15,14 +15,12 @@ import DataTableBody from './DataTableBody';
 export default function DataTable({ products, customers, staff }) {
 	const { pathname } = useRouter();
 
-	const rows =
-		pathname === PRODUCTS
-			? products
-			: pathname === CUSTOMERS
-			? customers
-			: pathname === STAFF
-			? staff
-			: null;
+	const DATA = {
+		[PRODUCTS]: products,
+		[CUSTOMERS]: customers,
+		[STAFF]: staff,
+	};
+	const rows = DATA[pathname] ?? null;
 
 	const {
 		selected,

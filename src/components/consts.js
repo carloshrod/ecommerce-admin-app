@@ -59,6 +59,7 @@ export const sidebarUsersMenu = [
 export const INDEXES = {
 	'/admin/dashboard': 0,
 	'/admin/products': 1,
+	'/admin/products/[id]': 1,
 	'/admin/settings': 5,
 };
 

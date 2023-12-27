@@ -1,21 +1,29 @@
 import { BG_IMAGES } from '@components/consts';
+import Carousel from '@components/ui/Carousel';
 import { Card, CardMedia, Grid } from '@mui/material';
+import useProductServices from '@services/useProductServices';
 import useUserServices from '@services/useUserServices';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
-const Profile = ({ children }) => {
+const Details = ({ children }) => {
 	const [isDataFetched, setIsDataFetched] = useState(false);
+	const { getOneProduct } = useProductServices();
 	const { getOneUser } = useUserServices();
 	const {
 		query: { id },
 		pathname,
 	} = useRouter();
 	const bgImage = id ? pathname.slice(0, -5) : pathname;
+	const isProduct = pathname.includes('products');
 
 	useEffect(() => {
 		if (id) {
-			getOneUser(id);
+			if (isProduct) {
+				getOneProduct(id);
+			} else {
+				getOneUser(id);
+			}
 		}
 		setTimeout(() => {
 			setIsDataFetched(true);
@@ -27,14 +35,18 @@ const Profile = ({ children }) => {
 			{!isDataFetched ? (
 				<span>Loader...</span>
 			) : (
-				<Card className='profile'>
-					<CardMedia
-						component='img'
-						height='300'
-						image={BG_IMAGES[bgImage]}
-						alt='header image'
-						sx={{ bgcolor: 'azure' }}
-					/>
+				<Card className='details'>
+					{isProduct ? (
+						<Carousel />
+					) : (
+						<CardMedia
+							component='img'
+							height='300'
+							image={BG_IMAGES[bgImage]}
+							alt='header image'
+							sx={{ bgcolor: '#f0f9ff' }}
+						/>
+					)}
 					{children}
 				</Card>
 			)}
@@ -42,4 +54,4 @@ const Profile = ({ children }) => {
 	);
 };
 
-export default Profile;
+export default Details;

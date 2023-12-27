@@ -12,7 +12,7 @@ const SidebarItem = ({ item, hideMenu, open, handleOpen }) => {
 	const { width } = useScreen();
 	const isSidebarHidden =
 		(width < 1200 && hideMenu) || (width > 1200 && !hideMenu);
-	const router = useRouter();
+	const { pathname } = useRouter();
 
 	const ITEM_BTN_CLICKS = {
 		Users: handleOpen,
@@ -29,7 +29,7 @@ const SidebarItem = ({ item, hideMenu, open, handleOpen }) => {
 			<ToolTip title={width < 600 ? item.label : null} placement='right'>
 				<ListItemButton
 					className={item.label === 'Logout' ? 'sidebar--logout' : null}
-					selected={setItemSelected(item, open, router)}
+					selected={setItemSelected(item, open, pathname)}
 					onClick={ITEM_BTN_CLICKS[item.label]}
 				>
 					<ListItemIcon className={addPaddingLeft}>{item.icon}</ListItemIcon>

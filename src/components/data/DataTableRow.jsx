@@ -102,7 +102,7 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 							sx={{
 								width: 50,
 								height: 50,
-								backgroundColor: 'azure',
+								backgroundColor: '#f0f9ff',
 								borderRadius: 2,
 								mr: 1,
 							}}
@@ -121,7 +121,6 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 				{isProduct ? (
 					<Chip
 						label={row.stock > 0 ? 'In stock' : 'Out of stock'}
-						color={`${row.stock > 0 ? 'success' : 'warning'}`}
 						sx={{
 							backgroundColor: `${
 								row.stock > 0 ? 'success.transparent' : 'warning.transparent'

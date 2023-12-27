@@ -71,7 +71,7 @@ const useUserServices = () => {
 		if (res.status === 200) {
 			let newAvatar = avatar;
 			if (file) {
-				deleteFile(id);
+				await deleteFile(id);
 				newAvatar = await generateImageObj(file, id);
 			}
 			const userToUpdate = setUserToUpdateObj(user, newAvatar);

@@ -25,7 +25,7 @@ const useProductServices = () => {
 		query: { id },
 		push,
 	} = useRouter();
-	const isProduct = pathname === PRODUCTS;
+	const isProduct = pathname.includes('products');
 
 	const getOneProduct = withEnhances(async productId => {
 		const docRef = doc(db, 'products', productId);
@@ -55,7 +55,7 @@ const useProductServices = () => {
 		const { id, image } = product;
 		let newProductImage = image;
 		if (file) {
-			deleteFile(id);
+			await deleteFile(id, isProduct);
 			newProductImage = await generateImageObj(file, id, isProduct);
 		}
 		const productToUpdate = setProductToUpdateObj(product, newProductImage);
@@ -65,6 +65,7 @@ const useProductServices = () => {
 			payload: productToUpdate,
 		});
 		toast.success('Product updated!');
+		if (id) getOneProduct(id);
 	});
 
 	const deleteProduct = withEnhances(

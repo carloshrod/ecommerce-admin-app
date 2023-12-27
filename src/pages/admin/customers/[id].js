@@ -1,18 +1,18 @@
 import { Grid } from '@mui/material';
 import { useUsersContext } from '@contexts/users/UsersContext';
-import Profile from '@components/data/Profile';
-import ProfileActions from '@components/ui/ProfileActions';
-import ProfileInfo from '@components/data/ProfileInfo';
+import Details from '@components/data/Details';
+import DetailsActions from '@components/ui/DetailsActions';
+import UserInfo from '@components/data/UserInfo';
 
 const CustomersDetails = () => {
 	const { user } = useUsersContext();
 
 	return (
 		<Grid item xs={12}>
-			<Profile>
-				<ProfileActions user={user} />
-				<ProfileInfo user={user} />
-			</Profile>
+			<Details>
+				<DetailsActions item={user} />
+				<UserInfo user={user} />
+			</Details>
 		</Grid>
 	);
 };

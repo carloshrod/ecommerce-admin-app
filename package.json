@@ -22,7 +22,8 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hot-toast": "^2.4.1",
-    "sweetalert2": "^11.9.0"
+    "sweetalert2": "^11.9.0",
+    "swiper": "^11.0.5"
   },
   "devDependencies": {
     "eslint": "^8.53.0",
