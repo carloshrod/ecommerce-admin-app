@@ -29,7 +29,7 @@ const Input = ({
 		<TextField
 			{...inputProps}
 			name={name}
-			type={type === 'password' ? (showPassword ? 'text' : 'password') : 'text'}
+			type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
 			error={!!isInputWrong}
 			helperText={focused ? errors[name] : null}
 			onChange={onChange}

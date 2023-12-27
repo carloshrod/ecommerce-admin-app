@@ -15,9 +15,13 @@ export const SwalConfirm = async text => {
 };
 
 export const setProductToCreateObj = (product, id, productImage) => {
+	const { price, stock } = product;
+
 	return {
 		...product,
 		id,
+		price: parseFloat(price),
+		stock: parseInt(stock),
 		image: productImage,
 		// TODO: generate SKU
 		createdAt: serverTimestamp(),
@@ -29,8 +33,12 @@ export const setProductToCreateObj = (product, id, productImage) => {
 // export const generateSKU = product => {};
 
 export const setProductToUpdateObj = (product, productImage) => {
+	const { price, stock } = product;
+
 	return {
 		...product,
+		price: parseFloat(price),
+		stock: parseInt(stock),
 		image: productImage,
 		lastUpdate: serverTimestamp(),
 	};
@@ -54,3 +62,5 @@ export const setUserToUpdateObj = (user, newAvatar) => {
 		lastUpdate: serverTimestamp(),
 	};
 };
+
+export const formatNumber = number => {};

@@ -1,5 +1,5 @@
 import { Grid, Stack } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import InputFile from './InputFile';
 import InputSelect from './InputSelect';
 import ActionsForm from './ActionsForm';
@@ -7,6 +7,7 @@ import useForm from '@hooks/useForm';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
 import Input from './Input';
 import { inputProductProps, ITEMS_WIDTH } from './consts';
+import validateProduct from '@validations/validateProduct';
 
 const initialForm = {
 	displayName: '',
@@ -14,6 +15,7 @@ const initialForm = {
 	stock: '',
 	brand: '',
 	category: '',
+	subCategory: '',
 	tags: [],
 	description: '',
 };
@@ -23,6 +25,7 @@ const FormProduct = () => {
 		form,
 		pathImage,
 		errors,
+		setErrors,
 		handleInputChange,
 		handleSelectChange,
 		handleFileChange,
@@ -30,6 +33,10 @@ const FormProduct = () => {
 		handleSubmitProduct,
 	} = useForm(initialForm);
 	const { dataToEdit } = useGlobalContext();
+
+	useEffect(() => {
+		setErrors(validateProduct(form));
+	}, [form]);
 
 	return (
 		<Stack
