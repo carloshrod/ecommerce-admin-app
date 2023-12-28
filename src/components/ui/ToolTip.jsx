@@ -9,7 +9,7 @@ const ToolTip = ({ title, placement, children }) => {
 			arrow
 			TransitionComponent={Zoom}
 		>
-			<span>{children}</span>
+			{children}
 		</Tooltip>
 	);
 };

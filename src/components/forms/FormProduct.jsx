@@ -1,5 +1,5 @@
 import { Grid, Stack } from '@mui/material';
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import InputFile from './InputFile';
 import InputSelect from './InputSelect';
 import ActionsForm from './ActionsForm';
@@ -21,8 +21,10 @@ const initialForm = {
 };
 
 const FormProduct = () => {
+	const [fileFocused, setFileFocused] = useState(null);
 	const {
 		form,
+		file,
 		pathImage,
 		errors,
 		setErrors,
@@ -35,8 +37,11 @@ const FormProduct = () => {
 	const { dataToEdit } = useGlobalContext();
 
 	useEffect(() => {
-		setErrors(validateProduct(form));
-	}, [form]);
+		const isValid = validateProduct(form, file, dataToEdit);
+		setErrors(isValid);
+	}, [form, file]);
+
+	const isInputFileInvalid = fileFocused && !file && !dataToEdit;
 
 	return (
 		<Stack
@@ -46,7 +51,13 @@ const FormProduct = () => {
 			onSubmit={handleSubmitProduct}
 			sx={{ mt: 1, gap: 3 }}
 		>
-			<InputFile pathImage={pathImage} onChange={handleFileChange} />
+			<InputFile
+				pathImage={pathImage}
+				isInvalid={isInputFileInvalid}
+				setFocused={setFileFocused}
+				errors={errors}
+				onChange={handleFileChange}
+			/>
 			<Grid container spacing={3}>
 				{inputProductProps.map(input => (
 					<Grid
@@ -87,6 +98,7 @@ const FormProduct = () => {
 				handleReset={handleReset}
 				errors={errors}
 				label={dataToEdit ? 'Edit' : 'Add'}
+				setFocused={setFileFocused}
 			/>
 		</Stack>
 	);

@@ -1,7 +1,12 @@
 import { Box, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 
-const ActionsForm = ({ handleReset = null, errors = [], label = 'Send' }) => {
+const ActionsForm = ({
+	handleReset = null,
+	errors = [],
+	label = 'Send',
+	setFocused,
+}) => {
 	const [isFormOk, setIsFormOk] = useState();
 
 	useEffect(() => {
@@ -12,7 +17,10 @@ const ActionsForm = ({ handleReset = null, errors = [], label = 'Send' }) => {
 	}, [errors]);
 
 	return (
-		<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+		<Box
+			sx={{ display: 'flex', justifyContent: 'space-between' }}
+			onClick={isFormOk ? null : () => setFocused(true)}
+		>
 			<Button
 				sx={{ width: 100 }}
 				variant='outlined'

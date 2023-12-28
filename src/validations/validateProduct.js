@@ -1,6 +1,6 @@
 import { regex } from './regex';
 
-const validateProduct = product => {
+const validateProduct = (product, file, dataToEdit) => {
 	const { price, stock, tags, description } = product;
 	const errors = {};
 
@@ -12,11 +12,13 @@ const validateProduct = product => {
 		} else if (field === 'price' && !regex.currency.test(price)) {
 			errors.price = 'Enter a valid price (Ex: 99, 99.00)';
 		} else if (field === 'stock' && !regex.stock.test(stock)) {
-			errors.stock = 'Enter an integer!';
+			errors.stock = 'Enter a valid integer!';
 		} else if (field === 'description' && description.length > 500) {
 			errors.description = 'Description must be less than 500 characters!';
 		}
 	});
+
+	if (!file && !dataToEdit) errors.file = 'Files required!';
 
 	return errors;
 };

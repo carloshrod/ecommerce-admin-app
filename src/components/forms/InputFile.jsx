@@ -1,24 +1,29 @@
-import { Avatar, Box, IconButton } from '@mui/material';
+import { Avatar, Box, IconButton, Typography } from '@mui/material';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import { useRouter } from 'next/router';
-import { PRODUCTS } from '@utils/routes';
 import ToolTip from '@components/ui/ToolTip';
 
-const InputFile = ({ pathImage, onChange }) => {
+const InputFile = ({ pathImage, isInvalid, setFocused, errors, onChange }) => {
 	const { pathname } = useRouter();
-	const isProduct = pathname === PRODUCTS;
+	const isProduct = pathname.includes('products');
+
+	const handleFocus = () => {
+		setTimeout(() => {
+			setFocused(true);
+		}, 5000);
+	};
 
 	return (
-		<Box sx={{ display: 'grid', placeContent: 'center' }}>
+		<Box sx={{ display: 'grid', placeContent: 'center' }} onBlur={handleFocus}>
 			<ToolTip title='Upload image'>
 				<IconButton
 					color='primary'
 					aria-label='upload picture'
 					component='label'
 					sx={{
-						width: 110,
-						height: 110,
+						width: 120,
+						height: 120,
 						borderRadius: `${isProduct ? '4px' : '50%'}`,
 						position: 'relative',
 						'&:hover > .MuiAvatar-root': {
@@ -34,9 +39,10 @@ const InputFile = ({ pathImage, onChange }) => {
 					<Avatar
 						alt='Image preview'
 						sx={{
-							width: 100,
-							height: 100,
+							width: 120,
+							height: 120,
 							borderRadius: `${isProduct ? '3px' : '50%'}`,
+							border: `${isInvalid ? '1px solid #dc2626' : undefined}`,
 						}}
 						src={pathImage ?? undefined}
 					>
@@ -46,6 +52,18 @@ const InputFile = ({ pathImage, onChange }) => {
 					<FileUploadIcon sx={{ position: 'absolute', opacity: 0 }} />
 				</IconButton>
 			</ToolTip>
+			<Typography
+				element='span'
+				sx={{
+					color: 'warning.main',
+					fontSize: 12,
+					textAlign: 'center',
+					display: `${isInvalid ? 'block' : 'none'}`,
+					mt: 1,
+				}}
+			>
+				{errors?.file}
+			</Typography>
 		</Box>
 	);
 };
