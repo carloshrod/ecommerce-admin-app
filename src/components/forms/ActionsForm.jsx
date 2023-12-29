@@ -5,7 +5,7 @@ const ActionsForm = ({
 	handleReset = null,
 	errors = [],
 	label = 'Send',
-	setFocused,
+	setInputFileFocused = () => null,
 }) => {
 	const [isFormOk, setIsFormOk] = useState();
 
@@ -19,7 +19,7 @@ const ActionsForm = ({
 	return (
 		<Box
 			sx={{ display: 'flex', justifyContent: 'space-between' }}
-			onClick={isFormOk ? null : () => setFocused(true)}
+			onClick={() => setInputFileFocused(true)}
 		>
 			<Button
 				sx={{ width: 100 }}

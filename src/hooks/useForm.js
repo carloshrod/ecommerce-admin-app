@@ -9,6 +9,7 @@ import useProductServices from '@services/useProductServices';
 const useForm = initialForm => {
 	const [form, setForm] = useState(initialForm);
 	const [file, setFile] = useState(null);
+	const [files, setFiles] = useState([]);
 	const [pathImage, setPathImage] = useState('');
 	const [errors, setErrors] = useState({});
 	const { dataToEdit, closeModal } = useGlobalContext();
@@ -21,9 +22,9 @@ const useForm = initialForm => {
 		if (dataToEdit) {
 			setForm(dataToEdit);
 			const pathImage = pathname.includes('products')
-				? dataToEdit?.image
-				: dataToEdit?.avatar;
-			setPathImage(pathImage?.url);
+				? dataToEdit?.images[0]
+				: dataToEdit?.avatar?.url;
+			setPathImage(pathImage);
 		}
 	}, []);
 
@@ -47,9 +48,10 @@ const useForm = initialForm => {
 		}
 	};
 
-	const handleFileChange = e => {
-		if (e.target.files && e.target.files.length > 0) {
-			const image = e.target.files[0];
+	const handleFileChange = event => {
+		if (event.target.files && event.target.files.length > 0) {
+			const image = event.target.files[0];
+
 			if (image.type.includes('image')) {
 				const reader = new FileReader();
 				reader.readAsDataURL(image);
@@ -58,6 +60,22 @@ const useForm = initialForm => {
 				};
 				setFile(image);
 			}
+		}
+	};
+
+	const handleArrayFilesChange = event => {
+		if (event.target.files && event.target.files.length > 0) {
+			const newFiles = Array.from(event.target.files);
+			const validImages = newFiles.filter(image =>
+				image.type.includes('image'),
+			);
+
+			const newImages = validImages.map(image => URL.createObjectURL(image));
+
+			if (!pathImage) {
+				setPathImage(newImages[0]);
+			}
+			setFiles(prevFiles => [...prevFiles, ...validImages]);
 		}
 	};
 
@@ -78,9 +96,9 @@ const useForm = initialForm => {
 	const handleSubmitProduct = async event => {
 		event.preventDefault();
 		if (!dataToEdit) {
-			await addProduct(form, file);
+			await addProduct(form, files);
 		} else {
-			await updateProduct(form, file);
+			await updateProduct(form, files);
 		}
 		handleReset();
 	};
@@ -105,12 +123,14 @@ const useForm = initialForm => {
 	return {
 		form,
 		file,
+		files,
 		pathImage,
 		errors,
 		setErrors,
 		handleInputChange,
 		handleSelectChange,
 		handleFileChange,
+		handleArrayFilesChange,
 		handleReset,
 		handleAuth,
 		handleSubmitProduct,

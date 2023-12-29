@@ -96,7 +96,7 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 				{isProduct ? (
 					<Box sx={{ display: 'flex', alignItems: 'center' }}>
 						<Avatar
-							src={row.image?.url}
+							src={row.images[0]}
 							alt='Product image'
 							variant='square'
 							sx={{

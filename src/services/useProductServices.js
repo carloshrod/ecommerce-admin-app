@@ -9,7 +9,7 @@ import {
 import { db } from '@firebase/client';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
-import { deleteFile, generateImageObj } from './fileServices';
+import { deleteFiles, generateImagesArray } from './fileServices';
 import { setProductToCreateObj, setProductToUpdateObj } from './utils';
 import withEnhances from './withEnhances';
 import { PRODUCTS } from '@utils/routes';
@@ -21,11 +21,9 @@ const productsCollectionRef = collection(db, 'products');
 const useProductServices = () => {
 	const { dispatch } = useProductsContext();
 	const {
-		pathname,
 		query: { id },
 		push,
 	} = useRouter();
-	const isProduct = pathname.includes('products');
 
 	const getOneProduct = withEnhances(async productId => {
 		const docRef = doc(db, 'products', productId);
@@ -36,13 +34,12 @@ const useProductServices = () => {
 		});
 	});
 
-	const addProduct = withEnhances(async (product, file) => {
+	const addProduct = withEnhances(async (product, files) => {
 		const newProductRef = doc(productsCollectionRef);
 		const { id } = newProductRef;
-		const productImage = file
-			? await generateImageObj(file, id, isProduct)
-			: {};
-		const productToCreate = setProductToCreateObj(product, id, productImage);
+		const productImages =
+			files?.length === 5 ? await generateImagesArray(files, id) : [];
+		const productToCreate = setProductToCreateObj(product, id, productImages);
 		await setDoc(newProductRef, productToCreate);
 		dispatch({
 			type: PRODUCT_TYPES.ADD_PRODUCT,
@@ -51,14 +48,14 @@ const useProductServices = () => {
 		toast.success('Product added!');
 	});
 
-	const updateProduct = withEnhances(async (product, file) => {
-		const { id, image } = product;
-		let newProductImage = image;
-		if (file) {
-			await deleteFile(id, isProduct);
-			newProductImage = await generateImageObj(file, id, isProduct);
+	const updateProduct = withEnhances(async (product, files) => {
+		const { id, images } = product;
+		let newProductImages = images;
+		if (files?.length === 5) {
+			await deleteFiles(id);
+			newProductImages = await generateImagesArray(files, id);
 		}
-		const productToUpdate = setProductToUpdateObj(product, newProductImage);
+		const productToUpdate = setProductToUpdateObj(product, newProductImages);
 		await updateDoc(doc(productsCollectionRef, id), productToUpdate);
 		dispatch({
 			type: PRODUCT_TYPES.UPDATE_PRODUCT,
@@ -71,12 +68,12 @@ const useProductServices = () => {
 	const deleteProduct = withEnhances(
 		async productIds => {
 			productIds.forEach(async id => {
-				await deleteFile(id, isProduct);
 				await deleteDoc(doc(productsCollectionRef, id));
 				dispatch({
 					type: PRODUCT_TYPES.DELETE_PRODUCT,
 					payload: id,
 				});
+				await deleteFiles(id);
 			});
 			if (id) push(PRODUCTS);
 			toast.success(

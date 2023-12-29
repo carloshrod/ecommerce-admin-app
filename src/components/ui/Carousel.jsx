@@ -12,7 +12,7 @@ import { useProductsContext } from '@contexts/products/ProductsContext';
 const Carousel = () => {
 	const [thumbsSwiper, setThumbsSwiper] = useState(null);
 	const { product } = useProductsContext();
-	const imgArray = new Array(5).fill(product?.image?.url);
+	const imagesArray = product?.images ?? [];
 
 	return (
 		<Box sx={{ pb: 1, backgroundColor: '#f0f9ff' }}>
@@ -29,7 +29,7 @@ const Carousel = () => {
 				modules={[FreeMode, Navigation, Thumbs]}
 				className='MySwiper'
 			>
-				{imgArray.map((img, index) => (
+				{imagesArray.map((img, index) => (
 					<SwiperSlide key={`carousel-img${index}`}>
 						{img && (
 							<Image
@@ -53,7 +53,7 @@ const Carousel = () => {
 				modules={[FreeMode, Navigation, Thumbs]}
 				className='MySwiper2'
 			>
-				{imgArray.map((img, index) => (
+				{imagesArray.map((img, index) => (
 					<SwiperSlide key={`carousel-img${index}`}>
 						{img && (
 							<Image

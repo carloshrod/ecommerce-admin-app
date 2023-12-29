@@ -9,24 +9,43 @@ import withEnhances from './withEnhances';
 
 const storage = getStorage();
 
-export const generateImageObj = withEnhances(
-	async (file, id, isProduct = false) => {
-		const prefix = isProduct ? 'product_images/pim' : 'avatars/avt';
-		const filePath = `${prefix}-${id}`;
+export const generateImageObj = withEnhances(async (file, id) => {
+	const filePath = `avatars/avt-${id}`;
+	const reference = ref(storage, filePath);
+	const snapshot = await uploadBytes(reference, file);
+
+	return {
+		fileName: snapshot.metadata.name,
+		url: await getDownloadURL(reference),
+	};
+});
+
+export const generateImagesArray = withEnhances(async (files, id) => {
+	const array = [];
+
+	for (let i = 0; i < files.length; i++) {
+		const filePath = `product_images/pim-${id}/pim-${id}-${i + 1}`;
 		const reference = ref(storage, filePath);
-		const snapshot = await uploadBytes(reference, file);
+		await uploadBytes(reference, files[i]);
+		const url = await getDownloadURL(reference);
+		array.push(url);
+	}
 
-		return {
-			fileName: snapshot.metadata.name,
-			url: await getDownloadURL(reference),
-		};
-	},
-);
+	return array;
+});
 
-export const deleteFile = withEnhances(async (id, isProduct = false) => {
-	const prefix = isProduct ? 'product_images/pim' : 'avatars/avt';
-	const filePath = `${prefix}-${id}`;
+export const deleteFile = withEnhances(async id => {
+	const filePath = `avatars/avt-${id}`;
 	const reference = ref(storage, filePath);
 	await deleteObject(reference);
 	return 'File deleted successfully!';
+});
+
+export const deleteFiles = withEnhances(async id => {
+	for (let i = 0; i < 5; i++) {
+		const filePath = `product_images/pim-${id}/pim-${id}-${i + 1}`;
+		const reference = ref(storage, filePath);
+		await deleteObject(reference);
+	}
+	return 'Files deleted successfully!';
 });

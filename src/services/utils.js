@@ -14,7 +14,7 @@ export const SwalConfirm = async text => {
 	});
 };
 
-export const setProductToCreateObj = (product, id, productImage) => {
+export const setProductToCreateObj = (product, id, productImages) => {
 	const { price, stock } = product;
 
 	return {
@@ -22,7 +22,7 @@ export const setProductToCreateObj = (product, id, productImage) => {
 		id,
 		price: parseFloat(price),
 		stock: parseInt(stock),
-		image: productImage,
+		images: productImages,
 		// TODO: generate SKU
 		createdAt: serverTimestamp(),
 		lastUpdate: serverTimestamp(),
@@ -32,14 +32,14 @@ export const setProductToCreateObj = (product, id, productImage) => {
 // TODO:
 // export const generateSKU = product => {};
 
-export const setProductToUpdateObj = (product, productImage) => {
+export const setProductToUpdateObj = (product, productImages) => {
 	const { price, stock } = product;
 
 	return {
 		...product,
 		price: parseFloat(price),
 		stock: parseInt(stock),
-		image: productImage,
+		images: productImages,
 		lastUpdate: serverTimestamp(),
 	};
 };

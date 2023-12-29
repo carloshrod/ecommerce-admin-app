@@ -21,27 +21,25 @@ const initialForm = {
 };
 
 const FormProduct = () => {
-	const [fileFocused, setFileFocused] = useState(null);
 	const {
 		form,
-		file,
+		files,
 		pathImage,
 		errors,
 		setErrors,
 		handleInputChange,
 		handleSelectChange,
-		handleFileChange,
+		handleArrayFilesChange,
 		handleReset,
 		handleSubmitProduct,
 	} = useForm(initialForm);
 	const { dataToEdit } = useGlobalContext();
+	const [inputFileFocused, setInputFileFocused] = useState(false);
 
 	useEffect(() => {
-		const isValid = validateProduct(form, file, dataToEdit);
+		const isValid = validateProduct(form, files, dataToEdit);
 		setErrors(isValid);
-	}, [form, file]);
-
-	const isInputFileInvalid = fileFocused && !file && !dataToEdit;
+	}, [form, files]);
 
 	return (
 		<Stack
@@ -53,10 +51,10 @@ const FormProduct = () => {
 		>
 			<InputFile
 				pathImage={pathImage}
-				isInvalid={isInputFileInvalid}
-				setFocused={setFileFocused}
+				files={files}
+				focused={inputFileFocused}
 				errors={errors}
-				onChange={handleFileChange}
+				onChange={handleArrayFilesChange}
 			/>
 			<Grid container spacing={3}>
 				{inputProductProps.map(input => (
@@ -98,7 +96,7 @@ const FormProduct = () => {
 				handleReset={handleReset}
 				errors={errors}
 				label={dataToEdit ? 'Edit' : 'Add'}
-				setFocused={setFileFocused}
+				setInputFileFocused={setInputFileFocused}
 			/>
 		</Stack>
 	);

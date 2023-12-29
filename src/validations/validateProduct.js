@@ -1,8 +1,16 @@
 import { regex } from './regex';
 
-const validateProduct = (product, file, dataToEdit) => {
+const validateProduct = (product, files, dataToEdit) => {
 	const { price, stock, tags, description } = product;
 	const errors = {};
+
+	const isProductImagesInvalid =
+		(!dataToEdit && files?.length !== 5) ||
+		(dataToEdit && files?.length >= 1 && files?.length < 5);
+
+	if (isProductImagesInvalid) {
+		errors.productImages = 'Product images required!';
+	}
 
 	Object.keys(product).forEach(field => {
 		if (!product[field]) {
@@ -17,8 +25,6 @@ const validateProduct = (product, file, dataToEdit) => {
 			errors.description = 'Description must be less than 500 characters!';
 		}
 	});
-
-	if (!file && !dataToEdit) errors.file = 'Files required!';
 
 	return errors;
 };
