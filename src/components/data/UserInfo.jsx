@@ -21,8 +21,15 @@ const UserInfo = ({ user }) => {
 	const [checked, setChecked] = useState(!user?.disabled);
 	const { roles, isAdmin } = useAuthContext();
 	const { toggleUserStatus } = useUserServices();
-	const { displayName, email, countryCode, phoneNumber, role, disabled } =
-		user ?? {};
+	const {
+		displayName,
+		email,
+		countryCode,
+		phoneNumber,
+		role,
+		disabled,
+		avatar,
+	} = user ?? {};
 	const userRole = roles.find(r => r?.id === role) ?? {};
 	const { pathname } = useRouter();
 	const isSettings = pathname === SETTINGS;
@@ -46,7 +53,7 @@ const UserInfo = ({ user }) => {
 				>
 					<Avatar
 						alt='Superadmin'
-						src={user?.avatar?.url || null}
+						src={avatar ?? undefined}
 						sx={{
 							width: { xs: 120, sm: 150 },
 							height: { xs: 120, sm: 150 },

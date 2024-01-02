@@ -15,7 +15,7 @@ import { useUsersContext } from '@contexts/users/UsersContext';
 import useApi from '@hooks/useApi';
 import { CUSTOMERS, SETTINGS, STAFF } from '@utils/routes';
 import { useRouter } from 'next/router';
-import { generateImageObj, deleteFile } from './fileServices';
+import { generateImageURL, deleteFile } from './fileServices';
 import { USER_TYPES } from '@contexts/users/userActions';
 import { AUTH_TYPES } from '@contexts/auth/authActions';
 import { setUserToCreateObj, setUserToUpdateObj } from './utils';
@@ -54,7 +54,8 @@ const useUserServices = () => {
 		const res = await authRegisterUser(user);
 		if (res.status === 201) {
 			const { uid } = res.data;
-			const avatar = file ? await generateImageObj(file, uid) : {};
+			const avatar = file ? await generateImageURL(file, uid) : '';
+			console.log(avatar);
 			const userToCreate = setUserToCreateObj(uid, user, avatar);
 			await setDoc(doc(collection, uid), userToCreate);
 			userDispatch({
@@ -72,7 +73,7 @@ const useUserServices = () => {
 			let newAvatar = avatar;
 			if (file) {
 				await deleteFile(id);
-				newAvatar = await generateImageObj(file, id);
+				newAvatar = await generateImageURL(file, id);
 			}
 			const userToUpdate = setUserToUpdateObj(user, newAvatar);
 			await updateDoc(doc(collection, id), userToUpdate);

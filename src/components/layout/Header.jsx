@@ -8,9 +8,10 @@ import ToggleSidebar from './ToggleSidebar';
 import useAuthServices from '@services/useAuthServices';
 
 const Header = () => {
-	const { loggedUser } = useAuthContext();
+	const {
+		loggedUser: { avatar },
+	} = useAuthContext();
 	const { logout } = useAuthServices();
-	const image = loggedUser?.avatar?.url || null;
 
 	return (
 		<Box component='header' className='header'>
@@ -26,7 +27,7 @@ const Header = () => {
 					<ToolTip title='Settings'>
 						<IconButton sx={{ p: 0 }}>
 							<Link href='/admin/settings'>
-								<Avatar alt='avatar' src={image} />
+								<Avatar alt='avatar' src={avatar ?? undefined} />
 							</Link>
 						</IconButton>
 					</ToolTip>

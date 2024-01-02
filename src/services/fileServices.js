@@ -9,15 +9,11 @@ import withEnhances from './withEnhances';
 
 const storage = getStorage();
 
-export const generateImageObj = withEnhances(async (file, id) => {
+export const generateImageURL = withEnhances(async (file, id) => {
 	const filePath = `avatars/avt-${id}`;
 	const reference = ref(storage, filePath);
-	const snapshot = await uploadBytes(reference, file);
-
-	return {
-		fileName: snapshot.metadata.name,
-		url: await getDownloadURL(reference),
-	};
+	await uploadBytes(reference, file);
+	return await getDownloadURL(reference);
 });
 
 export const generateImagesArray = withEnhances(async (files, id) => {

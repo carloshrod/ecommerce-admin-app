@@ -23,7 +23,7 @@ const useForm = initialForm => {
 			setForm(dataToEdit);
 			const pathImage = pathname.includes('products')
 				? dataToEdit?.images[0]
-				: dataToEdit?.avatar?.url;
+				: dataToEdit?.avatar;
 			setPathImage(pathImage);
 		}
 	}, []);
