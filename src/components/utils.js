@@ -86,3 +86,17 @@ export const setItemName = (pathname, id = undefined) => {
 export const setPropName = (id, db) => {
 	return db.find(category => category.value === id)?.label;
 };
+
+export const formatPrice = price => {
+	const decimals = price.toString().split('.')[1];
+
+	if (decimals === undefined) {
+		return `${price}.00`;
+	}
+
+	if (decimals?.length === 1) {
+		return `${price}0`;
+	}
+
+	return price;
+};

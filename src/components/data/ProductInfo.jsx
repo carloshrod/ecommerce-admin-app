@@ -3,7 +3,7 @@ import {
 	subCategories,
 	tags as optionTags,
 } from '@components/forms/consts';
-import { setPropName } from '@components/utils';
+import { formatPrice, setPropName } from '@components/utils';
 import { Box, CardContent, Chip, Grid, Typography } from '@mui/material';
 
 const ProductInfo = ({ product }) => {
@@ -39,7 +39,7 @@ const ProductInfo = ({ product }) => {
 					/>
 					<Box sx={{ mt: 1, mb: 2 }}>
 						<Chip
-							label={`$${price}`}
+							label={`$${formatPrice(price)}`}
 							sx={{
 								backgroundColor: 'primary.transparent',
 								'& .MuiChip-label': {

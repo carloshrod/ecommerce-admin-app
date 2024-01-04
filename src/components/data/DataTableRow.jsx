@@ -20,6 +20,7 @@ import {
 	formatCategoryName,
 	setItemName,
 	formatRoleName,
+	formatPrice,
 } from '@components/utils';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
 import FormUser from '@components/forms/FormUser';
@@ -115,7 +116,9 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 					row.displayName
 				)}
 			</TableCell>
-			<TableCell>{isProduct ? `$ ${row.price}` : row.email}</TableCell>
+			<TableCell>
+				{isProduct ? `$ ${formatPrice(row.price)}` : row.email}
+			</TableCell>
 			<TableCell>{isProduct ? categoryName : roleName}</TableCell>
 			<TableCell align='center'>
 				{isProduct ? (
