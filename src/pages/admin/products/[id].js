@@ -9,7 +9,7 @@ const ProductsDetails = () => {
 
 	return (
 		<Grid item xs={12}>
-			<Details>
+			<Details data={product}>
 				<DetailsActions item={product} />
 				<ProductInfo product={product} />
 			</Details>

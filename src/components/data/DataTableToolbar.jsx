@@ -14,7 +14,7 @@ import useProductServices from '@services/useProductServices';
 
 const DataTableToolbar = ({ selected, setSelected }) => {
 	const { isAdmin } = useAuthContext();
-	const { openModal } = useGlobalContext();
+	const { toggleModal } = useGlobalContext();
 	const { deleteProduct } = useProductServices();
 	const { deleteUser } = useUserServices();
 	const { pathname } = useRouter();
@@ -24,7 +24,7 @@ const DataTableToolbar = ({ selected, setSelected }) => {
 	const itemName = setItemName(pathname);
 
 	const handleAdd = () => {
-		openModal({
+		toggleModal({
 			title: `Add ${itemName}`,
 			child: isProduct ? <FormProduct /> : <FormUser />,
 		});

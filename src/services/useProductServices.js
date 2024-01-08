@@ -15,11 +15,13 @@ import withEnhances from './withEnhances';
 import { PRODUCTS } from '@utils/routes';
 import { useProductsContext } from '@contexts/products/ProductsContext';
 import { PRODUCT_TYPES } from '@contexts/products/productActions';
+import { useGlobalContext } from '@contexts/global/GlobalContext';
 
 const productsCollectionRef = collection(db, 'products');
 
 const useProductServices = () => {
-	const { dispatch } = useProductsContext();
+	const { toggleLoader } = useGlobalContext();
+	const { productDispatch } = useProductsContext();
 	const {
 		query: { id },
 		push,
@@ -28,48 +30,54 @@ const useProductServices = () => {
 	const getOneProduct = withEnhances(async productId => {
 		const docRef = doc(db, 'products', productId);
 		const docSnap = await getDoc(docRef);
-		dispatch({
+		productDispatch({
 			type: PRODUCT_TYPES.GET_ONE_PRODUCT,
 			payload: docSnap.data(),
 		});
 	});
 
-	const addProduct = withEnhances(async (product, files) => {
-		const newProductRef = doc(productsCollectionRef);
-		const { id } = newProductRef;
-		const productImages =
-			files?.length === 5 ? await generateImagesArray(files, id) : [];
-		const productToCreate = setProductToCreateObj(product, id, productImages);
-		await setDoc(newProductRef, productToCreate);
-		dispatch({
-			type: PRODUCT_TYPES.ADD_PRODUCT,
-			payload: productToCreate,
-		});
-		toast.success('Product added!');
-	});
+	const addProduct = withEnhances(
+		async (product, files) => {
+			const newProductRef = doc(productsCollectionRef);
+			const { id } = newProductRef;
+			const productImages =
+				files?.length === 5 ? await generateImagesArray(files, id) : [];
+			const productToCreate = setProductToCreateObj(product, id, productImages);
+			await setDoc(newProductRef, productToCreate);
+			productDispatch({
+				type: PRODUCT_TYPES.ADD_PRODUCT,
+				payload: productToCreate,
+			});
+			toast.success('Product added!');
+		},
+		{ loader: toggleLoader },
+	);
 
-	const updateProduct = withEnhances(async (product, files) => {
-		const { id, images } = product;
-		let newProductImages = images;
-		if (files?.length === 5) {
-			await deleteFiles(id);
-			newProductImages = await generateImagesArray(files, id);
-		}
-		const productToUpdate = setProductToUpdateObj(product, newProductImages);
-		await updateDoc(doc(productsCollectionRef, id), productToUpdate);
-		dispatch({
-			type: PRODUCT_TYPES.UPDATE_PRODUCT,
-			payload: productToUpdate,
-		});
-		toast.success('Product updated!');
-		if (id) getOneProduct(id);
-	});
+	const updateProduct = withEnhances(
+		async (product, files) => {
+			const { id, images } = product;
+			let newProductImages = images;
+			if (files?.length === 5) {
+				await deleteFiles(id);
+				newProductImages = await generateImagesArray(files, id);
+			}
+			const productToUpdate = setProductToUpdateObj(product, newProductImages);
+			await updateDoc(doc(productsCollectionRef, id), productToUpdate);
+			productDispatch({
+				type: PRODUCT_TYPES.UPDATE_PRODUCT,
+				payload: productToUpdate,
+			});
+			toast.success('Product updated!');
+			if (id) getOneProduct(id);
+		},
+		{ loader: toggleLoader },
+	);
 
 	const deleteProduct = withEnhances(
 		async productIds => {
 			productIds.forEach(async id => {
 				await deleteDoc(doc(productsCollectionRef, id));
-				dispatch({
+				productDispatch({
 					type: PRODUCT_TYPES.DELETE_PRODUCT,
 					payload: id,
 				});

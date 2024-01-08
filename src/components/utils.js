@@ -63,9 +63,10 @@ export const setOptions = array => {
 export const setDefaultValue = ({ multiple, name, options, dataToEdit }) => {
 	if (multiple) {
 		return options
-			.filter(option => dataToEdit && dataToEdit[name].includes(option.value))
+			.filter(option => dataToEdit && dataToEdit[name]?.includes(option.value))
 			.map(data => data);
 	}
+
 	return options.find(
 		option => dataToEdit && option.value === dataToEdit[name],
 	);
@@ -88,7 +89,7 @@ export const setPropName = (id, db) => {
 };
 
 export const formatPrice = price => {
-	const decimals = price.toString().split('.')[1];
+	const decimals = price?.toString().split('.')[1];
 
 	if (decimals === undefined) {
 		return `${price}.00`;

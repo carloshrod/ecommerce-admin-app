@@ -13,7 +13,7 @@ const validateProduct = (product, files, dataToEdit) => {
 	}
 
 	Object.keys(product).forEach(field => {
-		if (!product[field]) {
+		if (product[field] === '') {
 			errors[field] = 'Field required!';
 		} else if (field === 'tags' && tags.length === 0) {
 			errors.tags = 'Field required!';

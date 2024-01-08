@@ -9,7 +9,7 @@ const Settings = () => {
 
 	return (
 		<Grid item xs={12}>
-			<Details>
+			<Details data={loggedUser}>
 				<DetailsActions item={loggedUser} />
 				<UserInfo user={loggedUser} />
 			</Details>

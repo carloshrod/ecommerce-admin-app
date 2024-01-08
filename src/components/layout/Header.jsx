@@ -6,12 +6,14 @@ import Image from 'next/image';
 import { useAuthContext } from '@contexts/auth/AuthContext';
 import ToggleSidebar from './ToggleSidebar';
 import useAuthServices from '@services/useAuthServices';
+import useSkeleton from '@hooks/useSkeleton';
+import CustomSkeleton from '@components/ui/CustomSkeleton';
 
 const Header = () => {
-	const {
-		loggedUser: { avatar },
-	} = useAuthContext();
+	const { loggedUser } = useAuthContext();
+	const { isFetched } = useSkeleton(loggedUser);
 	const { logout } = useAuthServices();
+	const { avatar } = loggedUser;
 
 	return (
 		<Box component='header' className='header'>
@@ -27,7 +29,9 @@ const Header = () => {
 					<ToolTip title='Settings'>
 						<IconButton sx={{ p: 0 }}>
 							<Link href='/admin/settings'>
-								<Avatar alt='avatar' src={avatar ?? undefined} />
+								<CustomSkeleton isFetched={isFetched} variant='circular'>
+									<Avatar alt='avatar' src={avatar ?? undefined} />
+								</CustomSkeleton>
 							</Link>
 						</IconButton>
 					</ToolTip>

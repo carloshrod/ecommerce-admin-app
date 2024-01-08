@@ -12,7 +12,7 @@ const useForm = initialForm => {
 	const [files, setFiles] = useState([]);
 	const [pathImage, setPathImage] = useState('');
 	const [errors, setErrors] = useState({});
-	const { dataToEdit, closeModal } = useGlobalContext();
+	const { dataToEdit, toggleModal } = useGlobalContext();
 	const { signIn, resetPassword, changePassword } = useAuthServices();
 	const { addProduct, updateProduct } = useProductServices();
 	const { addUser, updateUser } = useUserServices();
@@ -79,12 +79,7 @@ const useForm = initialForm => {
 		}
 	};
 
-	const handleReset = () => {
-		closeModal();
-		setForm(initialForm);
-	};
-
-	const handleAuth = async event => {
+	const handleSubmitAuth = async event => {
 		event.preventDefault();
 		if (pathname === SIGNIN) {
 			await signIn(form);
@@ -120,6 +115,11 @@ const useForm = initialForm => {
 		handleReset();
 	};
 
+	const handleReset = () => {
+		toggleModal();
+		setForm(initialForm);
+	};
+
 	return {
 		form,
 		file,
@@ -131,11 +131,11 @@ const useForm = initialForm => {
 		handleSelectChange,
 		handleFileChange,
 		handleArrayFilesChange,
-		handleReset,
-		handleAuth,
+		handleSubmitAuth,
 		handleSubmitProduct,
 		handleSubmitStaff,
 		handleSubmitPassword,
+		handleReset,
 	};
 };
 

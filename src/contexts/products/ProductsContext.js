@@ -30,7 +30,7 @@ const ProductsProvider = ({ children }) => {
 		fetchProducts();
 	}, []);
 
-	const data = { products, product, dispatch };
+	const data = { products, product, productDispatch: dispatch };
 
 	return (
 		<ProductsContext.Provider value={data}>{children}</ProductsContext.Provider>

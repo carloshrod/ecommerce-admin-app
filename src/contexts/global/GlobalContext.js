@@ -7,45 +7,51 @@ const GlobalContext = createContext();
 const initialState = {
 	hideMenu: false,
 	modal: {
-		state: false,
+		isOpen: false,
 		title: null,
 		child: null,
 	},
 	dataToEdit: null,
+	isLoading: false,
+	redirectMsg: null,
 };
 
 const GlobalProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(globalReducers, initialState);
-	const { hideMenu, modal, dataToEdit } = state;
+	const { hideMenu, modal, dataToEdit, isLoading, redirectMsg } = state;
 
 	const toggleMenu = () => {
 		dispatch({ type: TYPES.TOGGLE_MENU, payload: !hideMenu });
 	};
 
-	const openModal = (modal, dataToEdit = undefined) => {
-		const { title, child } = modal;
+	const toggleModal = (modal, dataToEdit = undefined) => {
 		dispatch({
-			type: TYPES.OPEN_MODAL,
+			type: TYPES.TOGGLE_MODAL,
 			payload: {
-				modal: { state: true, title, child },
+				modal,
 				dataToEdit,
 			},
 		});
 	};
 
-	const closeModal = () => {
-		dispatch({
-			type: TYPES.CLOSE_MODAL,
-		});
+	const toggleLoader = payload => {
+		dispatch({ type: TYPES.TOGGLE_LOADER, payload });
+	};
+
+	const setRedirectMsg = msg => {
+		dispatch({ type: TYPES.SET_REDIRECT_MSG, payload: msg });
 	};
 
 	const data = {
 		hideMenu,
 		modal,
 		dataToEdit,
+		isLoading,
+		redirectMsg,
 		toggleMenu,
-		openModal,
-		closeModal,
+		toggleModal,
+		toggleLoader,
+		setRedirectMsg,
 	};
 
 	return (

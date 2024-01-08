@@ -8,13 +8,13 @@ import { theme } from '@theme';
 const Providers = ({ children }) => {
 	return (
 		<ThemeProvider theme={theme}>
-			<AuthProvider>
-				<GlobalProvider>
+			<GlobalProvider>
+				<AuthProvider>
 					<UsersProvider>
 						<ProductsProvider>{children}</ProductsProvider>
 					</UsersProvider>
-				</GlobalProvider>
-			</AuthProvider>
+				</AuthProvider>
+			</GlobalProvider>
 		</ThemeProvider>
 	);
 };

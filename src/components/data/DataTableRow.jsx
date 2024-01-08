@@ -30,7 +30,7 @@ import { categories } from '@components/forms/consts';
 
 const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 	const [checked, setChecked] = useState(!row.disabled);
-	const { openModal } = useGlobalContext();
+	const { toggleModal } = useGlobalContext();
 	const { roles, isAdmin } = useAuthContext();
 	const { toggleUserStatus } = useUserServices();
 	const { pathname, push } = useRouter();
@@ -49,7 +49,7 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 			title: `Edit ${setItemName(pathname)}`,
 			child: isProduct ? <FormProduct /> : <FormUser />,
 		};
-		openModal(modal, data);
+		toggleModal(modal, data);
 	};
 
 	const handleDetails = data => {

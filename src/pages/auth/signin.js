@@ -5,16 +5,18 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import FormAuth from '@components/forms/FormAuth';
 import { useAuthContext } from '@contexts/auth/AuthContext';
+import { useGlobalContext } from '@contexts/global/GlobalContext';
 
 const SignIn = () => {
+	const { isLoading } = useGlobalContext();
 	const { isAuth } = useAuthContext();
 	const router = useRouter();
 
 	useEffect(() => {
-		if (isAuth) {
+		if (isAuth && !isLoading) {
 			router.push('/admin/dashboard');
 		}
-	}, [isAuth]);
+	}, [isAuth, isLoading]);
 
 	return (
 		<Grid container className='signIn'>

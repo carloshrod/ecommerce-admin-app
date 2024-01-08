@@ -2,13 +2,16 @@ import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
 
 const Modal = () => {
-	const { modal, closeModal } = useGlobalContext();
+	const {
+		modal: { isOpen, title, child },
+		toggleModal,
+	} = useGlobalContext();
 
-	return (
+	return child ? (
 		<Dialog
 			maxWidth='md'
-			open={modal?.state}
-			onClose={closeModal}
+			open={isOpen}
+			onClose={() => toggleModal()}
 			sx={{
 				'@media (500px < width <= 600px )': { px: 6 },
 				'@media (700px < width <= 800px )': { px: 4 },
@@ -17,10 +20,10 @@ const Modal = () => {
 				'@media (1000px < width )': { px: 16 },
 			}}
 		>
-			<DialogTitle>{modal?.title}</DialogTitle>
-			<DialogContent>{modal?.child}</DialogContent>
+			<DialogTitle>{title}</DialogTitle>
+			<DialogContent>{child}</DialogContent>
 		</Dialog>
-	);
+	) : null;
 };
 
 export default Modal;

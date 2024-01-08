@@ -12,6 +12,7 @@ const authReducers = (state, action) => {
 				idToken,
 			};
 		}
+
 		case TYPES.SIGN_OUT: {
 			return {
 				...state,
@@ -19,6 +20,7 @@ const authReducers = (state, action) => {
 				loggedUser: {},
 			};
 		}
+
 		case TYPES.UPDATE_LOGGED_USER: {
 			const { userUpdated } = action?.payload;
 			return {
@@ -26,6 +28,7 @@ const authReducers = (state, action) => {
 				loggedUser: userUpdated,
 			};
 		}
+
 		default:
 			return state;
 	}

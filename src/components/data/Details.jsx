@@ -4,12 +4,14 @@ import { Card, CardMedia, Grid } from '@mui/material';
 import useProductServices from '@services/useProductServices';
 import useUserServices from '@services/useUserServices';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import CustomSkeleton from '@components/ui/CustomSkeleton';
+import useSkeleton from '@hooks/useSkeleton';
 
-const Details = ({ children }) => {
-	const [isDataFetched, setIsDataFetched] = useState(false);
+const Details = ({ data, children }) => {
 	const { getOneProduct } = useProductServices();
 	const { getOneUser } = useUserServices();
+	const { isFetched } = useSkeleton(data);
 	const {
 		query: { id },
 		pathname,
@@ -25,20 +27,18 @@ const Details = ({ children }) => {
 				getOneUser(id);
 			}
 		}
-		setTimeout(() => {
-			setIsDataFetched(true);
-		}, 100);
 	}, [id]);
 
 	return (
 		<Grid item xs={12}>
-			{!isDataFetched ? (
-				<span>Loader...</span>
-			) : (
-				<Card className='details'>
-					{isProduct ? (
-						<Carousel />
-					) : (
+			<Card className='details'>
+				{isProduct ? (
+					<Carousel />
+				) : (
+					<CustomSkeleton
+						isFetched={isFetched}
+						style={{ mb: '0 !important', height: 300 }}
+					>
 						<CardMedia
 							component='img'
 							height='300'
@@ -46,10 +46,10 @@ const Details = ({ children }) => {
 							alt='header image'
 							sx={{ bgcolor: '#f0f9ff' }}
 						/>
-					)}
-					{children}
-				</Card>
-			)}
+					</CustomSkeleton>
+				)}
+				{children}
+			</Card>
 		</Grid>
 	);
 };

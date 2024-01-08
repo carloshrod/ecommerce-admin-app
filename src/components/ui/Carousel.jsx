@@ -8,10 +8,13 @@ import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 import Image from 'next/image';
 import { Box } from '@mui/material';
 import { useProductsContext } from '@contexts/products/ProductsContext';
+import useSkeleton from '@hooks/useSkeleton';
+import CustomSkeleton from './CustomSkeleton';
 
 const Carousel = () => {
 	const [thumbsSwiper, setThumbsSwiper] = useState(null);
 	const { product } = useProductsContext();
+	const { isFetched } = useSkeleton(product);
 	const imagesArray = product?.images ?? [];
 
 	return (
@@ -31,16 +34,18 @@ const Carousel = () => {
 			>
 				{imagesArray.map((img, index) => (
 					<SwiperSlide key={`carousel-img${index}`}>
-						{img && (
-							<Image
-								className='imgSlide'
-								width='150'
-								height='150'
-								src={img}
-								alt='Carousel image'
-								priority={true}
-							/>
-						)}
+						<CustomSkeleton isFetched={isFetched} variant='text'>
+							{img && (
+								<Image
+									className='imgSlide'
+									width='150'
+									height='150'
+									src={img}
+									alt='Carousel image'
+									priority={true}
+								/>
+							)}
+						</CustomSkeleton>
 					</SwiperSlide>
 				))}
 			</Swiper>
@@ -55,16 +60,18 @@ const Carousel = () => {
 			>
 				{imagesArray.map((img, index) => (
 					<SwiperSlide key={`carousel-img${index}`}>
-						{img && (
-							<Image
-								className='imgSlide'
-								width='40'
-								height='40'
-								src={img}
-								alt='Carousel image'
-								priority={true}
-							/>
-						)}
+						<CustomSkeleton isFetched={isFetched} variant='text'>
+							{img && (
+								<Image
+									className='imgSlide'
+									width='40'
+									height='40'
+									src={img}
+									alt='Carousel image'
+									priority={true}
+								/>
+							)}
+						</CustomSkeleton>
 					</SwiperSlide>
 				))}
 			</Swiper>

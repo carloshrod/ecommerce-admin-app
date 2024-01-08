@@ -20,9 +20,9 @@ export const setProductToCreateObj = (product, id, productImages) => {
 	return {
 		...product,
 		id,
+		images: productImages,
 		price: parseFloat(price),
 		stock: parseInt(stock),
-		images: productImages,
 		// TODO: generate SKU
 		createdAt: serverTimestamp(),
 		lastUpdate: serverTimestamp(),
@@ -37,9 +37,9 @@ export const setProductToUpdateObj = (product, productImages) => {
 
 	return {
 		...product,
+		images: productImages,
 		price: parseFloat(price),
 		stock: parseInt(stock),
-		images: productImages,
 		lastUpdate: serverTimestamp(),
 	};
 };

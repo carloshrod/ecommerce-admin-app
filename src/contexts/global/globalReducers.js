@@ -8,21 +8,33 @@ const globalReducers = (state, action) => {
 				hideMenu: action.payload,
 			};
 		}
-		case TYPES.OPEN_MODAL: {
+
+		case TYPES.TOGGLE_MODAL: {
+			const { isOpen } = state.modal;
 			const { modal, dataToEdit } = action.payload;
+			const { title, child } = modal ?? { title: null, child: null };
+
 			return {
 				...state,
-				modal,
+				modal: { isOpen: !isOpen, title, child },
 				dataToEdit,
 			};
 		}
-		case TYPES.CLOSE_MODAL: {
+
+		case TYPES.TOGGLE_LOADER: {
 			return {
 				...state,
-				modal: { state: false, title: null, child: null },
-				dataToEdit: null,
+				isLoading: action.payload,
 			};
 		}
+
+		case TYPES.SET_REDIRECT_MSG: {
+			return {
+				...state,
+				redirectMsg: action.payload,
+			};
+		}
+
 		default:
 			return state;
 	}

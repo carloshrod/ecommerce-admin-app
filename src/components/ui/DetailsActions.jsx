@@ -12,35 +12,35 @@ import FormPassword from '@components/forms/FormPassword';
 import { setItemName } from '@components/utils';
 import FormProduct from '@components/forms/FormProduct';
 import useProductServices from '@services/useProductServices';
+import useSkeleton from '@hooks/useSkeleton';
 
 const DetailsActions = ({ item, isLoggedUser = false }) => {
-	const { openModal } = useGlobalContext();
+	const { toggleModal } = useGlobalContext();
 	const { isAdmin } = useAuthContext();
+	const { deleteProduct } = useProductServices();
+	const { deleteUser } = useUserServices();
+	const { isFetched } = useSkeleton(item);
 	const {
 		pathname,
 		query: { id },
 	} = useRouter();
-	const { deleteProduct } = useProductServices();
-	const { deleteUser } = useUserServices();
 	const itemName = setItemName(pathname, id);
 	const isProduct = pathname.includes('products');
 
 	const handleEdit = () => {
 		const modal = {
-			state: true,
 			title: `Edit ${id ? itemName : 'Profile'}`,
 			child: isProduct ? <FormProduct /> : <FormUser />,
 		};
-		openModal(modal, item);
+		toggleModal(modal, item);
 	};
 
 	const handleChangePassword = () => {
 		const modal = {
-			state: true,
 			title: 'Change password',
 			child: <FormPassword />,
 		};
-		openModal(modal);
+		toggleModal(modal);
 	};
 
 	const handleDelete = async () => {
@@ -51,7 +51,7 @@ const DetailsActions = ({ item, isLoggedUser = false }) => {
 		}
 	};
 
-	return (
+	return isFetched ? (
 		<CardActions
 			className='actions'
 			sx={{
@@ -88,7 +88,7 @@ const DetailsActions = ({ item, isLoggedUser = false }) => {
 				</ToolTip>
 			)}
 		</CardActions>
-	);
+	) : null;
 };
 
 export default DetailsActions;
