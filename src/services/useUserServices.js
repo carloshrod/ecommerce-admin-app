@@ -58,7 +58,6 @@ const useUserServices = () => {
 			if (res.status === 201) {
 				const { uid } = res.data;
 				const avatar = file ? await generateImageURL(file, uid) : '';
-				console.log(avatar);
 				const userToCreate = setUserToCreateObj(uid, user, avatar);
 				await setDoc(doc(collection, uid), userToCreate);
 				userDispatch({

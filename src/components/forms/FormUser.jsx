@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Grid, Stack } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
@@ -9,6 +10,7 @@ import InputFile from './InputFile';
 import { useAuthContext } from '@contexts/auth/AuthContext';
 import { generateInputUserProps } from './utils';
 import { ITEMS_WIDTH } from './consts';
+import validateUser from '@validations/validateUser';
 
 const initialForm = {
 	displayName: '',
@@ -23,6 +25,7 @@ const FormUser = () => {
 		form,
 		pathImage,
 		errors,
+		setErrors,
 		handleInputChange,
 		handleSelectChange,
 		handleFileChange,
@@ -33,9 +36,9 @@ const FormUser = () => {
 	const { roles } = useAuthContext();
 	const { pathname } = useRouter();
 
-	// useEffect(() => {
-	// 	setErrors(validateUser(form));
-	// }, [form]);
+	useEffect(() => {
+		setErrors(validateUser(form));
+	}, [form]);
 
 	const inputProps = generateInputUserProps(roles, pathname);
 
