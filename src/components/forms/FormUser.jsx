@@ -11,6 +11,7 @@ import { useAuthContext } from '@contexts/auth/AuthContext';
 import { generateInputUserProps } from './utils';
 import { ITEMS_WIDTH } from './consts';
 import validateUser from '@validations/validateUser';
+import InputMask from 'react-input-mask';
 
 const initialForm = {
 	displayName: '',
@@ -75,15 +76,15 @@ const FormUser = () => {
 									errors={errors}
 								/>
 							)
-						) : // <InputMask
-						// 	value={form[input.name]}
-						// 	mask={input.mask}
-						// 	maskPlaceholder=' '
-						// 	onChange={handleInputChange}
-						// >
-						// 	<Input {...input} value={form[input.name]} errors={errors} />
-						// </InputMask>
-						null}
+						) : (
+							<InputMask
+								mask={input.mask}
+								value={form[input.name]}
+								onChange={handleInputChange}
+							>
+								<Input {...input} errors={errors} />
+							</InputMask>
+						)}
 					</Grid>
 				))}
 			</Grid>
