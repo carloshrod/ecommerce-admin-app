@@ -17,10 +17,7 @@ const ActionsForm = ({
 	}, [errors]);
 
 	return (
-		<Box
-			sx={{ display: 'flex', justifyContent: 'space-between' }}
-			onClick={() => setInputFileFocused(true)}
-		>
+		<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
 			<Button
 				sx={{ width: 100 }}
 				variant='outlined'
@@ -29,15 +26,17 @@ const ActionsForm = ({
 			>
 				Close
 			</Button>
-			<Button
-				sx={{ width: 100 }}
-				variant='outlined'
-				type='submit'
-				color='success'
-				disabled={!isFormOk}
-			>
-				{label}
-			</Button>
+			<Box onClick={() => setInputFileFocused(true)}>
+				<Button
+					sx={{ width: 100 }}
+					variant='outlined'
+					type='submit'
+					color='success'
+					disabled={!isFormOk}
+				>
+					{label}
+				</Button>
+			</Box>
 		</Box>
 	);
 };
