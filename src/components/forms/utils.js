@@ -48,7 +48,7 @@ export const generateInputUserProps = (roles, pathname) => {
 			label: 'Phone number',
 			icon: <PhoneIphoneIcon />,
 			placeholder: '(123) 456-7890',
-			mask: `(999) 999-9999`,
+			mask: '(999) 999-9999',
 		},
 		{
 			id: 'idRole',

@@ -1,7 +1,8 @@
+import { useState } from 'react';
 import { IconButton, InputAdornment, TextField } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { useState } from 'react';
+import InputMask from 'react-input-mask';
 
 const Input = ({
 	name,
@@ -10,6 +11,7 @@ const Input = ({
 	maxWidth = null,
 	onChange = null,
 	errors,
+	mask = null,
 	...inputProps
 }) => {
 	const [focused, setFocused] = useState(false);
@@ -25,7 +27,7 @@ const Input = ({
 
 	const isInputWrong = focused && errors[name];
 
-	return (
+	const renderInput = () => (
 		<TextField
 			{...inputProps}
 			name={name}
@@ -33,7 +35,7 @@ const Input = ({
 			error={!!isInputWrong}
 			helperText={focused ? errors[name] : null}
 			onChange={onChange}
-			onBlur={handleFocus}
+			onBlur={!mask ? handleFocus : null}
 			onKeyUp={
 				name === 'repeatNewPassword'
 					? () =>
@@ -81,6 +83,19 @@ const Input = ({
 					) : null,
 			}}
 		/>
+	);
+
+	return mask ? (
+		<InputMask
+			mask={mask}
+			maskPlaceholder=' '
+			value={inputProps.value}
+			onChange={onChange}
+		>
+			{renderInput()}
+		</InputMask>
+	) : (
+		renderInput()
 	);
 };
 
