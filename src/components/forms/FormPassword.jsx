@@ -3,6 +3,8 @@ import Input from './Input';
 import useForm from '@hooks/useForm';
 import ActionsForm from './ActionsForm';
 import { inputPasswordProps } from './consts';
+import { useEffect } from 'react';
+import validatePassword from '@validations/validatePassword';
 
 const initialForm = {
 	currentPassword: '',
@@ -11,8 +13,19 @@ const initialForm = {
 };
 
 const FormPassword = () => {
-	const { form, errors, handleInputChange, handleReset, handleSubmitPassword } =
-		useForm(initialForm);
+	const {
+		form,
+		errors,
+		setErrors,
+		handleInputChange,
+		handleReset,
+		handleSubmitPassword,
+	} = useForm(initialForm);
+
+	useEffect(() => {
+		const passwordErrors = validatePassword(form);
+		setErrors(passwordErrors);
+	});
 
 	return (
 		<Stack
