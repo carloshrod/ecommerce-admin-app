@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { IconButton, InputAdornment, TextField } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import InputMask from 'react-input-mask';
 
 const Input = ({
 	name,
@@ -27,7 +26,7 @@ const Input = ({
 
 	const isInputWrong = focused && errors[name];
 
-	const renderInput = () => (
+	return (
 		<TextField
 			{...inputProps}
 			name={name}
@@ -83,19 +82,6 @@ const Input = ({
 					) : null,
 			}}
 		/>
-	);
-
-	return mask ? (
-		<InputMask
-			mask={mask}
-			maskPlaceholder=' '
-			value={inputProps.value}
-			onChange={onChange}
-		>
-			{renderInput()}
-		</InputMask>
-	) : (
-		renderInput()
 	);
 };
 
