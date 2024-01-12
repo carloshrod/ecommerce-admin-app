@@ -25,7 +25,7 @@ const FormPassword = () => {
 	useEffect(() => {
 		const passwordErrors = validatePassword(form);
 		setErrors(passwordErrors);
-	});
+	}, [form]);
 
 	return (
 		<Stack
