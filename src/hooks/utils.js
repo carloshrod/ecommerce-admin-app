@@ -1,8 +1,8 @@
 export const formatInputValue = (value, name) => {
 	const FORMATS = {
-		price: formatPrice(value),
-		stock: formatStock(value),
-		phoneNumber: formatPhoneNumber(value),
+		price: formatInputPrice(value),
+		stock: formatInputStock(value),
+		phoneNumber: formatInputPhoneNumber(value),
 	};
 
 	const formattedValue = FORMATS[name] ?? value;
@@ -10,7 +10,7 @@ export const formatInputValue = (value, name) => {
 	return formattedValue;
 };
 
-export const formatPrice = value => {
+export const formatInputPrice = value => {
 	let maskedValue = value.replace(/[^0-9.]/g, '');
 
 	if (maskedValue.startsWith('0') && maskedValue.length > 1) {
@@ -26,7 +26,7 @@ export const formatPrice = value => {
 	return maskedValue;
 };
 
-export const formatStock = value => {
+export const formatInputStock = value => {
 	let maskedValue = value.replace(/[^0-9]/g, '');
 
 	if (maskedValue.startsWith('0') && maskedValue.length > 1) {
@@ -36,7 +36,7 @@ export const formatStock = value => {
 	return maskedValue;
 };
 
-export const formatPhoneNumber = value => {
+export const formatInputPhoneNumber = value => {
 	const rawValue = value.replace(/[\s-]/g, '');
 	const limitedValue = rawValue.slice(0, 12);
 	const numericValue = limitedValue.replace(/\D/g, '');
