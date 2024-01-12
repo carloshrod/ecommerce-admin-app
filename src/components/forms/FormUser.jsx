@@ -37,7 +37,8 @@ const FormUser = () => {
 	const { pathname } = useRouter();
 
 	useEffect(() => {
-		setErrors(validateUser(form));
+		const userErrors = validateUser(form);
+		setErrors(userErrors);
 	}, [form]);
 
 	const inputProps = generateInputUserProps(roles, pathname);

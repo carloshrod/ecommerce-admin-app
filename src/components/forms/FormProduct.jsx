@@ -37,8 +37,8 @@ const FormProduct = () => {
 	const [inputFileFocused, setInputFileFocused] = useState(false);
 
 	useEffect(() => {
-		const isValid = validateProduct(form, files, dataToEdit);
-		setErrors(isValid);
+		const productErrors = validateProduct(form, files, dataToEdit);
+		setErrors(productErrors);
 	}, [form, files]);
 
 	return (
