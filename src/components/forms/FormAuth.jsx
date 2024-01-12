@@ -6,6 +6,8 @@ import Input from './Input';
 import { FORGOT_PASSWORD, SIGNIN } from '@utils/routes';
 import useForm from '@hooks/useForm';
 import { formSignInProps, formForgotPasswordProps } from './consts';
+import validateAuth from '@validations/validateAuth';
+import { useEffect } from 'react';
 
 const signinInitialForm = {
 	email: process.env.NEXT_PUBLIC_TEST_EMAIL,
@@ -16,15 +18,15 @@ const FormAuth = () => {
 	const { pathname } = useRouter();
 	const isSignIn = pathname === SIGNIN;
 	const initialForm = isSignIn ? signinInitialForm : { email: '' };
-	const { form, errors, handleInputChange, handleSubmitAuth } =
+	const { form, errors, setErrors, handleInputChange, handleSubmitAuth } =
 		useForm(initialForm);
 	const { inputProps, title, paragraph, textLink, textBtn } = isSignIn
 		? formSignInProps
 		: formForgotPasswordProps;
 
-	// useEffect(() => {
-	//   setErrors(validateSignIn(form));
-	// }, [form]);
+	useEffect(() => {
+		setErrors(validateAuth(form));
+	}, [form]);
 
 	return (
 		<Box className='formAuth'>
