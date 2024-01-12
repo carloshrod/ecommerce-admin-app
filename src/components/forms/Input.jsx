@@ -10,7 +10,6 @@ const Input = ({
 	maxWidth = null,
 	onChange = null,
 	errors,
-	mask = null,
 	...inputProps
 }) => {
 	const [focused, setFocused] = useState(false);
@@ -34,7 +33,7 @@ const Input = ({
 			error={!!isInputWrong}
 			helperText={focused ? errors[name] : null}
 			onChange={onChange}
-			onBlur={!mask ? handleFocus : null}
+			onBlur={handleFocus}
 			onKeyUp={
 				name === 'repeatNewPassword'
 					? () =>
