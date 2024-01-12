@@ -5,12 +5,14 @@ const validateUser = user => {
 	const errors = {};
 
 	Object.keys(user).forEach(field => {
-		if (user[field] === '') {
-			errors[field] = 'Field required';
-		} else if (field === 'email' && !regex.email.test(email)) {
-			errors.email = 'Enter a valid email address! Ex: example@mail.com';
-		} else if (field === 'phoneNumber' && !regex.phone.test(phoneNumber)) {
-			errors.phoneNumber = 'Enter a valid phone number! Ex: (321) 456-7890';
+		if (field !== 'avatar') {
+			if (user[field] === '') {
+				errors[field] = 'Field required';
+			} else if (field === 'email' && !regex.email.test(email)) {
+				errors.email = 'Enter a valid email address! Ex: example@mail.com';
+			} else if (field === 'phoneNumber' && !regex.phone.test(phoneNumber)) {
+				errors.phoneNumber = 'Enter a valid phone number! Ex: (321) 456-7890';
+			}
 		}
 	});
 
