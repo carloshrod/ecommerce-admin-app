@@ -5,6 +5,7 @@ import useUserServices from '@services/useUserServices';
 import { useRouter } from 'next/router';
 import { SIGNIN } from '@utils/routes';
 import useProductServices from '@services/useProductServices';
+import { formatInputValue } from './utils';
 
 const useForm = initialForm => {
 	const [form, setForm] = useState(initialForm);
@@ -30,9 +31,10 @@ const useForm = initialForm => {
 
 	const handleInputChange = event => {
 		const { value, name } = event.target;
+		const formattedValue = formatInputValue(value, name);
 		setForm({
 			...form,
-			[name]: value,
+			[name]: formattedValue,
 		});
 	};
 
