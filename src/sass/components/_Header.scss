@@ -5,14 +5,6 @@
   z-index: 999;
   background-color: var(--bg-primary-color);
 
-  &__toggleSidebar {
-    z-index: 999;
-
-    @media (max-width: 599px) {
-      display: none;
-    }
-  }
-
   &__toolbar {
     max-width: 1250px;
     margin: 0 auto;

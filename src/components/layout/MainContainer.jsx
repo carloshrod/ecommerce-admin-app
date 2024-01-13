@@ -14,8 +14,8 @@ const MainContainer = ({ children }) => {
 
 	return (
 		<Box
-			className={`mainContainer ${hideMenu ? 'mainContainer--left' : null}`}
-			id={!hideMenu ? null : 'right'}
+			className={`mainContainer ${hideMenu ? 'mainContainer--left' : ''}`}
+			id={!hideMenu ? '' : 'right'}
 		>
 			{id ? (
 				<BreadCrumbs title={title} pathname={pathname} />

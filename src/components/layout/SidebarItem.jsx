@@ -7,11 +7,9 @@ import useScreen from '@hooks/useScreen';
 import { setItemSelected } from '@components/utils';
 import useAuthServices from '@services/useAuthServices';
 
-const SidebarItem = ({ item, hideMenu, open, handleOpen }) => {
+const SidebarItem = ({ item, open, handleOpen }) => {
 	const { logout } = useAuthServices();
 	const { width } = useScreen();
-	const isSidebarHidden =
-		(width < 1200 && hideMenu) || (width > 1200 && !hideMenu);
 	const { pathname } = useRouter();
 
 	const ITEM_BTN_CLICKS = {
@@ -19,20 +17,17 @@ const SidebarItem = ({ item, hideMenu, open, handleOpen }) => {
 		Logout: logout,
 	};
 
-	const addPaddingLeft =
-		isSidebarHidden && (item.label === 'Staff' || item.label === 'Customers')
-			? 'iconPaddingLeft'
-			: null;
+	const isUser = item.label === 'Staff' || item.label === 'Customers';
 
 	return (
 		<NavLink href={item.path}>
 			<ToolTip title={width < 600 ? item.label : null} placement='right'>
 				<ListItemButton
-					className={item.label === 'Logout' ? 'sidebar--logout' : null}
+					className={isUser ? 'sidebar--collapse' : ''}
 					selected={setItemSelected(item, open, pathname)}
 					onClick={ITEM_BTN_CLICKS[item.label]}
 				>
-					<ListItemIcon className={addPaddingLeft}>{item.icon}</ListItemIcon>
+					<ListItemIcon>{item.icon}</ListItemIcon>
 					<ListItemText
 						primary={item.label}
 						primaryTypographyProps={{ style: { fontSize: '14px' } }}
@@ -40,13 +35,9 @@ const SidebarItem = ({ item, hideMenu, open, handleOpen }) => {
 					{item.label === 'Users' ? (
 						<>
 							{open ? (
-								<ExpandLess
-									className={`${isSidebarHidden ? null : 'expand'}`}
-								/>
+								<ExpandLess className='expandIcon' />
 							) : (
-								<ExpandMore
-									className={`${isSidebarHidden ? null : 'expand'}`}
-								/>
+								<ExpandMore className='expandIcon' />
 							)}
 						</>
 					) : null}

@@ -18,7 +18,7 @@ const Header = () => {
 	return (
 		<Box component='header' className='header'>
 			<Toolbar component='nav' className='header__toolbar'>
-				<ToggleSidebar className='header__toggleSidebar' />
+				<ToggleSidebar />
 				<section className='header__logo'>
 					<Image src='/ec-admin-logo.png' width='50' height='50' alt='logo' />
 					<Typography variant='h5' component='div'>

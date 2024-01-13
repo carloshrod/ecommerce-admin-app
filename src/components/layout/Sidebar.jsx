@@ -16,8 +16,8 @@ const Sidebar = () => {
 
 	return (
 		<aside
-			className={`sidebar ${hideMenu ? 'sidebar--hide' : null} `}
-			id={!hideMenu ? null : 'show'}
+			className={`sidebar ${hideMenu ? 'sidebar--hide' : ''} `}
+			id={!hideMenu ? '' : 'show'}
 		>
 			<List component='nav' aria-label='main sidebar'>
 				{sidebarMenu
@@ -26,7 +26,6 @@ const Sidebar = () => {
 						<div key={`sidebar-item-${item.id}`}>
 							<SidebarItem
 								item={item}
-								hideMenu={hideMenu}
 								open={openCollapseItem}
 								handleOpen={handleOpen}
 							/>
@@ -36,7 +35,6 @@ const Sidebar = () => {
 										<SidebarItem
 											key={`sidebar-users-item-${item.id}`}
 											item={item}
-											hideMenu={hideMenu}
 											open={openCollapseItem}
 											handleOpen={handleOpen}
 										/>
