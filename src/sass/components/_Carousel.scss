@@ -1,3 +1,5 @@
+@use '../abstracts/mixins';
+
 .MySwiper {
   width: 100%;
   height: 100%;
@@ -27,7 +29,7 @@
     }
   }
 
-  @media (max-width: 600px) {
+  @include mixins.mobile {
 
     .swiper-button-prev,
     .swiper-button-next {
@@ -36,7 +38,6 @@
 
     .swiper-slide {
       img {
-        border-radius: 5px;
         width: 150px !important;
         height: 150px !important;
       }
@@ -82,7 +83,7 @@
     }
   }
 
-  @media (max-width: 600px) {
+  @include mixins.mobile {
     width: 100% !important;
     margin-top: 2rem;
 
