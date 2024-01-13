@@ -1,4 +1,6 @@
+import toast from 'react-hot-toast';
 import { SwalConfirm } from './utils';
+import errorHandler from '@utils/errorHandler';
 
 const withEnhances =
 	(
@@ -23,7 +25,8 @@ const withEnhances =
 				}
 			}
 		} catch (error) {
-			console.error(error.message);
+			const err = errorHandler(error);
+			if (err) toast.error(err);
 		} finally {
 			if (loader) {
 				setTimeout(() => {

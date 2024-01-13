@@ -17,7 +17,7 @@ export default async (req, res) => {
 			}
 			return res.status(400).send();
 		} catch (error) {
-			res.status(400).send({ msg: error.message });
+			res.status(400).send(error.message);
 		}
 	}
 
@@ -33,7 +33,7 @@ export default async (req, res) => {
 			}
 			return res.status(400).send();
 		} catch (error) {
-			res.status(400).send({ msg: error.message });
+			res.status(400).send(error.message);
 		}
 	}
 
@@ -45,7 +45,7 @@ export default async (req, res) => {
 			await adminAuth.deleteUser(id);
 			return res.status(200).send();
 		} catch (error) {
-			res.status(400).send({ msg: error.message });
+			res.status(400).send(error.message);
 		}
 	}
 };

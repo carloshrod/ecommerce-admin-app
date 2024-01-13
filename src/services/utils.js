@@ -62,5 +62,3 @@ export const setUserToUpdateObj = (user, newAvatar) => {
 		lastUpdate: serverTimestamp(),
 	};
 };
-
-export const formatNumber = number => {};
