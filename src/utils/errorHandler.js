@@ -7,6 +7,7 @@ const ERRORS = {
 	'email-already-exists':
 		'The email address is already in use by another account!',
 	'weak-password': 'Password is too weak!',
+	ECONNABORTED: 'Something went wrong. Please try it later!',
 	defaultError: 'Something went wrong. Please try it later!',
 };
 
@@ -16,7 +17,7 @@ const errorHandler = error => {
 	if (error?.response) {
 		handler = `${error?.response?.data?.slice(0, -1)}!`;
 	} else if (error?.code) {
-		const code = error?.code?.slice(5);
+		const code = error?.code?.replace(/auth\//, '');
 		handler = ERRORS[code];
 	} else {
 		handler = error?.message;
