@@ -55,7 +55,7 @@ const useUserServices = () => {
 	const addUser = withEnhances(
 		async (user, file) => {
 			const res = await authRegisterUser(user);
-			if (res.status === 201) {
+			if (res?.status === 201) {
 				const { uid } = res.data;
 				const avatar = file ? await generateImageURL(file, uid) : '';
 				const userToCreate = setUserToCreateObj(uid, user, avatar);
@@ -74,7 +74,7 @@ const useUserServices = () => {
 		async (user, file) => {
 			const { avatar, id } = user;
 			const res = await authUpdateUser(id, user);
-			if (res.status === 200) {
+			if (res?.status === 200) {
 				let newAvatar = avatar;
 				if (file) {
 					await deleteFile(id);
@@ -100,7 +100,7 @@ const useUserServices = () => {
 		async user => {
 			const { id, disabled } = user;
 			const res = await authUpdateUserStatus(id, { disabled: !disabled });
-			if (res.status === 200) {
+			if (res?.status === 200) {
 				await updateDoc(doc(collection, id), {
 					disabled: !disabled,
 					lastUpdate: serverTimestamp(),
@@ -120,17 +120,19 @@ const useUserServices = () => {
 		async userIds => {
 			userIds.forEach(async id => {
 				const res = await authDeleteUser(id);
-				if (res.status === 200) {
+				if (res?.status === 200) {
 					await deleteFile(id);
 					await deleteDoc(doc(collection, id));
 					userDispatch({
 						type: USER_TYPES.DELETE_USER,
 						payload: { userId: id, isStaff },
 					});
+					if (isProfile) push(isStaff ? STAFF : CUSTOMERS);
+					toast.success(`${userIds.length > 1 ? 'Users' : 'User'} deleted!`, {
+						id: 'userDeleted',
+					});
 				}
 			});
-			if (isProfile) push(isStaff ? STAFF : CUSTOMERS);
-			toast.success(`${userIds.length > 1 ? 'Users' : 'User'} deleted!`);
 		},
 		{
 			confirm: true,
