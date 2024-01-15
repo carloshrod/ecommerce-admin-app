@@ -8,6 +8,7 @@ import useForm from '@hooks/useForm';
 import { formSignInProps, formForgotPasswordProps } from './consts';
 import validateAuth from '@validations/validateAuth';
 import { useEffect } from 'react';
+import { useGlobalContext } from '@contexts/global/GlobalContext';
 
 const signinInitialForm = {
 	email: process.env.NEXT_PUBLIC_TEST_EMAIL,
@@ -23,6 +24,8 @@ const FormAuth = () => {
 	const { inputProps, title, paragraph, textLink, textBtn } = isSignIn
 		? formSignInProps
 		: formForgotPasswordProps;
+	const { isLoading } = useGlobalContext();
+	const isDisabled = Object.keys(errors).length > 0 || isLoading;
 
 	useEffect(() => {
 		setErrors(validateAuth(form));
@@ -79,7 +82,7 @@ const FormAuth = () => {
 					sx={{ width: '100%' }}
 					variant='contained'
 					type='submit'
-					disabled={!(Object.keys(errors).length === 0)}
+					disabled={isDisabled}
 				>
 					{textBtn}
 				</Button>

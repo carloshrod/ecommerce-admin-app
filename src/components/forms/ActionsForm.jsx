@@ -1,3 +1,4 @@
+import { useGlobalContext } from '@contexts/global/GlobalContext';
 import { Box, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 
@@ -8,6 +9,8 @@ const ActionsForm = ({
 	setInputFileFocused = () => null,
 }) => {
 	const [isFormOk, setIsFormOk] = useState();
+	const { isLoading } = useGlobalContext();
+	const isDisabled = !isFormOk || isLoading;
 
 	useEffect(() => {
 		if (Object.keys(errors).length === 0) {
@@ -32,7 +35,7 @@ const ActionsForm = ({
 					variant='outlined'
 					type='submit'
 					color='success'
-					disabled={!isFormOk}
+					disabled={isDisabled}
 				>
 					{label}
 				</Button>
