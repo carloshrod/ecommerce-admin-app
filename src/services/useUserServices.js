@@ -15,7 +15,7 @@ import { useUsersContext } from '@contexts/users/UsersContext';
 import useApi from '@hooks/useApi';
 import { CUSTOMERS, SETTINGS, STAFF } from '@utils/routes';
 import { useRouter } from 'next/router';
-import { generateImageURL, deleteFile } from './fileServices';
+import useFileServices from './useFileServices';
 import { USER_TYPES } from '@contexts/users/userActions';
 import { AUTH_TYPES } from '@contexts/auth/authActions';
 import { setUserToCreateObj, setUserToUpdateObj } from './utils';
@@ -34,6 +34,7 @@ const useUserServices = () => {
 	const { toggleLoader } = useGlobalContext();
 	const { authDispatch } = useAuthContext();
 	const { userDispatch } = useUsersContext();
+	const { generateImageURL, deleteFile } = useFileServices();
 	const { pathname, query, push } = useRouter();
 
 	const isSettings = pathname === SETTINGS;

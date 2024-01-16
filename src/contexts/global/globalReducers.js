@@ -35,6 +35,13 @@ const globalReducers = (state, action) => {
 			};
 		}
 
+		case TYPES.SET_PROGRESS: {
+			return {
+				...state,
+				progress: action.payload,
+			};
+		}
+
 		default:
 			return state;
 	}

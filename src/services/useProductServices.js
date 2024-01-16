@@ -9,19 +9,20 @@ import {
 import { db } from '@firebase/client';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
-import { deleteFiles, generateImagesArray } from './fileServices';
 import { setProductToCreateObj, setProductToUpdateObj } from './utils';
 import withEnhances from './withEnhances';
 import { PRODUCTS } from '@utils/routes';
 import { useProductsContext } from '@contexts/products/ProductsContext';
 import { PRODUCT_TYPES } from '@contexts/products/productActions';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
+import useFileServices from './useFileServices';
 
 const productsCollectionRef = collection(db, 'products');
 
 const useProductServices = () => {
 	const { toggleLoader } = useGlobalContext();
 	const { productDispatch } = useProductsContext();
+	const { generateImagesArray, deleteFiles } = useFileServices();
 	const {
 		query: { id },
 		push,
