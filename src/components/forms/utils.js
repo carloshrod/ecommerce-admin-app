@@ -3,8 +3,11 @@ import EmailIcon from '@mui/icons-material/Email';
 import PublicIcon from '@mui/icons-material/Public';
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
-import { countryCodes } from './consts';
+import { ITEMS_WIDTH, countryCodes } from './consts';
 import { setOptions } from '@components/utils';
+import { Grid } from '@mui/material';
+import Input from './Input';
+import InputSelect from './InputSelect';
 
 export const generateInputUserProps = (roles, pathname) => {
 	let arrayOptions = setOptions(roles);
@@ -58,4 +61,29 @@ export const generateInputUserProps = (roles, pathname) => {
 			options: arrayOptions,
 		},
 	];
+};
+
+export const generateInputs = (
+	input,
+	{ form, errors, handleInputChange, handleSelectChange },
+) => {
+	return (
+		<Grid item xs={12} sm={ITEMS_WIDTH[input.name + 'Sm'] ?? 6} key={input.id}>
+			{input.type !== 'select' ? (
+				<Input
+					{...input}
+					value={form[input.name]}
+					onChange={handleInputChange}
+					errors={errors}
+				/>
+			) : (
+				<InputSelect
+					{...input}
+					value={form[input.name]}
+					onChange={handleSelectChange}
+					errors={errors}
+				/>
+			)}
+		</Grid>
+	);
 };

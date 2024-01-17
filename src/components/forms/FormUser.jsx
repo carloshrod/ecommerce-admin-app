@@ -3,13 +3,10 @@ import { Grid, Stack } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
 import useForm from '@hooks/useForm';
-import Input from './Input';
 import ActionsForm from './ActionsForm';
-import InputSelect from './InputSelect';
 import InputFile from './InputFile';
 import { useAuthContext } from '@contexts/auth/AuthContext';
-import { generateInputUserProps } from './utils';
-import { ITEMS_WIDTH } from './consts';
+import { generateInputUserProps, generateInputs } from './utils';
 import validateUser from '@validations/validateUser';
 
 const initialForm = {
@@ -53,30 +50,14 @@ const FormUser = () => {
 		>
 			<InputFile pathImage={pathImage} onChange={handleFileChange} />
 			<Grid container spacing={3}>
-				{inputProps.map(input => (
-					<Grid
-						item
-						xs={12}
-						sm={ITEMS_WIDTH[input.name + 'Sm'] ?? 6}
-						key={input.id}
-					>
-						{input.type !== 'select' ? (
-							<Input
-								{...input}
-								value={form[input.name]}
-								onChange={handleInputChange}
-								errors={errors}
-							/>
-						) : (
-							<InputSelect
-								{...input}
-								value={form[input.name]}
-								onChange={handleSelectChange}
-								errors={errors}
-							/>
-						)}
-					</Grid>
-				))}
+				{inputProps.map(input =>
+					generateInputs(input, {
+						form,
+						errors,
+						handleInputChange,
+						handleSelectChange,
+					}),
+				)}
 			</Grid>
 			<ActionsForm
 				handleReset={handleReset}
