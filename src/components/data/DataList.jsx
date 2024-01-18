@@ -59,6 +59,7 @@ const DataList = () => {
 				placeItems: 'center',
 				width: '100%',
 				maxWidth: 400,
+				p: 0,
 			}}
 		>
 			<Box
