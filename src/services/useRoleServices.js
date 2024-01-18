@@ -58,8 +58,8 @@ const useRoleServices = () => {
 			roleIds.forEach(async roleId => {
 				await deleteDoc(doc(rolesCollectionRef, roleId));
 				authDispatch({ type: AUTH_TYPES.DELETE_ROLE, payload: roleId });
-				toast.success(`${roleIds.length > 1 ? 'Roles' : 'Role'} deleted!`);
 			});
+			toast.success(`${roleIds.length > 1 ? 'Roles' : 'Role'} deleted!`);
 		},
 		{
 			confirm: true,
