@@ -62,3 +62,7 @@ export const setUserToUpdateObj = (user, newAvatar) => {
 		lastUpdate: serverTimestamp(),
 	};
 };
+
+export const formatDisplayName = displayName => {
+	return displayName.toLowerCase().split(' ').join('_');
+};

@@ -19,8 +19,9 @@ import { PRODUCTS } from '@utils/routes';
 import {
 	formatCategoryName,
 	setItemName,
-	formatRoleName,
 	formatPrice,
+	normalizeName,
+	findRoleInfo,
 } from '@components/utils';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
 import FormUser from '@components/forms/FormUser';
@@ -36,7 +37,8 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 	const { pathname, push } = useRouter();
 
 	const isProduct = pathname === PRODUCTS;
-	const roleName = (row?.role && formatRoleName(row?.role, roles)) ?? '';
+	const userRole = findRoleInfo(row?.role, roles) ?? {};
+	const roleName = (row?.role && normalizeName(userRole?.displayName)) ?? '';
 	const categoryName =
 		(row?.category && formatCategoryName(row?.category, categories)) ?? '';
 
@@ -119,7 +121,15 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 			<TableCell>
 				{isProduct ? `$ ${formatPrice(row.price)}` : row.email}
 			</TableCell>
-			<TableCell>{isProduct ? categoryName : roleName}</TableCell>
+			<TableCell
+				sx={
+					!isProduct && !roleName
+						? { color: '#dc2626', fontWeight: 600 }
+						: undefined
+				}
+			>
+				{(isProduct ? categoryName : roleName) || 'No role assigned'}
+			</TableCell>
 			<TableCell align='center'>
 				{isProduct ? (
 					<Chip

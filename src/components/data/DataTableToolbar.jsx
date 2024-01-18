@@ -11,6 +11,7 @@ import useUserServices from '@services/useUserServices';
 import FormProduct from '@components/forms/FormProduct';
 import { setItemName } from '@components/utils';
 import useProductServices from '@services/useProductServices';
+import HiddenOptions from '@components/ui/HiddenOptions';
 
 const DataTableToolbar = ({ selected, setSelected }) => {
 	const { isAdmin } = useAuthContext();
@@ -60,13 +61,11 @@ const DataTableToolbar = ({ selected, setSelected }) => {
 				<Typography color='inherit' variant='subtitle1' component='div'>
 					{numSelected} selected
 				</Typography>
-			) : pathname === STAFF ? (
-				// <FloatingActionsBtn action />
-				'FloatingActions'
+			) : isProduct || pathname === STAFF ? (
+				<HiddenOptions />
 			) : (
 				'Filter'
 			)}
-
 			{numSelected > 0 ? (
 				<ToolTip title='Delete'>
 					<IconButton onClick={handleDelete}>

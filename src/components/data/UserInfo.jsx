@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react';
 import useUserServices from '@services/useUserServices';
 import ToolTip from '@components/ui/ToolTip';
 import { useAuthContext } from '@contexts/auth/AuthContext';
-import { formatRoleName } from '@components/utils';
+import { findRoleInfo, normalizeName } from '@components/utils';
 import { useRouter } from 'next/router';
 import { SETTINGS } from '@utils/routes';
 import CustomSkeleton from '@components/ui/CustomSkeleton';
@@ -33,7 +33,8 @@ const UserInfo = ({ user }) => {
 		disabled,
 		avatar,
 	} = user ?? {};
-	const userRole = roles.find(r => r?.id === role) ?? {};
+	const userRole = findRoleInfo(role, roles) ?? {};
+	const roleName = normalizeName(userRole?.displayName) ?? '';
 	const { pathname } = useRouter();
 	const isSettings = pathname === SETTINGS;
 
@@ -107,8 +108,8 @@ const UserInfo = ({ user }) => {
 				>
 					<CustomSkeleton isFetched={isFetched}>
 						<Chip
-							label={formatRoleName(role, roles)}
-							color='success'
+							label={roleName || 'No role assigned'}
+							color={`${roleName ? 'success' : 'warning'}`}
 							sx={{
 								mx: 2,
 								my: 1,

@@ -76,13 +76,13 @@ const useProductServices = () => {
 
 	const deleteProduct = withEnhances(
 		async productIds => {
-			productIds.forEach(async id => {
-				await deleteDoc(doc(productsCollectionRef, id));
+			productIds.forEach(async productId => {
+				await deleteDoc(doc(productsCollectionRef, productId));
 				productDispatch({
 					type: PRODUCT_TYPES.DELETE_PRODUCT,
-					payload: id,
+					payload: productId,
 				});
-				await deleteFiles(id);
+				await deleteFiles(productId);
 			});
 			if (id) push(PRODUCTS);
 			toast.success(

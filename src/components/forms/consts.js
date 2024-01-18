@@ -8,6 +8,8 @@ import CategoryIcon from '@mui/icons-material/Category';
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import StyleIcon from '@mui/icons-material/Style';
 import DescriptionIcon from '@mui/icons-material/Description';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import { ar, co, mx, us, ve } from './svgs';
 
 export const countryCodes = [
@@ -155,6 +157,25 @@ export const tags = [
 	},
 ];
 
+export const permissions = [
+	{
+		value: 'manageStaff',
+		label: 'Manage staff',
+	},
+	{
+		value: 'manageCustomers',
+		label: 'Manage customers',
+	},
+	{
+		value: 'manageProducts',
+		label: 'Manage products',
+	},
+	{
+		value: 'manageOrders',
+		label: 'Manage orders',
+	},
+];
+
 export const formSignInProps = {
 	inputProps: [
 		{
@@ -253,6 +274,33 @@ export const inputProductProps = [
 		label: 'Description',
 		icon: <DescriptionIcon />,
 		placeholder: 'Product description',
+		multiline: true,
+	},
+];
+
+export const inputRoleProps = [
+	{
+		id: 'idName',
+		name: 'displayName',
+		label: 'Name',
+		icon: <AccountBoxIcon />,
+		placeholder: 'Role name',
+	},
+	{
+		id: 'idPermissions',
+		name: 'permissions',
+		label: 'Permissions',
+		icon: <AdminPanelSettingsIcon />,
+		type: 'select',
+		options: permissions,
+		multiple: true,
+	},
+	{
+		id: 'idDescription',
+		name: 'description',
+		label: 'Description',
+		icon: <DescriptionIcon />,
+		placeholder: 'Role description',
 		multiline: true,
 	},
 ];

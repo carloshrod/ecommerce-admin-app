@@ -6,6 +6,8 @@ import { useRouter } from 'next/router';
 import { SIGNIN } from '@utils/routes';
 import useProductServices from '@services/useProductServices';
 import { formatInputValue } from './utils';
+import useRoleServices from '@services/useRoleServices';
+import DataList from '@components/data/DataList';
 
 const useForm = initialForm => {
 	const [form, setForm] = useState(initialForm);
@@ -17,6 +19,7 @@ const useForm = initialForm => {
 	const { signIn, resetPassword, changePassword } = useAuthServices();
 	const { addProduct, updateProduct } = useProductServices();
 	const { addUser, updateUser } = useUserServices();
+	const { addRole, updateRole } = useRoleServices();
 	const { pathname } = useRouter();
 
 	useEffect(() => {
@@ -110,6 +113,17 @@ const useForm = initialForm => {
 		handleReset();
 	};
 
+	const handleSubmitRole = async event => {
+		event.preventDefault();
+		if (!dataToEdit) {
+			await addRole(form);
+		} else {
+			await updateRole(form);
+		}
+		handleReset();
+		toggleModal({ title: 'User roles', child: <DataList /> });
+	};
+
 	const handleSubmitPassword = async event => {
 		event.preventDefault();
 		const { currentPassword, newPassword } = form;
@@ -136,6 +150,7 @@ const useForm = initialForm => {
 		handleSubmitAuth,
 		handleSubmitProduct,
 		handleSubmitStaff,
+		handleSubmitRole,
 		handleSubmitPassword,
 		handleReset,
 	};

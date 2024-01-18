@@ -8,7 +8,7 @@ export const capFirstLetter = word => {
 export const normalizeName = name => {
 	try {
 		return name
-			.split('_')
+			?.split('_')
 			.map(word => capFirstLetter(word))
 			.join(' ');
 	} catch (error) {
@@ -31,10 +31,9 @@ export const setItemSelected = (item, open, pathname) => {
 	return INDEXES[pathname] === item.id;
 };
 
-export const formatRoleName = (roleId, roles) => {
+export const findRoleInfo = (roleId, roles) => {
 	try {
-		const roleName = roles.find(role => role.id === roleId)?.roleName;
-		return roleName && normalizeName(roleName);
+		return roles.find(role => role.id === roleId);
 	} catch (error) {
 		console.error(error.message);
 	}
@@ -53,7 +52,7 @@ export const setOptions = array => {
 	array.forEach(role => {
 		newArray.push({
 			value: role.id,
-			label: normalizeName(role.roleName),
+			label: normalizeName(role.displayName),
 		});
 	});
 
@@ -85,7 +84,7 @@ export const setItemName = (pathname, id = undefined) => {
 };
 
 export const setPropName = (id, db) => {
-	return db.find(category => category.value === id)?.label;
+	return db.find(item => item.value === id)?.label;
 };
 
 export const formatPrice = price => {

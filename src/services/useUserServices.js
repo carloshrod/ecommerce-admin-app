@@ -119,14 +119,14 @@ const useUserServices = () => {
 
 	const deleteUser = withEnhances(
 		async userIds => {
-			userIds.forEach(async id => {
-				const res = await authDeleteUser(id);
+			userIds.forEach(async userId => {
+				const res = await authDeleteUser(userId);
 				if (res?.status === 200) {
-					await deleteFile(id);
-					await deleteDoc(doc(collection, id));
+					await deleteFile(userId);
+					await deleteDoc(doc(collection, userId));
 					userDispatch({
 						type: USER_TYPES.DELETE_USER,
-						payload: { userId: id, isStaff },
+						payload: { userId, isStaff },
 					});
 					if (isProfile) push(isStaff ? STAFF : CUSTOMERS);
 					toast.success(`${userIds.length > 1 ? 'Users' : 'User'} deleted!`, {

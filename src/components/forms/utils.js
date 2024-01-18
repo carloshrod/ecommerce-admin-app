@@ -14,11 +14,11 @@ export const generateInputUserProps = (roles, pathname) => {
 
 	if (pathname.includes('staff') || pathname.includes('settings')) {
 		arrayOptions = arrayOptions.filter(
-			item => item.label.toLowerCase() !== 'customer',
+			item => item?.label?.toLowerCase() !== 'customer',
 		);
 	} else {
 		arrayOptions = arrayOptions.filter(
-			item => item.label.toLowerCase() === 'customer',
+			item => item?.label?.toLowerCase() === 'customer',
 		);
 	}
 
@@ -67,8 +67,11 @@ export const generateInputs = (
 	input,
 	{ form, errors, handleInputChange, handleSelectChange },
 ) => {
+	const isSmall = 'permissions' in form;
+	const inputWidth = isSmall ? 12 : ITEMS_WIDTH[input.name + 'Sm'] ?? 6;
+
 	return (
-		<Grid item xs={12} sm={ITEMS_WIDTH[input.name + 'Sm'] ?? 6} key={input.id}>
+		<Grid item xs={12} sm={inputWidth} key={input.id}>
 			{input.type !== 'select' ? (
 				<Input
 					{...input}

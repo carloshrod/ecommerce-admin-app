@@ -29,6 +29,35 @@ const authReducers = (state, action) => {
 			};
 		}
 
+		case TYPES.ADD_ROLE: {
+			return {
+				...state,
+				roles: [...state.roles, action.payload],
+			};
+		}
+
+		case TYPES.UPDATE_ROLE: {
+			const roleUpdated = action.payload;
+			const newData = state.roles.map(role =>
+				role?.id === roleUpdated?.id ? roleUpdated : role,
+			);
+
+			return {
+				...state,
+				roles: newData,
+			};
+		}
+
+		case TYPES.DELETE_ROLE: {
+			const roleId = action.payload;
+			const newData = state.roles.filter(role => role?.id !== roleId);
+
+			return {
+				...state,
+				roles: newData,
+			};
+		}
+
 		default:
 			return state;
 	}
