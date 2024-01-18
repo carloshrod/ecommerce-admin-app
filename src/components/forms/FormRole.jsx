@@ -1,10 +1,11 @@
 import { Grid, Stack } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import ActionsForm from './ActionsForm';
 import { inputRoleProps } from './consts';
 import useForm from '@hooks/useForm';
 import { generateInputs } from './utils';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
+import validateRole from '@validations/validateRole';
 
 const initialForm = {
 	displayName: '',
@@ -16,12 +17,18 @@ const FormRole = () => {
 	const {
 		form,
 		errors,
+		setErrors,
 		handleInputChange,
 		handleSelectChange,
 		handleSubmitRole,
 		handleReset,
 	} = useForm(initialForm);
 	const { dataToEdit } = useGlobalContext();
+
+	useEffect(() => {
+		const roleErrors = validateRole(form);
+		setErrors(roleErrors);
+	}, [form]);
 
 	return (
 		<Stack
