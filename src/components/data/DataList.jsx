@@ -44,7 +44,13 @@ const DataList = () => {
 
 	const handleEdit = data => {
 		closeModal();
-		toggleModal({ title: 'Edit user role', child: <FormRole /> }, data);
+		toggleModal(
+			{
+				title: 'Edit user role',
+				child: <FormRole />,
+			},
+			{ ...data, displayName: normalizeName(data?.displayName) },
+		);
 	};
 
 	const handleDelete = () => {
