@@ -4,20 +4,9 @@ import InputFile from './InputFile';
 import ActionsForm from './ActionsForm';
 import useForm from '@hooks/useForm';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
-import { inputProductProps } from './consts';
+import { inputProductProps, productInitialForm } from './consts';
 import validateProduct from '@validations/validateProduct';
 import { generateInputs } from './utils';
-
-const initialForm = {
-	displayName: '',
-	price: '',
-	stock: '',
-	brand: '',
-	category: '',
-	subCategory: '',
-	tags: [],
-	description: '',
-};
 
 const FormProduct = () => {
 	const {
@@ -31,7 +20,7 @@ const FormProduct = () => {
 		handleArrayFilesChange,
 		handleReset,
 		handleSubmitProduct,
-	} = useForm(initialForm);
+	} = useForm(productInitialForm);
 	const { dataToEdit } = useGlobalContext();
 	const [inputFileFocused, setInputFileFocused] = useState(false);
 

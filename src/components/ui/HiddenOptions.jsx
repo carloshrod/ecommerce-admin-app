@@ -5,10 +5,10 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import ListIcon from '@mui/icons-material/List';
 import { useRouter } from 'next/router';
-import { PRODUCTS } from '@utils/routes';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
-import FormRole from '@components/forms/FormRole';
+import FormGeneric from '@components/forms/FormGeneric';
 import DataList from '@components/data/DataList';
+import { PRODUCTS } from '@utils/routes';
 
 const StyledSpeedDial = styled(SpeedDial)(({ theme }) => ({
 	'& .MuiButtonBase-root': {
@@ -40,7 +40,7 @@ const HiddenOptions = () => {
 	const handleAdd = title => {
 		toggleModal({
 			title,
-			child: isProduct ? 'FormCategory' : <FormRole />,
+			child: <FormGeneric item={isProduct ? 'category' : 'role'} />,
 		});
 	};
 

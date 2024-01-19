@@ -8,14 +8,7 @@ import InputFile from './InputFile';
 import { useAuthContext } from '@contexts/auth/AuthContext';
 import { generateInputUserProps, generateInputs } from './utils';
 import validateUser from '@validations/validateUser';
-
-const initialForm = {
-	displayName: '',
-	email: '',
-	countryCode: '',
-	phoneNumber: '',
-	role: '',
-};
+import { userInitialForm } from './consts';
 
 const FormUser = () => {
 	const {
@@ -28,7 +21,7 @@ const FormUser = () => {
 		handleFileChange,
 		handleReset,
 		handleSubmitStaff,
-	} = useForm(initialForm);
+	} = useForm(userInitialForm);
 	const { dataToEdit } = useGlobalContext();
 	const { roles } = useAuthContext();
 	const { pathname } = useRouter();

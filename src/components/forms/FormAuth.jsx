@@ -10,20 +10,20 @@ import validateAuth from '@validations/validateAuth';
 import { useEffect } from 'react';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
 
-const signinInitialForm = {
-	email: process.env.NEXT_PUBLIC_TEST_EMAIL,
-	password: process.env.NEXT_PUBLIC_TEST_PASSWORD,
-};
-
 const FormAuth = () => {
 	const { pathname } = useRouter();
 	const isSignIn = pathname === SIGNIN;
-	const initialForm = isSignIn ? signinInitialForm : { email: '' };
+
+	const FORM_PROPS = {
+		[SIGNIN]: formSignInProps,
+		[FORGOT_PASSWORD]: formForgotPasswordProps,
+	};
+	const { initialForm, inputProps, title, paragraph, textLink, textBtn } =
+		FORM_PROPS[pathname];
+
 	const { form, errors, setErrors, handleInputChange, handleSubmitAuth } =
 		useForm(initialForm);
-	const { inputProps, title, paragraph, textLink, textBtn } = isSignIn
-		? formSignInProps
-		: formForgotPasswordProps;
+
 	const { isLoading } = useGlobalContext();
 	const isDisabled = Object.keys(errors).length > 0 || isLoading;
 

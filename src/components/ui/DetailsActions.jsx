@@ -3,16 +3,16 @@ import EditIcon from '@mui/icons-material/Edit';
 import PasswordIcon from '@mui/icons-material/Password';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/router';
-import useUserServices from '@services/useUserServices';
-import { useAuthContext } from '@contexts/auth/AuthContext';
-import ToolTip from './ToolTip';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
+import { useAuthContext } from '@contexts/auth/AuthContext';
 import FormUser from '@components/forms/FormUser';
-import FormPassword from '@components/forms/FormPassword';
-import { setItemName } from '@components/utils';
 import FormProduct from '@components/forms/FormProduct';
+import FormGeneric from '@components/forms/FormGeneric';
+import ToolTip from './ToolTip';
 import useProductServices from '@services/useProductServices';
+import useUserServices from '@services/useUserServices';
 import useSkeleton from '@hooks/useSkeleton';
+import { setItemName } from '@components/utils';
 
 const DetailsActions = ({ item, isLoggedUser = false }) => {
 	const { toggleModal } = useGlobalContext();
@@ -38,7 +38,7 @@ const DetailsActions = ({ item, isLoggedUser = false }) => {
 	const handleChangePassword = () => {
 		const modal = {
 			title: 'Change password',
-			child: <FormPassword />,
+			child: <FormGeneric item='password' />,
 		};
 		toggleModal(modal);
 	};

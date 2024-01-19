@@ -16,10 +16,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from 'react';
 import { useAuthContext } from '@contexts/auth/AuthContext';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
-import FormRole from '@components/forms/FormRole';
 import { normalizeName } from '@components/utils';
 import ToolTip from '@components/ui/ToolTip';
 import useRoleServices from '@services/useRoleServices';
+import FormGeneric from '@components/forms/FormGeneric';
 
 const DataList = () => {
 	const [selected, setSelected] = useState([]);
@@ -47,7 +47,7 @@ const DataList = () => {
 		toggleModal(
 			{
 				title: 'Edit user role',
-				child: <FormRole />,
+				child: <FormGeneric item='category' />,
 			},
 			{ ...data, displayName: normalizeName(data?.displayName) },
 		);

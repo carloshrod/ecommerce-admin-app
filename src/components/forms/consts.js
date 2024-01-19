@@ -11,7 +11,10 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import { ar, co, mx, us, ve } from './svgs';
+import validateEmptyField from '@validations/validateEmptyField';
+import validatePassword from '@validations/validatePassword';
 
+// *************** Options ***************
 export const countryCodes = [
 	{
 		value: '+1',
@@ -176,44 +179,50 @@ export const permissions = [
 	},
 ];
 
-export const formSignInProps = {
-	inputProps: [
-		{
-			id: 'idEmail',
-			name: 'email',
-			label: 'Email',
-			icon: <EmailIcon />,
-		},
-		{
-			id: 'idPassword',
-			name: 'password',
-			type: 'password',
-			label: 'Password',
-			icon: <LockIcon />,
-		},
-	],
-	title: 'Welcome!',
-	paragraph: 'Use your email and password to sign in:',
-	textLink: 'Forgot password?',
-	textBtn: 'Sign in',
+// *************** InitialForms ***************
+export const signinInitialForm = {
+	email: process.env.NEXT_PUBLIC_TEST_EMAIL,
+	password: process.env.NEXT_PUBLIC_TEST_PASSWORD,
 };
 
-export const formForgotPasswordProps = {
-	inputProps: [
-		{
-			id: 'idEmail',
-			name: 'email',
-			label: 'Email',
-			icon: <EmailIcon />,
-		},
-	],
-	title: 'Forgot your password?',
-	paragraph:
-		'Enter your email and we will send you a link to reset your password:',
-	textLink: 'Do you want to sign in?',
-	textBtn: 'Send',
+export const productInitialForm = {
+	displayName: '',
+	price: '',
+	stock: '',
+	brand: '',
+	category: '',
+	subCategory: '',
+	tags: [],
+	description: '',
 };
 
+export const categoryInitialForm = {
+	displayName: '',
+	subCategories: [],
+	description: '',
+};
+
+export const userInitialForm = {
+	displayName: '',
+	email: '',
+	countryCode: '',
+	phoneNumber: '',
+	role: '',
+};
+
+export const roleInitialForm = {
+	displayName: '',
+	permissions: [],
+	description: '',
+};
+
+export const passwordInitialForm = {
+	currentPassword: '',
+	newPassword: '',
+	renewPassword: '',
+};
+
+// *************** InputProps ***************
 export const inputProductProps = [
 	{
 		id: 'idName',
@@ -332,6 +341,60 @@ export const inputPasswordProps = [
 	},
 ];
 
+// *************** FormProps ***************
+export const formSignInProps = {
+	initialForm: signinInitialForm,
+	inputProps: [
+		{
+			id: 'idEmail',
+			name: 'email',
+			label: 'Email',
+			icon: <EmailIcon />,
+		},
+		{
+			id: 'idPassword',
+			name: 'password',
+			type: 'password',
+			label: 'Password',
+			icon: <LockIcon />,
+		},
+	],
+	title: 'Welcome!',
+	paragraph: 'Use your email and password to sign in:',
+	textLink: 'Forgot password?',
+	textBtn: 'Sign in',
+};
+
+export const formForgotPasswordProps = {
+	initialForm: { email: '' },
+	inputProps: [
+		{
+			id: 'idEmail',
+			name: 'email',
+			label: 'Email',
+			icon: <EmailIcon />,
+		},
+	],
+	title: 'Forgot your password?',
+	paragraph:
+		'Enter your email and we will send you a link to reset your password:',
+	textLink: 'Do you want to sign in?',
+	textBtn: 'Send',
+};
+
+export const formRoleProps = {
+	initialForm: roleInitialForm,
+	inputProps: inputRoleProps,
+	validateForm: validateEmptyField,
+};
+
+export const formPasswordProps = {
+	initialForm: passwordInitialForm,
+	inputProps: inputPasswordProps,
+	validateForm: validatePassword,
+};
+
+// *************** InputWidths ***************
 export const ITEMS_WIDTH = {
 	countryCodeSm: 3.3,
 	phoneNumberSm: 4.2,

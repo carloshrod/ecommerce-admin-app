@@ -66,9 +66,9 @@ export const generateInputUserProps = (roles, pathname) => {
 export const generateInputs = (
 	input,
 	{ form, errors, handleInputChange, handleSelectChange },
+	generic = false,
 ) => {
-	const isSmall = 'permissions' in form;
-	const inputWidth = isSmall ? 12 : ITEMS_WIDTH[input.name + 'Sm'] ?? 6;
+	const inputWidth = generic ? 12 : ITEMS_WIDTH[input.name + 'Sm'] ?? 6;
 
 	return (
 		<Grid item xs={12} sm={inputWidth} key={input.id}>
