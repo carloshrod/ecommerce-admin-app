@@ -7,7 +7,7 @@ const useTable = rows => {
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(5);
 
-	const handleRequestSort = (event, property) => {
+	const handleRequestSort = (_event, property) => {
 		const isAsc = orderBy === property && order === 'asc';
 		setOrder(isAsc ? 'desc' : 'asc');
 		setOrderBy(property);
@@ -15,14 +15,14 @@ const useTable = rows => {
 
 	const handleSelectAllClick = event => {
 		if (event.target.checked) {
-			const newSelected = rows.map(n => n.uid);
+			const newSelected = rows.map(n => n.id);
 			setSelected(newSelected);
 			return;
 		}
 		setSelected([]);
 	};
 
-	const handleChangePage = (event, newPage) => {
+	const handleChangePage = (_event, newPage) => {
 		setPage(newPage);
 	};
 
