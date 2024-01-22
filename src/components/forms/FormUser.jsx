@@ -6,9 +6,9 @@ import useForm from '@hooks/useForm';
 import ActionsForm from './ActionsForm';
 import InputFile from './InputFile';
 import { useAuthContext } from '@contexts/auth/AuthContext';
-import { generateInputUserProps, generateInputs } from './utils';
+import { filterRoles, generateInputs } from './utils';
 import validateUser from '@validations/validateUser';
-import { userInitialForm } from './consts';
+import { inputUserProps, userInitialForm } from './consts';
 
 const FormUser = () => {
 	const {
@@ -25,13 +25,14 @@ const FormUser = () => {
 	const { dataToEdit } = useGlobalContext();
 	const { roles } = useAuthContext();
 	const { pathname } = useRouter();
+	const filteredRoles = filterRoles(roles, pathname);
 
 	useEffect(() => {
 		const userErrors = validateUser(form);
 		setErrors(userErrors);
 	}, [form]);
 
-	const inputProps = generateInputUserProps(roles, pathname);
+	const inputProps = inputUserProps(filteredRoles);
 
 	return (
 		<Stack

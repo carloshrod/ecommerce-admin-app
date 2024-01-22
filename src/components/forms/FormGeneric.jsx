@@ -1,41 +1,57 @@
 import { Grid, Stack } from '@mui/material';
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import ActionsForm from './ActionsForm';
-import { formCategoryProps, formPasswordProps, formRoleProps } from './consts';
+import {
+	formCategoryProps,
+	formPasswordProps,
+	formRoleProps,
+	formSubCategoryProps,
+} from './consts';
 import useForm from '@hooks/useForm';
 import { generateInputs } from './utils';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
+import { useProductsContext } from '@contexts/products/ProductsContext';
+import ToggleButtons from '@components/ui/ToggleButtons';
 
 const FORM_PROPS = {
 	password: formPasswordProps,
 	role: formRoleProps,
 	category: formCategoryProps,
+	subCategory: formSubCategoryProps,
 };
 
 const FormGeneric = ({ item }) => {
-	const { initialForm, inputProps, validateForm } = FORM_PROPS[item];
+	const [itemToggled, setItemToggled] = useState(item);
+	const { initialForm, inputProps, validateForm } = FORM_PROPS[itemToggled];
+	const isSub = itemToggled === 'subCategory';
 	const {
 		form,
 		errors,
 		setErrors,
 		handleInputChange,
 		handleSelectChange,
+		handleSubmitCategory,
 		handleSubmitRole,
 		handleSubmitPassword,
 		handleReset,
-	} = useForm(initialForm);
+	} = useForm(initialForm, isSub);
 	const { dataToEdit } = useGlobalContext();
+	const { categories } = useProductsContext();
 
 	const SUBMITS = {
 		role: handleSubmitRole,
 		password: handleSubmitPassword,
+		category: handleSubmitCategory,
+		subCategory: handleSubmitCategory,
 	};
-	const handleSubmit = SUBMITS[item];
+	const handleSubmit = SUBMITS[itemToggled];
 
 	useEffect(() => {
 		const roleErrors = validateForm(form);
 		setErrors(roleErrors);
 	}, [form]);
+
+	const inputPropsWithOptions = isSub ? inputProps(categories) : inputProps;
 
 	return (
 		<Stack
@@ -43,10 +59,16 @@ const FormGeneric = ({ item }) => {
 			noValidate
 			autoComplete='off'
 			onSubmit={handleSubmit}
-			sx={{ mt: 1, gap: 3, maxWidth: item === 'password' ? 300 : 450 }}
+			sx={{ mt: 1, gap: 3, maxWidth: 320 }}
 		>
+			{(itemToggled === 'category' || isSub) && !dataToEdit ? (
+				<ToggleButtons
+					itemToggled={itemToggled}
+					setItemToggled={setItemToggled}
+				/>
+			) : null}
 			<Grid container spacing={3}>
-				{inputProps.map(input =>
+				{inputPropsWithOptions.map(input =>
 					generateInputs(
 						input,
 						{
@@ -62,7 +84,9 @@ const FormGeneric = ({ item }) => {
 			<ActionsForm
 				handleReset={handleReset}
 				errors={errors}
-				label={item !== 'password' ? (dataToEdit ? 'Edit' : 'Add') : undefined}
+				label={
+					itemToggled !== 'password' ? (dataToEdit ? 'Edit' : 'Add') : undefined
+				}
 			/>
 		</Stack>
 	);

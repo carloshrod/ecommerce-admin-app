@@ -2,14 +2,13 @@ import { useEffect, useState } from 'react';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
 import useAuthServices from '@services/useAuthServices';
 import useUserServices from '@services/useUserServices';
-import { useRouter } from 'next/router';
-import { SIGNIN } from '@utils/routes';
 import useProductServices from '@services/useProductServices';
-import { formatInputValue } from './utils';
+import useCategoryServices from '@services/useCategoryServices';
 import useRoleServices from '@services/useRoleServices';
+import { formatInputValue } from './utils';
 import DataList from '@components/data/DataList';
 
-const useForm = initialForm => {
+const useForm = (initialForm, isSub = false) => {
 	const [form, setForm] = useState(initialForm);
 	const [file, setFile] = useState(null);
 	const [files, setFiles] = useState([]);
@@ -18,19 +17,23 @@ const useForm = initialForm => {
 	const { dataToEdit, toggleModal } = useGlobalContext();
 	const { signIn, resetPassword, changePassword } = useAuthServices();
 	const { addProduct, updateProduct } = useProductServices();
+	const { addCategory, updateCategory } = useCategoryServices(isSub);
 	const { addUser, updateUser } = useUserServices();
 	const { addRole, updateRole } = useRoleServices();
-	const { pathname } = useRouter();
 
 	useEffect(() => {
 		if (dataToEdit) {
 			setForm(dataToEdit);
-			const pathImage = pathname.includes('products')
-				? dataToEdit?.images[0]
-				: dataToEdit?.avatar;
-			setPathImage(pathImage);
+			if ('images' in dataToEdit) {
+				setPathImage(dataToEdit?.images[0]);
+			}
+			if ('avatar' in dataToEdit) {
+				setPathImage(dataToEdit?.avatar);
+			}
+		} else {
+			setForm(initialForm);
 		}
-	}, []);
+	}, [initialForm]);
 
 	const handleInputChange = event => {
 		const { value, name } = event.target;
@@ -86,7 +89,7 @@ const useForm = initialForm => {
 
 	const handleSubmitAuth = async event => {
 		event.preventDefault();
-		if (pathname === SIGNIN) {
+		if ('password' in form) {
 			await signIn(form);
 		} else {
 			await resetPassword(form);
@@ -101,6 +104,20 @@ const useForm = initialForm => {
 			await updateProduct(form, files);
 		}
 		handleReset();
+	};
+
+	const handleSubmitCategory = async event => {
+		event.preventDefault();
+		if (!dataToEdit) {
+			await addCategory(form, isSub);
+		} else {
+			await updateCategory(form, isSub);
+		}
+		handleReset();
+		toggleModal({
+			title: `${isSub ? 'Subcategories' : 'Categories'}`,
+			child: <DataList item={`${isSub ? 'subCategories' : 'categories'}`} />,
+		});
 	};
 
 	const handleSubmitStaff = async event => {
@@ -121,7 +138,7 @@ const useForm = initialForm => {
 			await updateRole(form);
 		}
 		handleReset();
-		toggleModal({ title: 'User roles', child: <DataList /> });
+		toggleModal({ title: 'User roles', child: <DataList item='roles' /> });
 	};
 
 	const handleSubmitPassword = async event => {
@@ -149,6 +166,7 @@ const useForm = initialForm => {
 		handleArrayFilesChange,
 		handleSubmitAuth,
 		handleSubmitProduct,
+		handleSubmitCategory,
 		handleSubmitStaff,
 		handleSubmitRole,
 		handleSubmitPassword,

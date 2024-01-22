@@ -47,6 +47,70 @@ const productsReducer = (state, action) => {
 			};
 		}
 
+		case TYPES.GET_ALL_CATEGORIES: {
+			const { categoriesData, subCategoriesData } = action.payload;
+
+			return {
+				...state,
+				categories: categoriesData,
+				subCategories: subCategoriesData,
+			};
+		}
+
+		case TYPES.ADD_CATEGORY: {
+			const { categoryToCreate, isSub } = action.payload;
+
+			if (isSub) {
+				return {
+					...state,
+					subCategories: [...state.subCategories, categoryToCreate],
+				};
+			}
+
+			return {
+				...state,
+				categories: [...state.categories, categoryToCreate],
+			};
+		}
+
+		case TYPES.UPDATE_CATEGORY: {
+			const { categoryToUpdate, isSub } = action.payload;
+			const db = isSub ? state.subCategories : state.categories;
+			const newData = db.map(category =>
+				category?.id === categoryToUpdate?.id ? categoryToUpdate : category,
+			);
+
+			if (isSub) {
+				return {
+					...state,
+					subCategories: newData,
+				};
+			}
+
+			return {
+				...state,
+				categories: newData,
+			};
+		}
+
+		case TYPES.DELETE_CATEGORY: {
+			const { categoryId, isSub } = action.payload;
+			const db = isSub ? state.subCategories : state.categories;
+			const newData = db.filter(category => category.id !== categoryId);
+
+			if (isSub) {
+				return {
+					...state,
+					subCategories: newData,
+				};
+			}
+
+			return {
+				...state,
+				categories: newData,
+			};
+		}
+
 		default:
 			return state;
 	}

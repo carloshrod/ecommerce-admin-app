@@ -1,5 +1,9 @@
 import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from '@mui/icons-material/Lock';
+import PersonIcon from '@mui/icons-material/Person';
+import PublicIcon from '@mui/icons-material/Public';
+import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import InventoryOutlinedIcon from '@mui/icons-material/InventoryOutlined';
@@ -13,6 +17,7 @@ import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import { ar, co, mx, us, ve } from './svgs';
 import validateEmptyField from '@validations/validateEmptyField';
 import validatePassword from '@validations/validatePassword';
+import { setOptions } from '@components/utils';
 
 // *************** Options ***************
 export const countryCodes = [
@@ -198,8 +203,11 @@ export const productInitialForm = {
 
 export const categoryInitialForm = {
 	displayName: '',
-	subCategories: [],
-	description: '',
+};
+
+export const subCategoryInitialForm = {
+	displayName: '',
+	mainCategory: '',
 };
 
 export const userInitialForm = {
@@ -284,6 +292,74 @@ export const inputProductProps = [
 		icon: <DescriptionIcon />,
 		placeholder: 'Product description',
 		multiline: true,
+	},
+];
+
+export const inputCategoryProps = [
+	{
+		id: 'idName',
+		name: 'displayName',
+		label: 'Name',
+		icon: <CategoryIcon />,
+		placeholder: 'Category name',
+	},
+];
+
+export const inputSubCategoryProps = categories => [
+	{
+		id: 'idName',
+		name: 'displayName',
+		label: 'Name',
+		icon: <CategoryOutlinedIcon />,
+		placeholder: 'Subcategory name',
+	},
+	{
+		id: 'idMainCategory',
+		name: 'mainCategory',
+		label: 'Main category',
+		icon: <CategoryIcon />,
+		type: 'select',
+		options: setOptions(categories),
+	},
+];
+
+export const inputUserProps = roles => [
+	{
+		id: 'idName',
+		name: 'displayName',
+		label: 'Name',
+		icon: <PersonIcon />,
+		placeholder: 'User name',
+	},
+	{
+		id: 'idEmail',
+		name: 'email',
+		label: 'Email',
+		icon: <EmailIcon />,
+		placeholder: 'example@mail.com',
+	},
+	{
+		id: 'idCountryCode',
+		name: 'countryCode',
+		label: 'Country code',
+		icon: <PublicIcon />,
+		type: 'select',
+		options: countryCodes,
+	},
+	{
+		id: 'idPhone',
+		name: 'phoneNumber',
+		label: 'Phone number',
+		icon: <PhoneIphoneIcon />,
+		placeholder: '(123) 456-7890',
+	},
+	{
+		id: 'idRole',
+		name: 'role',
+		label: 'Select a role',
+		icon: <AssignmentIndIcon />,
+		type: 'select',
+		options: setOptions(roles),
 	},
 ];
 
@@ -380,6 +456,18 @@ export const formForgotPasswordProps = {
 		'Enter your email and we will send you a link to reset your password:',
 	textLink: 'Do you want to sign in?',
 	textBtn: 'Send',
+};
+
+export const formCategoryProps = {
+	initialForm: categoryInitialForm,
+	inputProps: inputCategoryProps,
+	validateForm: validateEmptyField,
+};
+
+export const formSubCategoryProps = {
+	initialForm: subCategoryInitialForm,
+	inputProps: inputSubCategoryProps,
+	validateForm: validateEmptyField,
 };
 
 export const formRoleProps = {

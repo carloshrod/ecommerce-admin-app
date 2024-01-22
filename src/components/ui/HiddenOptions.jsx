@@ -37,36 +37,36 @@ const HiddenOptions = () => {
 		<SpeedDialIcon />
 	);
 
-	const handleAdd = title => {
-		toggleModal({
-			title,
-			child: <FormGeneric item={isProduct ? 'category' : 'role'} />,
-		});
-	};
-
-	const handleList = title => {
-		toggleModal({
-			title,
-			child: <DataList />,
-		});
-	};
-
 	const actions = [
 		{
 			icon: <AddBoxIcon />,
 			name: `Add ${isProduct ? 'category' : 'user role'}`,
-			onClick: handleAdd,
+			onClick: title => {
+				toggleModal({
+					title,
+					child: <FormGeneric item={isProduct ? 'category' : 'role'} />,
+				});
+			},
 		},
 		{
 			icon: <ListIcon />,
 			name: `${isProduct ? 'Categories' : 'User roles'}`,
-			onClick: handleList,
+			onClick: title => {
+				toggleModal({
+					title,
+					child: <DataList item={`${isProduct ? 'categories' : 'roles'}`} />,
+				});
+			},
 		},
 	];
 
+	const filteredActions = actions.filter(action =>
+		!isProduct ? action.name !== 'Add subcategory' : action,
+	);
+
 	return (
 		<StyledSpeedDial ariaLabel='SpeedDial' icon={icon} direction='right'>
-			{actions.map(action => (
+			{filteredActions.map(action => (
 				<SpeedDialAction
 					key={action.name}
 					icon={action.icon}
