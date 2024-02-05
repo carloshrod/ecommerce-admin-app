@@ -1,15 +1,14 @@
-import {
-	categories,
-	subCategories,
-	tags as optionTags,
-} from '@components/forms/consts';
+import { tags as optionTags } from '@components/forms/consts';
+import { setOptions } from '@components/forms/utils';
 import CustomSkeleton from '@components/ui/CustomSkeleton';
 import { formatPrice, setPropName } from '@components/utils';
+import { useProductsContext } from '@contexts/products/ProductsContext';
 import useScreen from '@hooks/useScreen';
 import useSkeleton from '@hooks/useSkeleton';
 import { Box, CardContent, Chip, Grid, Typography } from '@mui/material';
 
 const ProductInfo = ({ product }) => {
+	const { categories, subCategories } = useProductsContext();
 	const { isFetched } = useSkeleton(product);
 	const { width } = useScreen();
 	const {
@@ -23,8 +22,8 @@ const ProductInfo = ({ product }) => {
 		tags,
 	} = product ?? {};
 
-	const categoryName = setPropName(category, categories);
-	const subCategoryName = setPropName(subCategory, subCategories);
+	const categoryName = setPropName(category, setOptions(categories));
+	const subCategoryName = setPropName(subCategory, setOptions(subCategories));
 
 	return (
 		<CardContent sx={{ px: 4 }}>

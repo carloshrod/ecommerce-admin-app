@@ -27,12 +27,14 @@ import { useGlobalContext } from '@contexts/global/GlobalContext';
 import FormUser from '@components/forms/FormUser';
 import useUserServices from '@services/useUserServices';
 import FormProduct from '@components/forms/FormProduct';
-import { categories } from '@components/forms/consts';
+import { useProductsContext } from '@contexts/products/ProductsContext';
+import { setOptions } from '@components/forms/utils';
 
 const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 	const [checked, setChecked] = useState(!row.disabled);
 	const { toggleModal } = useGlobalContext();
 	const { roles, isAdmin } = useAuthContext();
+	const { categories } = useProductsContext();
 	const { toggleUserStatus } = useUserServices();
 	const { pathname, push } = useRouter();
 
@@ -40,7 +42,9 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 	const userRole = findRoleInfo(row?.role, roles) ?? {};
 	const roleName = (row?.role && normalizeName(userRole?.displayName)) ?? '';
 	const categoryName =
-		(row?.category && formatCategoryName(row?.category, categories)) ?? '';
+		(row?.category &&
+			formatCategoryName(row?.category, setOptions(categories))) ??
+		'';
 
 	const handleChange = event => {
 		setChecked(event.target.checked);

@@ -2,6 +2,7 @@ import { Grid } from '@mui/material';
 import Input from './Input';
 import InputSelect from './InputSelect';
 import { ITEMS_WIDTH } from './consts';
+import { normalizeName } from '@components/utils';
 
 export const filterRoles = (roles, pathname) => {
 	if (pathname.includes('customer')) {
@@ -39,8 +40,21 @@ export const generateInputs = (
 					value={form[input.name]}
 					onChange={handleSelectChange}
 					errors={errors}
+					form={form}
 				/>
 			)}
 		</Grid>
 	);
+};
+
+export const setOptions = array => {
+	const newArray = [];
+	array.forEach(role => {
+		newArray.push({
+			value: role.id,
+			label: normalizeName(role.displayName),
+		});
+	});
+
+	return newArray;
 };

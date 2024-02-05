@@ -47,26 +47,14 @@ export const formatCategoryName = (categoryId, categories) => {
 	}
 };
 
-export const setOptions = array => {
-	const newArray = [];
-	array.forEach(role => {
-		newArray.push({
-			value: role.id,
-			label: normalizeName(role.displayName),
-		});
-	});
-
-	return newArray;
-};
-
 export const setDefaultValue = ({ multiple, name, options, dataToEdit }) => {
 	if (multiple) {
 		return options
-			.filter(option => dataToEdit && dataToEdit[name]?.includes(option.value))
+			?.filter(option => dataToEdit && dataToEdit[name]?.includes(option.value))
 			.map(data => data);
 	}
 
-	return options.find(
+	return options?.find(
 		option => dataToEdit && option.value === dataToEdit[name],
 	);
 };

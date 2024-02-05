@@ -1,7 +1,7 @@
 import { regex } from './regex';
 
-const validateProduct = (product, files, dataToEdit) => {
-	const { price, stock, tags, description } = product;
+const validateProduct = (product, files, dataToEdit, subCategories) => {
+	const { price, stock, tags, description, category, subCategory } = product;
 	const errors = {};
 
 	const isProductImagesInvalid =
@@ -10,6 +10,18 @@ const validateProduct = (product, files, dataToEdit) => {
 
 	if (isProductImagesInvalid) {
 		errors.productImages = 'Product images required!';
+	}
+
+	const filteredSubCategories = subCategories.filter(
+		subCategory => subCategory.mainCategory === category,
+	);
+
+	const isIn = filteredSubCategories.some(obj => {
+		return obj.id === subCategory;
+	});
+
+	if (!isIn) {
+		errors.subCategory = 'Does not match category!';
 	}
 
 	Object.keys(product).forEach(field => {

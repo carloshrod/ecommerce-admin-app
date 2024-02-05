@@ -17,7 +17,7 @@ import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import { ar, co, mx, us, ve } from './svgs';
 import validateEmptyField from '@validations/validateEmptyField';
 import validatePassword from '@validations/validatePassword';
-import { setOptions } from '@components/utils';
+import { setOptions } from './utils';
 
 // *************** Options ***************
 export const countryCodes = [
@@ -45,21 +45,6 @@ export const countryCodes = [
 		value: '+58',
 		label: 'Venezuela',
 		flag: ve,
-	},
-];
-
-export const categories = [
-	{
-		value: '1',
-		label: 'Components',
-	},
-	{
-		value: '2',
-		label: 'Peripherals and Accessories',
-	},
-	{
-		value: '3',
-		label: 'Computers',
 	},
 ];
 
@@ -231,69 +216,71 @@ export const passwordInitialForm = {
 };
 
 // *************** InputProps ***************
-export const inputProductProps = [
-	{
-		id: 'idName',
-		name: 'displayName',
-		label: 'Name',
-		icon: <InventoryIcon />,
-		placeholder: 'Product name',
-	},
-	{
-		id: 'idPrice',
-		name: 'price',
-		label: 'Price',
-		icon: <AttachMoneyIcon />,
-		placeholder: '99.00',
-	},
-	{
-		id: 'idStock',
-		name: 'stock',
-		label: 'Stock',
-		icon: <InventoryOutlinedIcon />,
-		placeholder: '999',
-	},
-	{
-		id: 'idCategory',
-		name: 'category',
-		label: 'Category',
-		icon: <CategoryIcon />,
-		type: 'select',
-		options: categories,
-	},
-	{
-		id: 'idSubCategory',
-		name: 'subCategory',
-		label: 'Subcategory',
-		icon: <CategoryOutlinedIcon />,
-		type: 'select',
-		options: subCategories,
-	},
-	{
-		id: 'idBrand',
-		name: 'brand',
-		label: 'Brand',
-		icon: <BrandingWatermarkIcon />,
-		placeholder: 'Generic',
-	},
-	{
-		id: 'idTags',
-		name: 'tags',
-		label: 'Tags',
-		icon: <StyleIcon />,
-		type: 'select',
-		options: tags,
-		multiple: true,
-	},
-	{
-		id: 'idDescription',
-		name: 'description',
-		label: 'Description',
-		icon: <DescriptionIcon />,
-		placeholder: 'Product description',
-		multiline: true,
-	},
-];
+export const inputProductProps = (categories, filteredSubCategories) => {
+	return [
+		{
+			id: 'idName',
+			name: 'displayName',
+			label: 'Name',
+			icon: <InventoryIcon />,
+			placeholder: 'Product name',
+		},
+		{
+			id: 'idPrice',
+			name: 'price',
+			label: 'Price',
+			icon: <AttachMoneyIcon />,
+			placeholder: '99.00',
+		},
+		{
+			id: 'idStock',
+			name: 'stock',
+			label: 'Stock',
+			icon: <InventoryOutlinedIcon />,
+			placeholder: '999',
+		},
+		{
+			id: 'idCategory',
+			name: 'category',
+			label: 'Category',
+			icon: <CategoryIcon />,
+			type: 'select',
+			options: setOptions(categories),
+		},
+		{
+			id: 'idSubCategory',
+			name: 'subCategory',
+			label: 'Subcategory',
+			icon: <CategoryOutlinedIcon />,
+			type: 'select',
+			options: setOptions(filteredSubCategories),
+		},
+		{
+			id: 'idBrand',
+			name: 'brand',
+			label: 'Brand',
+			icon: <BrandingWatermarkIcon />,
+			placeholder: 'Generic',
+		},
+		{
+			id: 'idTags',
+			name: 'tags',
+			label: 'Tags',
+			icon: <StyleIcon />,
+			type: 'select',
+			options: tags,
+			multiple: true,
+		},
+		{
+			id: 'idDescription',
+			name: 'description',
+			label: 'Description',
+			icon: <DescriptionIcon />,
+			placeholder: 'Product description',
+			multiline: true,
+		},
+	];
+};
 
 export const inputCategoryProps = [
 	{

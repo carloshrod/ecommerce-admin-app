@@ -7,6 +7,7 @@ import { useGlobalContext } from '@contexts/global/GlobalContext';
 import { inputProductProps, productInitialForm } from './consts';
 import validateProduct from '@validations/validateProduct';
 import { generateInputs } from './utils';
+import { useProductsContext } from '@contexts/products/ProductsContext';
 
 const FormProduct = () => {
 	const {
@@ -22,12 +23,20 @@ const FormProduct = () => {
 		handleSubmitProduct,
 	} = useForm(productInitialForm);
 	const { dataToEdit } = useGlobalContext();
+	const { categories, subCategories } = useProductsContext();
 	const [inputFileFocused, setInputFileFocused] = useState(false);
 
 	useEffect(() => {
-		const productErrors = validateProduct(form, files, dataToEdit);
+		const productErrors = validateProduct(
+			form,
+			files,
+			dataToEdit,
+			subCategories,
+		);
 		setErrors(productErrors);
 	}, [form, files]);
+
+	const inputProps = inputProductProps(categories, subCategories);
 
 	return (
 		<Stack
@@ -45,7 +54,7 @@ const FormProduct = () => {
 				onChange={handleArrayFilesChange}
 			/>
 			<Grid container spacing={3}>
-				{inputProductProps.map(input =>
+				{inputProps.map(input =>
 					generateInputs(input, {
 						form,
 						errors,

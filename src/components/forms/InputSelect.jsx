@@ -1,5 +1,5 @@
-import { Autocomplete, Box, InputAdornment, TextField } from '@mui/material';
 import { useState } from 'react';
+import { Autocomplete, Box, InputAdornment, TextField } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useAuthContext } from '@contexts/auth/AuthContext';
 import useScreen from '@hooks/useScreen';
