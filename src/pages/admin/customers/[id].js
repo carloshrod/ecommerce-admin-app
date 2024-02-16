@@ -3,6 +3,7 @@ import { useUsersContext } from '@contexts/users/UsersContext';
 import Details from '@components/data/Details';
 import DetailsActions from '@components/ui/DetailsActions';
 import UserInfo from '@components/data/UserInfo';
+import withUserRoleCheck from '@pages/_withUserRoleCheck';
 
 const CustomersDetails = () => {
 	const { user } = useUsersContext();
@@ -17,4 +18,7 @@ const CustomersDetails = () => {
 	);
 };
 
-export default CustomersDetails;
+export default withUserRoleCheck(CustomersDetails, [
+	'admin',
+	'customers_manager',
+]);

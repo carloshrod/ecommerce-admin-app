@@ -1,6 +1,7 @@
 import DataTable from '@components/data/DataTable';
 import { useUsersContext } from '@contexts/users/UsersContext';
 import { Grid } from '@mui/material';
+import withUserRoleCheck from '@pages/_withUserRoleCheck';
 
 const Staff = () => {
 	const { staff } = useUsersContext();
@@ -12,4 +13,4 @@ const Staff = () => {
 	);
 };
 
-export default Staff;
+export default withUserRoleCheck(Staff, 'admin');

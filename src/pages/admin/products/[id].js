@@ -3,6 +3,7 @@ import ProductInfo from '@components/data/ProductInfo';
 import DetailsActions from '@components/ui/DetailsActions';
 import { useProductsContext } from '@contexts/products/ProductsContext';
 import { Grid } from '@mui/material';
+import withUserRoleCheck from '@pages/_withUserRoleCheck';
 
 const ProductsDetails = () => {
 	const { product } = useProductsContext();
@@ -17,4 +18,7 @@ const ProductsDetails = () => {
 	);
 };
 
-export default ProductsDetails;
+export default withUserRoleCheck(ProductsDetails, [
+	'admin',
+	'products_manager',
+]);

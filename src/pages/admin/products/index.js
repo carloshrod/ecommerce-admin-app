@@ -1,6 +1,7 @@
 import DataTable from '@components/data/DataTable';
 import { useProductsContext } from '@contexts/products/ProductsContext';
 import { Grid } from '@mui/material';
+import withUserRoleCheck from '@pages/_withUserRoleCheck';
 
 const Products = () => {
 	const { products } = useProductsContext();
@@ -12,4 +13,4 @@ const Products = () => {
 	);
 };
 
-export default Products;
+export default withUserRoleCheck(Products, ['admin', 'products_manager']);
