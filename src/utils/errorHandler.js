@@ -7,6 +7,8 @@ const ERRORS = {
 	'email-already-exists':
 		'The email address is already in use by another account!',
 	'weak-password': 'Password is too weak!',
+	'too-many-requests':
+		'Access to this account has been temporarily disabled. Please reset your password or you can try again later!',
 	ECONNABORTED: 'Something went wrong. Please try it later!',
 	defaultError: 'Something went wrong. Please try it later!',
 };
