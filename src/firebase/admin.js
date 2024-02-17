@@ -1,7 +1,9 @@
 import { cert, getApp, getApps, initializeApp } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 
-import serviceAccount from '../../firebase-keys.json';
+const serviceAccount = process.env.NEXT_PUBLIC_SERVICE_ACCOUNT
+	? JSON.parse(process.env.NEXT_PUBLIC_SERVICE_ACCOUNT)
+	: null;
 
 const options = {
 	credential: cert(serviceAccount),
