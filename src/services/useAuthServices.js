@@ -46,7 +46,7 @@ const useAuthServices = () => {
 				setTimeout(() => {
 					authDispatch({ type: AUTH_TYPES.SIGN_OUT });
 				}, 1000);
-			}, 2000);
+			}, 3000);
 			setRedirectMsg('Redirecting to signin!');
 		},
 		{
