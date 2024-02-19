@@ -59,7 +59,7 @@ const useTable = rows => {
 		return stabilizedThis.map(el => el[0]);
 	}
 
-	const handleSelectOne = (event, id) => {
+	const handleSelectOne = (_event, id) => {
 		const selectedIndex = selected.indexOf(id);
 		let newSelected = [];
 
