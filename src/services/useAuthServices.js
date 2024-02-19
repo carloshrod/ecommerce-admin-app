@@ -13,10 +13,13 @@ import withEnhances from './withEnhances';
 import { useAuthContext } from '@contexts/auth/AuthContext';
 import { AUTH_TYPES } from '@contexts/auth/authActions';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
+import { useRouter } from 'next/router';
+import { SIGNIN } from '@utils/routes';
 
 const useAuthServices = () => {
 	const { toggleLoader, setRedirectMsg } = useGlobalContext();
 	const { authDispatch } = useAuthContext();
+	const router = useRouter();
 
 	const signIn = withEnhances(
 		async ({ email, password }) => {
@@ -41,6 +44,7 @@ const useAuthServices = () => {
 			setRedirectMsg('Redirecting to signin!');
 			setTimeout(() => {
 				authDispatch({ type: AUTH_TYPES.SIGN_OUT });
+				router.push(SIGNIN);
 			}, 2000);
 		},
 		{
@@ -66,6 +70,7 @@ const useAuthServices = () => {
 				setRedirectMsg('Redirecting to signin!');
 				setTimeout(() => {
 					authDispatch({ type: AUTH_TYPES.SIGN_OUT });
+					router.push(SIGNIN);
 					toast.success('Please sign in again!');
 				}, 2000);
 			}

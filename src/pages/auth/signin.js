@@ -1,9 +1,24 @@
 import { Grid, IconButton, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import FormAuth from '@components/forms/FormAuth';
+import { useAuthContext } from '@contexts/auth/AuthContext';
+import { useGlobalContext } from '@contexts/global/GlobalContext';
+import { DASHBOARD } from '@utils/routes';
 
 const SignIn = () => {
+	const { isLoading } = useGlobalContext();
+	const { isAuth } = useAuthContext();
+	const router = useRouter();
+
+	useEffect(() => {
+		if (isAuth && !isLoading) {
+			router.push(DASHBOARD);
+		}
+	}, [isAuth, isLoading]);
+
 	return (
 		<Grid container className='signIn'>
 			<Grid item xs={12} md={4.6}>
