@@ -16,7 +16,7 @@ const Loader = () => {
 	return (
 		<Backdrop
 			className='loader'
-			sx={{ zIndex: theme => theme.zIndex.drawer + 999 }}
+			sx={{ zIndex: theme => theme.zIndex.drawer + (redirectMsg ? 0 : 999) }}
 			open={isLoading}
 		>
 			<Box
