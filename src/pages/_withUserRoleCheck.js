@@ -8,10 +8,14 @@ const checkUserRole = (userRole, requiredRole) => {
 const withUserRoleCheck = (WrappedComponent, requiredRole) => {
 	const Wrapper = props => {
 		const { loggedUser, roles } = useAuthContext();
-		const userRole = roles.find(r => r.id === loggedUser?.role);
-		const isAllowed = checkUserRole(userRole?.displayName, requiredRole);
+		const roleName = roles.find(r => r.id === loggedUser?.role)?.displayName;
+		const isAllowed = checkUserRole(roleName, requiredRole);
 
-		return isAllowed ? <WrappedComponent {...props} /> : <NotAllowed />;
+		return isAllowed ? (
+			<WrappedComponent {...props} />
+		) : (
+			<NotAllowed isFetched={roleName} />
+		);
 	};
 
 	return Wrapper;
