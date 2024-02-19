@@ -9,17 +9,14 @@ import {
 } from 'firebase/auth';
 import toast from 'react-hot-toast';
 import Cookies from 'js-cookie';
-import { useRouter } from 'next/router';
 import withEnhances from './withEnhances';
 import { useAuthContext } from '@contexts/auth/AuthContext';
 import { AUTH_TYPES } from '@contexts/auth/authActions';
-import { SIGNIN } from '@utils/routes';
 import { useGlobalContext } from '@contexts/global/GlobalContext';
 
 const useAuthServices = () => {
 	const { toggleLoader, setRedirectMsg } = useGlobalContext();
 	const { authDispatch } = useAuthContext();
-	const router = useRouter();
 
 	const signIn = withEnhances(
 		async ({ email, password }) => {
@@ -41,13 +38,10 @@ const useAuthServices = () => {
 		async () => {
 			await signOut(auth);
 			Cookies.remove('authToken');
-			setTimeout(() => {
-				router.push(SIGNIN);
-				setTimeout(() => {
-					authDispatch({ type: AUTH_TYPES.SIGN_OUT });
-				}, 1000);
-			}, 3000);
 			setRedirectMsg('Redirecting to signin!');
+			setTimeout(() => {
+				authDispatch({ type: AUTH_TYPES.SIGN_OUT });
+			}, 2000);
 		},
 		{
 			confirm: true,
@@ -69,14 +63,11 @@ const useAuthServices = () => {
 				await updatePassword(user, newPassword);
 				await signOut(auth);
 				Cookies.remove('authToken');
+				setRedirectMsg('Redirecting to signin!');
 				setTimeout(() => {
-					router.push(SIGNIN);
-					setTimeout(() => {
-						authDispatch({ type: AUTH_TYPES.SIGN_OUT });
-					}, 500);
+					authDispatch({ type: AUTH_TYPES.SIGN_OUT });
 					toast.success('Please sign in again!');
 				}, 2000);
-				setRedirectMsg('Redirecting to signin!');
 			}
 		},
 		{ loader: toggleLoader, delay: 2000 },
