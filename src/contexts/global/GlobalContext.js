@@ -30,6 +30,15 @@ const GlobalProvider = ({ children }) => {
 	};
 
 	const toggleModal = (modal, dataToEdit = undefined) => {
+		if (dataToEdit?.phone) {
+			dataToEdit = {
+				...dataToEdit,
+				countryCode: dataToEdit?.phone?.countryCode,
+				phoneNumber: dataToEdit?.phone?.number,
+			};
+			delete dataToEdit?.phone;
+		}
+
 		dispatch({
 			type: TYPES.TOGGLE_MODAL,
 			payload: {

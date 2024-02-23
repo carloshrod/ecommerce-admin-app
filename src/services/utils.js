@@ -45,10 +45,18 @@ export const setProductToUpdateObj = (product, productImages) => {
 };
 
 export const setUserToCreateObj = (uid, user, avatar) => {
+	const { displayName, email, countryCode, phoneNumber, role } = user;
+
 	return {
-		...user,
 		id: uid,
 		avatar,
+		displayName,
+		email,
+		phone: {
+			countryCode,
+			number: phoneNumber,
+		},
+		role,
 		disabled: false,
 		createdAt: serverTimestamp(),
 		lastUpdate: serverTimestamp(),
@@ -56,9 +64,18 @@ export const setUserToCreateObj = (uid, user, avatar) => {
 };
 
 export const setUserToUpdateObj = (user, newAvatar) => {
+	const { id, displayName, email, countryCode, phoneNumber, role } = user;
+
 	return {
-		...user,
+		id,
 		avatar: newAvatar,
+		displayName,
+		email,
+		phone: {
+			countryCode,
+			number: phoneNumber,
+		},
+		role,
 		lastUpdate: serverTimestamp(),
 	};
 };

@@ -24,15 +24,7 @@ const UserInfo = ({ user }) => {
 	const { roles, isAdmin } = useAuthContext();
 	const { toggleUserStatus } = useUserServices();
 	const { isFetched } = useSkeleton(user);
-	const {
-		displayName,
-		email,
-		countryCode,
-		phoneNumber,
-		role,
-		disabled,
-		avatar,
-	} = user ?? {};
+	const { displayName, email, phone, role, disabled, avatar } = user ?? {};
 	const userRole = findRoleInfo(role, roles) ?? {};
 	const roleName = normalizeName(userRole?.displayName) ?? '';
 	const { pathname } = useRouter();
@@ -96,7 +88,7 @@ const UserInfo = ({ user }) => {
 						</Typography>
 						<Typography className='contact'>
 							<PhoneIphoneIcon />
-							{`${countryCode} ${phoneNumber}`}
+							{`${phone?.countryCode} ${phone?.number}`}
 						</Typography>
 					</CustomSkeleton>
 				</Grid>
