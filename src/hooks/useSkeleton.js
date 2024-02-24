@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const useSkeleton = data => {
+const useSkeleton = (data = {}) => {
 	const [isFetched, setIsFetched] = useState(false);
 
 	useEffect(() => {
