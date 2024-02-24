@@ -52,7 +52,7 @@ export const setProductToUpdateObj = (product, productImages) => {
 	};
 };
 
-export const setUserToCreateObj = (uid, user, avatar) => {
+export const setUserToCreateObj = (user, uid, avatar) => {
 	const { countryCode, phoneNumber, ...rest } = user;
 
 	return {

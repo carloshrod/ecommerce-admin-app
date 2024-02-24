@@ -59,7 +59,7 @@ const useUserServices = () => {
 			if (res?.status === 201) {
 				const { uid } = res.data;
 				const avatar = file ? await generateImageURL(file, uid) : '';
-				const userToCreate = setUserToCreateObj(uid, user, avatar);
+				const userToCreate = setUserToCreateObj(user, uid, avatar);
 				await setDoc(doc(collection, uid), userToCreate);
 				userDispatch({
 					type: USER_TYPES.ADD_USER,
