@@ -11,19 +11,11 @@ const ProductInfo = ({ product }) => {
 	const { categories, subCategories } = useProductsContext();
 	const { isFetched } = useSkeleton(product);
 	const { width } = useScreen();
-	const {
-		displayName,
-		price,
-		stock,
-		category,
-		subCategory,
-		brand,
-		description,
-		tags,
-	} = product ?? {};
+	const { displayName, price, stock, category, brand, description, tags } =
+		product ?? {};
 
-	const categoryName = setPropName(category, setOptions(categories));
-	const subCategoryName = setPropName(subCategory, setOptions(subCategories));
+	const categoryName = setPropName(category?.main, setOptions(categories));
+	const subCategoryName = setPropName(category?.sub, setOptions(subCategories));
 
 	return (
 		<CardContent sx={{ px: 4 }}>

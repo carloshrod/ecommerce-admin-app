@@ -43,7 +43,7 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 	const roleName = (row?.role && normalizeName(userRole?.displayName)) ?? '';
 	const categoryName =
 		(row?.category &&
-			formatCategoryName(row?.category, setOptions(categories))) ??
+			formatCategoryName(row?.category?.main, setOptions(categories))) ??
 		'';
 
 	const handleChange = event => {

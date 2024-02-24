@@ -15,14 +15,18 @@ export const SwalConfirm = async text => {
 };
 
 export const setProductToCreateObj = (product, id, productImages) => {
-	const { price, stock } = product;
+	const { price, stock, category, subCategory, ...rest } = product;
 
 	return {
-		...product,
+		...rest,
 		id,
 		images: productImages,
 		price: parseFloat(price),
 		stock: parseInt(stock),
+		category: {
+			main: category,
+			sub: subCategory,
+		},
 		// TODO: generate SKU
 		createdAt: serverTimestamp(),
 		lastUpdate: serverTimestamp(),
@@ -33,30 +37,32 @@ export const setProductToCreateObj = (product, id, productImages) => {
 // export const generateSKU = product => {};
 
 export const setProductToUpdateObj = (product, productImages) => {
-	const { price, stock } = product;
+	const { price, stock, category, subCategory, ...rest } = product;
 
 	return {
-		...product,
+		...rest,
 		images: productImages,
 		price: parseFloat(price),
 		stock: parseInt(stock),
+		category: {
+			main: category,
+			sub: subCategory,
+		},
 		lastUpdate: serverTimestamp(),
 	};
 };
 
 export const setUserToCreateObj = (uid, user, avatar) => {
-	const { displayName, email, countryCode, phoneNumber, role } = user;
+	const { countryCode, phoneNumber, ...rest } = user;
 
 	return {
+		...rest,
 		id: uid,
 		avatar,
-		displayName,
-		email,
 		phone: {
 			countryCode,
 			number: phoneNumber,
 		},
-		role,
 		disabled: false,
 		createdAt: serverTimestamp(),
 		lastUpdate: serverTimestamp(),
@@ -64,18 +70,15 @@ export const setUserToCreateObj = (uid, user, avatar) => {
 };
 
 export const setUserToUpdateObj = (user, newAvatar) => {
-	const { id, displayName, email, countryCode, phoneNumber, role } = user;
+	const { countryCode, phoneNumber, ...rest } = user;
 
 	return {
-		id,
+		...rest,
 		avatar: newAvatar,
-		displayName,
-		email,
 		phone: {
 			countryCode,
 			number: phoneNumber,
 		},
-		role,
 		lastUpdate: serverTimestamp(),
 	};
 };
