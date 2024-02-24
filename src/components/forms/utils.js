@@ -20,7 +20,14 @@ export const filterRoles = (roles, pathname) => {
 
 export const generateInputs = (
 	input,
-	{ form, errors, handleInputChange, handleSelectChange },
+	{
+		form,
+		errors,
+		handleInputChange,
+		handleSelectChange,
+		inputFocused,
+		setInputFocused,
+	},
 	generic = false,
 ) => {
 	const inputWidth = generic ? 12 : ITEMS_WIDTH[input.name + 'Sm'] ?? 6;
@@ -41,6 +48,7 @@ export const generateInputs = (
 					onChange={handleSelectChange}
 					errors={errors}
 					form={form}
+					inputSubCategoryFocused={inputFocused}
 				/>
 			)}
 		</Grid>

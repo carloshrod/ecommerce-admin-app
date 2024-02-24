@@ -17,6 +17,7 @@ const InputSelect = ({
 	maxWidth = null,
 	onChange = null,
 	errors,
+	inputSubCategoryFocused = null,
 }) => {
 	const [focused, setFocused] = useState(false);
 	const { dataToEdit } = useGlobalContext();
@@ -28,7 +29,9 @@ const InputSelect = ({
 		setFocused(true);
 	};
 
-	const isInputWrong = !!(focused && errors[name]);
+	const isSubCategory =
+		value && name === 'subCategory' && inputSubCategoryFocused;
+	const isInputWrong = !!((focused || isSubCategory) && errors[name]);
 
 	const defaultValue = setDefaultValue({
 		multiple,
@@ -109,7 +112,10 @@ const InputSelect = ({
 									? `${noOptions ? 'No options' : 'Select one or more...'}`
 									: `${!value ? 'Select one...' : ''}`
 							}`}
-							helperText={(focused ? errors[name] : null) ?? roleHelperText}
+							helperText={
+								(focused || isInputWrong ? errors[name] : null) ??
+								roleHelperText
+							}
 							onBlur={handleFocus}
 							InputLabelProps={{
 								shrink: true,

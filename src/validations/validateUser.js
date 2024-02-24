@@ -6,7 +6,7 @@ const validateUser = user => {
 
 	Object.keys(user).forEach(field => {
 		if (field !== 'avatar') {
-			if (user[field] === '') {
+			if (user[field] === '' || user[field] === undefined) {
 				errors[field] = 'Field required';
 			} else if (field === 'email' && !regex.email.test(email)) {
 				errors.email = 'Enter a valid email address! Ex: example@mail.com';

@@ -12,20 +12,18 @@ const validateProduct = (product, files, dataToEdit, subCategories) => {
 		errors.productImages = 'Product images required!';
 	}
 
-	const filteredSubCategories = subCategories.filter(
-		subCategory => subCategory.mainCategory === category,
-	);
+	const isSubCategoryIn = subCategories
+		.filter(subCategory => subCategory.mainCategory === category)
+		.some(obj => {
+			return obj.id === subCategory;
+		});
 
-	const isIn = filteredSubCategories.some(obj => {
-		return obj.id === subCategory;
-	});
-
-	if (!isIn) {
+	if (!isSubCategoryIn) {
 		errors.subCategory = 'Does not match category!';
 	}
 
 	Object.keys(product).forEach(field => {
-		if (product[field] === '') {
+		if (product[field] === '' || product[field] === undefined) {
 			errors[field] = 'Field required!';
 		} else if (field === 'tags' && tags.length === 0) {
 			errors.tags = 'Field required!';
