@@ -9,7 +9,11 @@ import {
 import { db } from '@firebase/client';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
-import { setProductToCreateObj, setProductToUpdateObj } from './utils';
+import {
+	generateSKU,
+	setProductToCreateObj,
+	setProductToUpdateObj,
+} from './utils';
 import withEnhances from './withEnhances';
 import { PRODUCTS } from '@utils/routes';
 import { useProductsContext } from '@contexts/products/ProductsContext';
@@ -21,7 +25,7 @@ const productsCollectionRef = collection(db, 'products');
 
 const useProductServices = () => {
 	const { toggleLoader } = useGlobalContext();
-	const { productDispatch } = useProductsContext();
+	const { productDispatch, categories, subCategories } = useProductsContext();
 	const { generateImagesArray, deleteFiles } = useFileServices();
 	const {
 		query: { id },
@@ -43,7 +47,12 @@ const useProductServices = () => {
 			const { id } = newProductRef;
 			const productImages =
 				files?.length === 5 ? await generateImagesArray(files, id) : [];
-			const productToCreate = setProductToCreateObj(product, id, productImages);
+			const SKU = generateSKU(product, categories, subCategories);
+			const productToCreate = setProductToCreateObj(
+				{ ...product, SKU },
+				id,
+				productImages,
+			);
 			await setDoc(newProductRef, productToCreate);
 			productDispatch({
 				type: PRODUCT_TYPES.ADD_PRODUCT,

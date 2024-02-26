@@ -27,14 +27,10 @@ export const setProductToCreateObj = (product, id, productImages) => {
 			main: category,
 			sub: subCategory,
 		},
-		// TODO: generate SKU
 		createdAt: serverTimestamp(),
 		lastUpdate: serverTimestamp(),
 	};
 };
-
-// TODO:
-// export const generateSKU = product => {};
 
 export const setProductToUpdateObj = (product, productImages) => {
 	const { price, stock, category, subCategory, ...rest } = product;
@@ -85,4 +81,28 @@ export const setUserToUpdateObj = (user, newAvatar) => {
 
 export const formatDisplayName = displayName => {
 	return displayName.toLowerCase().split(' ').join('_');
+};
+
+export const generateSKU = (product, categories, subCategories) => {
+	const createdAt = new Date();
+	const createdAtFormatted = `${createdAt.getFullYear()}${(
+		createdAt.getMonth() + 1
+	)
+		.toString()
+		.padStart(2, '0')}${createdAt.getDate().toString().padStart(2, '0')}`;
+
+	const brandInitials = product.brand.slice(0, 2);
+
+	const categoryName = getCategoryName(product.category, categories);
+	const subCategoryName = getCategoryName(product.subCategory, subCategories);
+	const categoryInitials =
+		categoryName.slice(0, 2) + subCategoryName.slice(0, 2);
+
+	const SKU = `${createdAtFormatted}-${brandInitials}-${categoryInitials}`;
+
+	return SKU.toUpperCase();
+};
+
+export const getCategoryName = (id, db) => {
+	return db.find(item => item.id === id)?.displayName;
 };
