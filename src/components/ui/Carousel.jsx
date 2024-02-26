@@ -18,7 +18,7 @@ const Carousel = () => {
 	const imagesArray = product?.images ?? [];
 
 	return (
-		<Box sx={{ pb: 1, backgroundColor: '#f0f9ff' }}>
+		<Box sx={{ pt: 1, pb: 1, backgroundColor: '#f0f9ff' }}>
 			<Swiper
 				style={{
 					'--swiper-navigation-color': '#fff',
@@ -37,9 +37,8 @@ const Carousel = () => {
 						<CustomSkeleton isFetched={isFetched} variant='text'>
 							{img && (
 								<Image
-									className='imgSlide'
-									width='150'
-									height='150'
+									width='250'
+									height='250'
 									src={img}
 									alt='Carousel image'
 									priority={true}
@@ -63,9 +62,8 @@ const Carousel = () => {
 						<CustomSkeleton isFetched={isFetched} variant='text'>
 							{img && (
 								<Image
-									className='imgSlide'
-									width='40'
-									height='40'
+									width='60'
+									height='60'
 									src={img}
 									alt='Carousel image'
 									priority={true}

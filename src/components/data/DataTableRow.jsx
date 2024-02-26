@@ -123,7 +123,7 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 				)}
 			</TableCell>
 			{isProduct ? <TableCell>{row?.SKU}</TableCell> : null}
-			<TableCell>
+			<TableCell sx={{ whiteSpace: 'nowrap' }}>
 				{isProduct ? `$ ${formatPrice(row.price)}` : row.email}
 			</TableCell>
 			<TableCell

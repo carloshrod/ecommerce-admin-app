@@ -26,6 +26,7 @@
       width: 250px !important;
       height: 250px !important;
       cursor: grab;
+      object-fit: cover;
     }
   }
 
@@ -75,6 +76,7 @@
         width: 60px !important;
         height: 60px !important;
         cursor: pointer;
+        object-fit: cover;
       }
     }
 

@@ -1,11 +1,11 @@
-import { tags as optionTags } from '@components/forms/consts';
+import { Box, CardContent, Chip, Grid, Typography } from '@mui/material';
 import { setOptions } from '@components/forms/utils';
 import CustomSkeleton from '@components/ui/CustomSkeleton';
 import { formatPrice, setPropName } from '@components/utils';
+import { tags as optionTags } from '@components/forms/consts';
 import { useProductsContext } from '@contexts/products/ProductsContext';
 import useScreen from '@hooks/useScreen';
 import useSkeleton from '@hooks/useSkeleton';
-import { Box, CardContent, Chip, Grid, Typography } from '@mui/material';
 
 const ProductInfo = ({ product }) => {
 	const { categories, subCategories } = useProductsContext();
