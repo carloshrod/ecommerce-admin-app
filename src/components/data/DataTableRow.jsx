@@ -122,6 +122,7 @@ const DataTableRow = ({ row, isItemSelected, handleSelectOne, labelId }) => {
 					row.displayName
 				)}
 			</TableCell>
+			{isProduct ? <TableCell>{row?.SKU}</TableCell> : null}
 			<TableCell>
 				{isProduct ? `$ ${formatPrice(row.price)}` : row.email}
 			</TableCell>

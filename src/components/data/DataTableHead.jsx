@@ -34,6 +34,10 @@ const DataTableHead = ({
 			label: 'Name',
 		},
 		{
+			id: 'sku',
+			label: 'SKU',
+		},
+		{
 			id: isUser ? 'email' : 'price',
 			label: isUser ? 'Email' : 'Price',
 		},
@@ -66,31 +70,35 @@ const DataTableHead = ({
 						</span>
 					</ToolTip>
 				</TableCell>
-				{headCells.map(headCell => (
-					<TableCell
-						key={headCell.id}
-						sortDirection={orderBy === headCell.id ? order : false}
-						align={headCell.id === 'status' ? 'center' : 'inherit'}
-						sx={{
-							pl: `${headCell.id === 'status' ? '40px' : ''}`,
-							fontWeight: 700,
-						}}
-					>
-						<TableSortLabel
-							active={orderBy === headCell.id}
-							direction={orderBy === headCell.id ? order : 'asc'}
-							onClick={createSortHandler(headCell.id)}
-							sx={{ ':hover': { color: '#0e7490 !important' } }}
+				{headCells
+					.filter(e => (isUser ? e.label !== 'SKU' : e.label))
+					.map(headCell => (
+						<TableCell
+							key={headCell.id}
+							sortDirection={orderBy === headCell.id ? order : false}
+							align={headCell.id === 'status' ? 'center' : 'inherit'}
+							sx={{
+								pl: `${headCell.id === 'status' ? '40px' : ''}`,
+								fontWeight: 700,
+							}}
 						>
-							{headCell.label}
-							{orderBy === headCell.id ? (
-								<Box component='span' sx={visuallyHidden}>
-									{order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-								</Box>
-							) : null}
-						</TableSortLabel>
-					</TableCell>
-				))}
+							<TableSortLabel
+								active={orderBy === headCell.id}
+								direction={orderBy === headCell.id ? order : 'asc'}
+								onClick={createSortHandler(headCell.id)}
+								sx={{ ':hover': { color: '#0e7490 !important' } }}
+							>
+								{headCell.label}
+								{orderBy === headCell.id ? (
+									<Box component='span' sx={visuallyHidden}>
+										{order === 'desc'
+											? 'sorted descending'
+											: 'sorted ascending'}
+									</Box>
+								) : null}
+							</TableSortLabel>
+						</TableCell>
+					))}
 				<TableCell align='center' sx={{ fontWeight: 700 }}>
 					Actions
 				</TableCell>
