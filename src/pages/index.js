@@ -5,7 +5,7 @@ import { SIGNIN } from '@utils/routes';
 
 export default function Home() {
 	return (
-		<Box className='home' sx={{ padding: 15 }}>
+		<Box className='home'>
 			<Typography
 				sx={{ fontWeight: 'bold' }}
 				variant='h1'
